@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Android高级篇 | Hzp&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、性能优化1、App稳定性优化1、你们做了哪些稳定性方面的优化？随着项目的逐渐成熟，用户基数逐渐增多，DAU持续升高，我们遇到了很多稳定性方面的问题，对于我们技术同学遇到了很多的挑战，用户经常使用我们的App卡顿或者是功能不可用，因此我们就针对稳定性开启了专项的优化，我们主要优化了三项：  Crash专项优化 性能稳定性优化 业务稳定性优化  通过这三方面的优化我们搭建了移动端的高可用平台。同时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android高级篇">
+<meta property="og:url" content="https://hzp201314.github.io/2021/03/10/Android%E9%AB%98%E7%BA%A7%E7%AF%87/index.html">
+<meta property="og:site_name" content="Hzp&#39;s Blog">
+<meta property="og:description" content="一、性能优化1、App稳定性优化1、你们做了哪些稳定性方面的优化？随着项目的逐渐成熟，用户基数逐渐增多，DAU持续升高，我们遇到了很多稳定性方面的问题，对于我们技术同学遇到了很多的挑战，用户经常使用我们的App卡顿或者是功能不可用，因此我们就针对稳定性开启了专项的优化，我们主要优化了三项：  Crash专项优化 性能稳定性优化 业务稳定性优化  通过这三方面的优化我们搭建了移动端的高可用平台。同时">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-9d676d0f4f90a507.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-ea3b0877037c130c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-234eb5fce9cff2e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-fa6ab8f8b8a22b36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-03-10T00:32:23.000Z">
+<meta property="article:modified_time" content="2021-03-10T16:22:36.355Z">
+<meta property="article:author" content="Hzp">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/14601315-9d676d0f4f90a507.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Hzp's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hzp&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hzp201314.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Android高级篇" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/10/Android%E9%AB%98%E7%BA%A7%E7%AF%87/" class="article-date">
+  <time class="dt-published" datetime="2021-03-10T00:32:23.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Android高级篇
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、性能优化"><a href="#一、性能优化" class="headerlink" title="一、性能优化"></a>一、性能优化</h2><h3 id="1、App稳定性优化"><a href="#1、App稳定性优化" class="headerlink" title="1、App稳定性优化"></a>1、App稳定性优化</h3><h4 id="1、你们做了哪些稳定性方面的优化？"><a href="#1、你们做了哪些稳定性方面的优化？" class="headerlink" title="1、你们做了哪些稳定性方面的优化？"></a>1、你们做了哪些稳定性方面的优化？</h4><p>随着项目的逐渐成熟，用户基数逐渐增多，DAU持续升高，我们遇到了很多稳定性方面的问题，对于我们技术同学遇到了很多的挑战，用户经常使用我们的App卡顿或者是功能不可用，因此我们就针对稳定性开启了专项的优化，我们主要优化了三项：</p>
+<ul>
+<li>Crash专项优化</li>
+<li>性能稳定性优化</li>
+<li>业务稳定性优化</li>
+</ul>
+<p>通过这三方面的优化我们搭建了移动端的高可用平台。同时，也做了很多的措施来让App真正地实现了高可用。</p>
+<span id="more"></span>
+
+<h4 id="2、性能稳定性是怎么做的？"><a href="#2、性能稳定性是怎么做的？" class="headerlink" title="2、性能稳定性是怎么做的？"></a>2、性能稳定性是怎么做的？</h4><ul>
+<li>全面的性能优化：启动速度、内存优化、绘制优化</li>
+<li>线下发现问题、优化为主</li>
+<li>线上监控为主</li>
+<li>Crash专项优化</li>
+</ul>
+<p>我们针对<strong>启动速度，内存、布局加载、卡顿、瘦身、流量、电量</strong>等多个方面做了多维的优化。</p>
+<p>我们的优化主要分为了两个层次，即线上和线下，针对于线下呢，我们侧重于发现问题，直接解决，将问题尽可能在上线之前解决为目的。而真正到了线上呢，我们最主要的目的就是为了监控，对于各个性能纬度的监控呢，可以让我们尽可能早地获取到异常情况的报警。</p>
+<p>同时呢，对于线上最严重的性能问题：Crash，我们做了专项的优化，不仅优化了Crash的具体指标，而且也尽可能地获取了Crash发生时的详细信息，结合后端的聚合、报警等功能，便于我们快速地定位问题。</p>
+<h4 id="3、业务稳定性如何保障？"><a href="#3、业务稳定性如何保障？" class="headerlink" title="3、业务稳定性如何保障？"></a>3、业务稳定性如何保障？</h4><ul>
+<li>数据采集 + 报警</li>
+<li>需要对项目的主流程与核心路径进行埋点监控，</li>
+<li>同时还需知道每一步发生了多少异常，这样，我们就知道了所有业务流程的转换率以及相应界面的转换率</li>
+<li>结合大盘，如果转换率低于某个值，进行报警</li>
+<li>异常监控 + 单点追查</li>
+<li>兜底策略</li>
+</ul>
+<p>移动端业务高可用它侧重于用户功能完整可用，主要是为了解决一些线上一些异常情况导致用户他虽然没有崩溃，也没有性能问题，但是呢，只是单纯的功能不可用的情况，我们需要对项目的主流程、核心路径进行埋点监控，来计算每一步它真实的转换率是多少，同时呢，还需要知道在每一步到底发生了多少异常。这样我们就知道了所有业务流程的转换率以及相应界面的转换率，有了大盘的数据呢，我们就知道了，如果转换率或者是某些监控的成功率低于某个值，那很有可能就是出现了线上异常，结合了相应的报警功能，我们就不需要等用户来反馈了，这个就是业务稳定性保障的基础。</p>
+<p>同时呢，对于一些特殊情况，比如说，开发过程当中或代码中出现了一些catch代码块，捕获住了异常，让程序不崩溃，这其实是不合理的，程序虽然没有崩溃，当时程序的功能已经变得不可用，所以呢，这些被catch的异常我们也需要上报上来，这样我们才能知道用户到底出现了什么问题而导致的异常。此外，线上还有一些单点问题，比如说用户点击登录一直进不去，这种就属于单点问题，其实我们是无法找出其和其它问题的共性之处的，所以呢，我们就必须要找到它对应的详细信息。</p>
+<p>最后，如果发生了异常情况，我们还采取了一系列措施进行快速止损。（=&gt;4）</p>
+<h4 id="4、如果发生了异常情况，怎么快速止损？"><a href="#4、如果发生了异常情况，怎么快速止损？" class="headerlink" title="4、如果发生了异常情况，怎么快速止损？"></a>4、如果发生了异常情况，怎么快速止损？</h4><ul>
+<li>功能开关</li>
+<li>统跳中心</li>
+<li>动态修复：热修复、资源包更新</li>
+<li>自主修复：安全模式</li>
+</ul>
+<p>首先，需要让App具备一些高级的能力，我们对于任何要上线的新功能，要加上一个功能的开关，通过配置中心下发的开关呢，来决定是否要显示新功能的入口。如果有异常情况，可以紧急关闭新功能的入口，那就可以让这个App处于可控的状态了。</p>
+<p>然后，我们需要给App设立路由跳转，所有的界面跳转都需要通过路由来分发，如果我们匹配到需要跳转到有bug的这样一个新功能时，那我们就不跳转了，或者是跳转到统一的异常正处理中的界面。如果这两种方式都不可以，那就可以考虑通过热修复的方式来动态修复，目前热修复的方案其实已经比较成熟了，我们完全可以低成本地在我们的项目中添加热修复的能力，当然，如果有些功能是由RN或WeeX来实现就更好了，那就可以通过更新资源包的方式来实现动态更新。而这些如果都不可以的话呢，那就可以考虑自己去给应用加上一个自主修复的能力，如果App启动多次的话，那就可以考虑清空所有的缓存数据，将App重置到安装的状态，到了最严重的等级呢，可以阻塞主线程，此时一定要等App热修复成功之后才允许用户进入。</p>
+<p>需要更全面更深入的理解请查看<a href="">深入探索Android稳定性优化</a></p>
+<h3 id="2、App启动速度优化"><a href="#2、App启动速度优化" class="headerlink" title="2、App启动速度优化"></a>2、App启动速度优化</h3><h4 id="1、启动优化是怎么做的？"><a href="#1、启动优化是怎么做的？" class="headerlink" title="1、启动优化是怎么做的？"></a>1、启动优化是怎么做的？</h4><ul>
+<li>分析现状、确认问题</li>
+<li>针对性优化（先概括，引导其深入）</li>
+<li>长期保持优化效果</li>
+</ul>
+<p>在某一个版本之后呢，我们会发现这个启动速度变得特别慢，同时用户给我们的反馈也越来越多，所以，我们开始考虑对应用的启动速度来进行优化。然后，我们就对启动的代码进行了代码层面的梳理，我们发现应用的启动流程已经非常复杂，接着，我们通过一系列的工具来确认是否在主线程中执行了太多的耗时操作。</p>
+<p>我们经过了细查代码之后，发现应用主线程中的任务太多，我们就想了一个方案去针对性地解决，也就是进行异步初始化。（引导=&gt;第2题） 然后，我们还发现了另外一个问题，也可以进行针对性的优化，就是在我们的初始化代码当中有些的优先级并不是那么高，它可以不放在Application的onCreate()中执行，而完全可以放在之后延迟执行的，因为我们对这些代码进行了<strong>延迟初始化</strong>，最后，我们还结合了idleHandler做了一个更优的延迟初始化的方案，利用它可以<strong>在主线程的空闲时间进行初始化，以减少启动耗时导致的卡顿现象</strong>。做完这些之后，我们的启动速度就变得很快了。</p>
+<p>最后，我简单说下我们是怎么长期来保持启动优化的效果的。首先，我们做了我们的启动器，并且结合了我们的CI，在线上加上了很多方面的监控。</p>
+<h4 id="2、是怎么异步的，异步遇到问题没有？"><a href="#2、是怎么异步的，异步遇到问题没有？" class="headerlink" title="2、是怎么异步的，异步遇到问题没有？"></a>2、是怎么异步的，异步遇到问题没有？</h4><ul>
+<li>体现演进过程</li>
+<li>详细介绍启动器</li>
+</ul>
+<p>我们最初是采用的普通的一个异步的方案，即new Thread + 设置线程优先级为后台线程的方式在Application的<code>onCreate()</code>方法中进行异步初始化，后来，我们使用了线程池、IntentService的方式，但是，在我们应用的演进过程当中，发现代码会变得不够优雅，并且有些场景非常不好处理，比如说多个初始化任务直接的依赖关系，比如说某一个初始化任务需要在某一个特定的生命周期中初始化完成，这些都是使用线程池、IntentService无法实现的。所以说，我们就开始思考一个新的解决方案，它能够完美地解决我们刚刚所遇到的这些问题。</p>
+<p>这个方案就是我们目前所使用的<strong>启动器</strong>，<strong>在启动器的概念中，我们将每一个初始化代码抽象成了一个Task，然后，对它们进行了一个排序，根据它们之间的依赖关系排了一个有向无环图，接着，使用一个异步队列进行执行，并且这个异步队列它和CPU的核心数是强烈相关的，它能够最大程度地保证我们的主线程和别的线程都能够执行我们的任务，也就是大家几乎都可以同时完成。</strong></p>
+<h4 id="3、启动优化有哪些容易忽略的注意点？"><a href="#3、启动优化有哪些容易忽略的注意点？" class="headerlink" title="3、启动优化有哪些容易忽略的注意点？"></a>3、启动优化有哪些容易忽略的注意点？</h4><ul>
+<li>  cpu time与wall time</li>
+<li>  注意延迟初始化的优化</li>
+<li>  介绍下黑科技</li>
+</ul>
+<p>首先，在CPU Profiler和Systrace中有两个很重要的指标，即cpu time与wall time，我们必须清楚cpu time与wall time之间的区别，wall time指的是<strong>代码执行的时间</strong>，而cpu time指的是<strong>代码消耗CPU的时间</strong>，锁冲突会造成两者时间差距过大。我们需要以cpu time来作为我们优化的一个方向。</p>
+<p>其次，我们不仅只追求启动速度上的一个提升，也需要注意延迟初始化的一个优化，对于延迟初始化，通常的做法是在界面显示之后才去进行加载，但是如果此时界面需要进行滑动等与用户交互的一系列操作，就会有很严重的卡顿现象，因此我们使用了idleHandler来实现cpu空闲时间来执行耗时任务，这极大地提升了用户的体验，避免了因启动耗时任务而导致的页面卡顿现象。</p>
+<p>最后，对于启动优化，还有一些黑科技，首先，就是我们采用了<strong>类预先加载</strong>的方式，我们在<code>MultiDex.install()</code>方法之后起了一个线程，然后用<code>Class.forName()</code>的方式来预先触发类的加载，然后当我们这个类真正被使用的时候，就不用再进行类加载的过程了。同时，我们再看Systrace图的时候，有一部分手机其实并没有给我们应用去跑满cpu，比如说它有8核，但是却只给了我们4核等这些情况，然后，有些应用对此做了一些黑科技，它会<strong>将cpu的核心数以及cpu的频率在启动的时候去进行一个暴力的提升</strong>。</p>
+<h4 id="4、版本迭代导致的启动变慢有好的解决方式吗？"><a href="#4、版本迭代导致的启动变慢有好的解决方式吗？" class="headerlink" title="4、版本迭代导致的启动变慢有好的解决方式吗？"></a>4、版本迭代导致的启动变慢有好的解决方式吗？</h4><ul>
+<li>  启动器</li>
+<li>  结合CI</li>
+<li>  监控完善</li>
+</ul>
+<p>这种问题其实我们之前也遇到过，这的确非常难以解决。但是，我们后面对此进行了反复的思考与尝试，终于找到了一个比较好的解决方式。</p>
+<p>首先，我们使用了启动器去管理每一个初始化任务，并且启动器中每一个任务的执行都是被其自动进行分配的，也就是说这些自动分配的task我们会尽量保证它会平均分配在我们每一个线程当中的，这和我们普通的异步是不一样的，它可以很好地缓解我们应用的启动变慢。</p>
+<p>其次，我们还结合了CI(持续集成)，比如说，我们现在限制了一些类，如Application，如果有人修改了它，我们不会让这部分代码合并到主干分支或者是修改之后会有一些内部的工具如邮件的形式发送到我，然后，我就会和他确认他加的这些代码到底是耗时多少，能否<strong>异步初始化</strong>，不能异步的话就考虑<strong>延迟初始化</strong>，如果初始化时间太长，则可以考虑是否能进行<strong>懒加载</strong>，等用到的时候再去使用等等。</p>
+<p>然后，我们会将问题尽可能地暴露在上线之前。同时，我们真正已经到了线上的一个环境下时，我们进行了监控的一个完善，我们不仅是监控了App的整个的启动时间，同时呢，我们也将每一个生命周期都进行了一个监控。比如说Application的onCreate()与onAttachBaseContext()方法的耗时，以及这两个生命周期之间间隔的时间，我们都进行了一个监控，如果说下一次我们发现了这个启动速度变慢了，我们就可以去查找到底是哪一个环节变慢了，我们会和以前的版本进行对比，对比完成之后呢，我们就可以来找这一段新加的代码。</p>
+<p>需要更全面更深入的理解请查看<a href="">深入探索Android启动速度优化</a></p>
+<h3 id="3、App内存优化"><a href="#3、App内存优化" class="headerlink" title="3、App内存优化"></a>3、App内存优化</h3><h4 id="1、你们内存优化项目的过程是怎么做的？"><a href="#1、你们内存优化项目的过程是怎么做的？" class="headerlink" title="1、你们内存优化项目的过程是怎么做的？"></a>1、你们内存优化项目的过程是怎么做的？</h4><p><strong>1、分析现状、确认问题</strong></p>
+<p>我们发现我们的APP在内存方面可能存在很大的问题，第一方面的原因是我们的线上的<strong>OOM率比较高</strong>。第二点呢，我们经常会看到在我们的Android Studio的Profiler工具中内存的抖动比较频繁。这是我一个初步的现状，然后在我们知道了这个初步的现状之后，进行了问题的确认，我们经过一系列的调研以及深入研究，我们最终发现我们的项目中存在以下几点大问题，比如说：<strong>内存抖动、内存溢出(Memory Leak）、内存泄漏</strong>，还有我们的Bitmap使用非常粗犷。</p>
+<ul>
+<li><p><strong>内存溢出：</strong>（out of memory）通俗理解就是内存不够，通常在运行大型软件或游戏时，软件或游戏所需要的内存远远超出了你主机内安装的内存所承受大小，就叫内存溢出。</p>
+</li>
+<li><p><strong>内存泄漏：</strong>（Memory Leak）是指程序在申请内存后，由于某种原因程序未释放或无法释放已申请的内存空间，造成系统内存的浪费，导致程序运行速度减慢甚至系统崩溃等严重后果。一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存,迟早会被占光，最终导致内存溢出 。</p>
+</li>
+<li><p>**内存抖动:**是指在短时间内有大量的对象被创建或者被回收的现象,主要是循环中大量创建、回收对象。这种情况应当尽量避免</p>
+</li>
+</ul>
+<p><strong>2、针对性优化</strong></p>
+<p>比如内存抖动的解决 -&gt; Memory Profiler工具的使用（呈现了锯齿状图形） -&gt; 分析到具体代码存在的问题（频繁被调用的方法中出现了日志字符串的拼接），也可以说说内存泄漏或内存溢出的解决。</p>
+<p><strong>3、效率提升</strong></p>
+<p>为了不增加业务同学的工作量，我们使用了一些工具类或ARTHook这样的大图检测方案,没有任何的侵入性,同时,我们将这些技术教给了大家,然后让大家一起进行工作效率上的提升。</p>
+<p>我们对内存优化工具Memory Profiler、MAT的使用比较熟悉，因此针对一系列不同问题的情况，我们写了一系列解决方案的文档，分享给大家。这样，我们整个团队成员的内存优化意识就变强了。</p>
+<h4 id="2、你做了内存优化最大的感受是什么？"><a href="#2、你做了内存优化最大的感受是什么？" class="headerlink" title="2、你做了内存优化最大的感受是什么？"></a>2、你做了内存优化最大的感受是什么？</h4><p><strong>1、磨刀不误砍柴工</strong></p>
+<p>我们一开始并没有直接去分析项目中代码哪些地方存在内存问题，而是先去学习了Google官方的一些文档，比如说学习了<strong>Memory Profiler</strong>工具的使用、学习了<strong>MAT</strong>工具的使用，在我们将这些工具学习熟练之后，当在我们的项目中遇到内存问题时，我们就能够很快地进行排查定位问题进行解决。</p>
+<p><strong>2、技术优化必须结合业务代码</strong></p>
+<p>一开始，我们做了整体APP运行阶段的一个内存上报，然后，我们在一些重点的内存消耗模块进行了一些监控，但是后面发现这些监控并没有紧密地结合我们的业务代码，比如说在梳理完项目之后，发现我们项目中存在使用多个图片库的情况，多个图片库的内存缓存肯定是不公用的，所以导致我们整个项目的内存使用量非常高。所以进行技术优化时必须结合我们的业务代码。</p>
+<p><strong>3、系统化完善解决方案</strong></p>
+<p>我们在做内存优化的过程中，不仅做了Android端的优化工作，还将我们Android端一些数据的采集上报到了我们的服务器，然后传到我们的后台，这样，方便我们的Bug跟踪人员或者是Crash跟踪人员进行一系列问题的解决。</p>
+<h4 id="3、如何检测所有不合理的地方？"><a href="#3、如何检测所有不合理的地方？" class="headerlink" title="3、如何检测所有不合理的地方？"></a>3、如何检测所有不合理的地方？</h4><p>比如说大图片的检测，我们最初的一个方案是通过继承ImageView，重写它的onDraw方法来实现。但是，我们在推广它的过程中，发现很多开发人员并不接受，因为很多ImageView之前已经写过了，你现在让他去替换，工作成本是比较高的。所以说，后来我们就想，有没有一种方案可以免替换，最终我们就找到了ARTHook这样一个Hook的方案。</p>
+<h5 id="如何避免内存抖动？（代码注意事项）"><a href="#如何避免内存抖动？（代码注意事项）" class="headerlink" title="如何避免内存抖动？（代码注意事项）"></a>如何避免内存抖动？（代码注意事项）</h5><p>内存抖动是由于短时间内有大量对象进出新生区导致的，它伴随着频繁的GC，gc会大量占用ui线程和cpu资源，会导致app整体卡顿。</p>
+<p>避免发生内存抖动的几点建议：</p>
+<ul>
+<li>  尽量避免在循环体内创建对象，应该把对象创建移到循环体外。</li>
+<li>  注意自定义View的<code>onDraw()</code>方法会被频繁调用，所以在这里面不应该频繁的创建对象。</li>
+<li>  当需要大量使用Bitmap的时候，试着把它们缓存在数组或容器中实现复用。</li>
+<li>  对于能够复用的对象，同理可以使用对象池将它们缓存起来。</li>
+</ul>
+<p>需要更全面更深入的理解请查看<a href="">Android性能优化之内存优化</a>、<a href="">深入探索Android内存优化</a></p>
+<h3 id="4、App绘制优化"><a href="#4、App绘制优化" class="headerlink" title="4、App绘制优化"></a>4、App绘制优化</h3><h4 id="1、你在做布局优化的过程中用到了哪些工具？"><a href="#1、你在做布局优化的过程中用到了哪些工具？" class="headerlink" title="1、你在做布局优化的过程中用到了哪些工具？"></a>1、你在做布局优化的过程中用到了哪些工具？</h4><p>我在做布局优化的过程中，用到了很多的工具，但是每一个工具都有它不同的使用场景，不同的场景应该使用不同的工具。下面我从线上和线下两个角度来进行分析。</p>
+<p>比如说，我要统计线上的FPS，我使用的就是<strong>Choreographer</strong>这个类，它具有以下特性：</p>
+<ul>
+<li>  1、能够获取整体的帧率。</li>
+<li>  2、能够带到线上使用。</li>
+<li>  3、它获取的帧率几乎是实时的，能够满足我们的需求。</li>
+</ul>
+<p>同时，在线下，如果要去优化布局加载带来的时间消耗，那就需要检测每一个布局的耗时，对此我使用的是<strong>AOP</strong>的方式，它没有侵入性，同时也不需要别的开发同学进行接入，就可以方便地获取每一个布局加载的耗时。如果还要更细粒度地去检测每一个控件的加载耗时，那么就需要使用<code>LayoutInflaterCompat.setFactory2</code>这个方法去进行Hook。</p>
+<p>此外，我还使用了<strong>LayoutInspector</strong>和<strong>Systrace</strong>这两个工具，Systrace可以很方便地看到每帧的具体耗时以及这一帧在布局当中它真正做了什么。而LayoutInspector可以很方便地看到每一个界面的布局层级，帮助我们对层级进行优化。</p>
+<h4 id="2、布局为什么会导致卡顿，你又是如何优化的？"><a href="#2、布局为什么会导致卡顿，你又是如何优化的？" class="headerlink" title="2、布局为什么会导致卡顿，你又是如何优化的？"></a>2、布局为什么会导致卡顿，你又是如何优化的？</h4><p>分析完布局的加载流程之后，我们发现有如下四点可能会导致布局卡顿：</p>
+<ul>
+<li>  1、首先，系统会将我们的Xml文件通过<strong>IO</strong>的方式映射的方式加载到我们的内存当中，而IO的过程可能会导致卡顿。</li>
+<li>  2、其次，布局加载的过程是一个<strong>反射</strong>的过程，而反射的过程也会可能会导致卡顿。</li>
+<li>  3、同时，这个布局的层级如果比较深，那么进行布局<strong>遍历</strong>的过程就会比较耗时。</li>
+<li>  4、最后，不合理的嵌套RelativeLayout布局也会导致<strong>重绘</strong>的次数过多。</li>
+</ul>
+<p>对此，我们的优化方式有如下几种：</p>
+<ul>
+<li><p>  1、针对布局加载Xml文件的优化，我们使用了<strong>异步Inflate</strong>的方式，即<strong>AsyncLayoutInflater</strong>。它的核心原理是在子线程中对我们的Layout进行加载，而加载完成之后会将View通过Handler发送到主线程来使用。所以不会阻塞我们的主线程，加载的时间全部是在异步线程中进行消耗的。而这仅仅是一个从侧面缓解的思路。</p>
+</li>
+<li><p>  2、后面，我们发现了一个从根源解决上述痛点的方式，即使用<strong>X2C框架</strong>。它的一个核心原理就是在开发过程我们还是使用的XML进行编写布局，但是在编译的时候它会使用<strong>APT</strong>的方式<strong>将XML布局转换为Java的方式进行布局</strong>，通过这样的方式去写布局，它有以下<strong>优点</strong>：1、它省去了<strong>使用IO的方式去加载XML布局的耗时</strong>过程。2、它是采用Java代码直接new的方式去创建控件对象，所以它也<strong>没有反射带来的性能损耗</strong>。这样就从根本上解决了布局加载过程中带来的问题。</p>
+</li>
+<li><p>  3、然后，我们可以使用<strong>ConstraintLayout</strong>去减少我们界面布局的嵌套层级，如果原始布局层级越深，它能减少的层级就越多。而使用它也能避免嵌套RelativeLayout布局导致的重绘次数过多。</p>
+</li>
+<li><p>4、最后，我们可以使用<strong>AspectJ框架</strong>（即AOP）和<code>LayoutInflaterCompat.setFactory2</code>的方式分别去建立线下全局的布局加载速度和控件加载速度的监控体系。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用LayoutInflaterCompat.setFactory2()测量构建布局耗时</span></span><br><span class="line"><span class="comment">//可以拦截布局文件中每一个 View 的创建过程</span></span><br><span class="line">class Factory2Activity : AppCompatActivity() &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> sum: Double = <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExperimentalTime</span></span><br><span class="line">    <span class="function">override fun <span class="title">onCreate</span><span class="params">(savedInstanceState: Bundle?)</span> </span>&#123;</span><br><span class="line">        LayoutInflaterCompat.setFactory2(LayoutInflater.from(<span class="keyword">this</span><span class="meta">@Factory2Activity</span>), object : LayoutInflater.Factory2 &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="function">override fun <span class="title">onCreateView</span><span class="params">(parent: View?, name: String?, context: Context?, attrs: AttributeSet?)</span>: View? </span>&#123;</span><br><span class="line">                <span class="comment">//测量构建单个View耗时</span></span><br><span class="line">                val (view, duration) = measureTimedValue &#123; delegate.createView(parent, name, context!!, attrs!!) &#125;</span><br><span class="line">                <span class="comment">//累加构建视图耗时</span></span><br><span class="line">                sum += duration.inMilliseconds</span><br><span class="line">                Log.v(“test”, “view=$&#123;view?.let &#123; it::class.simpleName &#125;&#125; duration=$&#123;duration&#125;  sum=$&#123;sum&#125;”)</span><br><span class="line">                <span class="keyword">return</span> view</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//该方法用于兼容Factory，直接返回null就好</span></span><br><span class="line">            <span class="function">override fun <span class="title">onCreateView</span><span class="params">(name: String?, context: Context?, attrs: AttributeSet?)</span>: View? </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.factory2_activity2)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3、做完布局优化有哪些成果产出？"><a href="#3、做完布局优化有哪些成果产出？" class="headerlink" title="3、做完布局优化有哪些成果产出？"></a>3、做完布局优化有哪些成果产出？</h4><ul>
+<li>  1、首先，我们建立了一个体系化的监控手段，这里的体系还指的是线上加线下的一个综合方案，针对线下，我们使用AOP或者ARTHook，可以很方便地获取到每一个布局的加载耗时以及每一个控件的加载耗时。针对线上，我们通过<code>Choreographer.getInstance().postFrameCallback</code>的方式收集到了FPS，这样我们可以知道用户在哪些界面出现了丢帧的情况。</li>
+<li>  2、然后，对于布局监控方面，我们设立了FPS、布局加载时间、布局层级等一系列指标。</li>
+<li>  3、最后，在每一个版本上线之前，我们都会对我们的核心路径进行一次Review，确保我们的FPS、布局加载时间、布局层级等达到一个合理的状态。</li>
+</ul>
+<h4 id="4、你是怎么做卡顿优化的？"><a href="#4、你是怎么做卡顿优化的？" class="headerlink" title="4、你是怎么做卡顿优化的？"></a>4、你是怎么做卡顿优化的？</h4><p>从项目的初期到壮大期，最后再到成熟期，每一个阶段都针对卡顿优化做了不同的处理。各个阶段所做的事情如下所示：</p>
+<ul>
+<li>  1、系统工具定位、解决</li>
+<li>  2、自动化卡顿方案及优化</li>
+<li>  3、线上监控及线下监测工具的建设</li>
+</ul>
+<p>我做卡顿优化也是经历了一些阶段，最初我们的项目当中的一些模块出现了卡顿之后，我是通过系统工具进行了定位，我使用了Systrace，然后看了卡顿周期内的CPU状况，同时结合代码，对这个模块进行了重构，将部分代码进行了异步和延迟，在项目初期就是这样解决了问题。但是呢，随着我们项目的扩大，线下卡顿的问题也越来越多，同时，在线上，也有卡顿的反馈，但是线上的反馈卡顿，我们在线下难以复现，于是我们开始寻找<strong>自动化的卡顿监测方案</strong>，其思路是来自于Android的消息处理机制，主线程执行任何代码都会回到Looper.loop方法当中，而这个方法中有一个mLogging对象，它会在每个message的执行前后都会被调用，我们就是利用这个前后处理的时机来做到的自动化监测方案的。同时，在这个阶段，我们也完善了线上ANR的上报，我们采取的方式就是监控ANR的信息，同时结合了ANR-WatchDog，作为高版本没有文件权限的一个补充方案。在做完这个卡顿检测方案之后呢，我们还做了线上监控及线下检测工具的建设，最终实现了一整套完善，多维度的解决方案。</p>
+<blockquote>
+<p><strong>ANR-WatchDog</strong> 是检查 ANR （Android 无响应） 问题的利器。</p>
+<p><strong>实现原理：</strong> ANR-WatchDog创建一个监测线程，该线程不断往UI线程post一个任务，然后睡眠固定时间，等该线程重新起来后检测之前post的任务是否执行了，如果任务未被执行，则生成ANRError,并终止进程。</p>
+</blockquote>
+<h4 id="5、你是怎么样自动化的获取卡顿信息？"><a href="#5、你是怎么样自动化的获取卡顿信息？" class="headerlink" title="5、你是怎么样自动化的获取卡顿信息？"></a>5、你是怎么样自动化的获取卡顿信息？</h4><p>我们的思路是来自于Android的消息处理机制，主线程执行任何代码它都会走到<code>Looper.loop()</code>方法当中，而这个函数当中有一个<strong>mLogging</strong>对象，它会在每个message处理前后都会被调用，而主线程发生了卡顿，那就一定会在<code>dispatchMessage()</code>方法中执行了耗时的代码，那我们在这个message执行之前呢，我们可以在子线程当中去<code>postDelayed()</code>一个任务，这个Delayed的时间就是我们设定的<strong>阈值</strong>，如果主线程的messaege在这个阈值之内完成了，那就取消掉这个子线程当中的任务，如果主线程的message在阈值之内没有被完成，那子线程当中的任务就会被执行，它会获取到当前主线程执行的一个堆栈，那我们就可以知道哪里发生了卡顿。</p>
+<p>经过实践，我们发现这种方案获取的堆栈信息它不一定是准确的，因为获取到的堆栈信息它很可能是主线程最终执行的一个位置，而真正耗时的地方其实已经执行完成了，于是呢，我们就对这个方案做了一些优化，我们采取了<strong>高频采集</strong>的方案，也就是在一个周期内我们会多次采集主线程的堆栈信息，如果发生了卡顿，那我们就将这些卡顿信息压缩之后上报给APM后台，然后找出重复的堆栈信息，这些重复发生的堆栈大概率就是卡顿发生的一个位置，这样就提高了获取卡顿信息的一个准确性。</p>
+<h4 id="6、卡顿的一整套解决方案是怎么做的？"><a href="#6、卡顿的一整套解决方案是怎么做的？" class="headerlink" title="6、卡顿的一整套解决方案是怎么做的？"></a>6、卡顿的一整套解决方案是怎么做的？</h4><p>首先，针对卡顿，我们采用了<strong>线上、线下工具相结合</strong>的方式，线下工具我们侧重于要尽可能早地去暴露问题，而针对于线上工具呢，我们侧重于监控的全面性、自动化以及异常感知的灵敏度。</p>
+<p>同时呢，卡顿问题还有很多的难题。比如说<strong>有的代码呢，它不到你卡顿的一个阈值，但是执行过多，或者它错误地执行了很多次，它也会导致用户感官上的一个卡顿</strong>，所以我们在线下通过AOP的方式对常见的耗时代码进行了Hook，然后对一段时间内获取到的数据进行分析，我们就可以知道这些耗时的代码发生的时机和次数以及耗时情况。然后，看它是不是满足我们的一个预期，不满足预期的话，我们就可以直接到线下进行修改。同时，卡顿监控它还有很多容易被忽略的一个<strong>盲区</strong>，比如说生命周期的一个间隔，那对于这种特定的问题呢，我们就采用了编译时注解的方式修改了项目当中所有Handler的父类，对于其中的两个方法进行了监控，我们就可以知道主线程message的执行时间以及它们的调用堆栈。</p>
+<p>对于<strong>线上卡顿</strong>，我们除了计算App的卡顿率、ANR率等常规指标之外呢，我们还计算了页面的秒开率、生命周期的执行时间等等。而且，在卡顿发生的时刻，我们也尽可能多地保存下来了当前的一个场景信息，这为我们之后解决或者复现这个卡顿留下了依据。</p>
+<h4 id="7、TextView-setText耗时的原因，对TextView绘制层源码的理解？"><a href="#7、TextView-setText耗时的原因，对TextView绘制层源码的理解？" class="headerlink" title="7、TextView setText耗时的原因，对TextView绘制层源码的理解？"></a>7、TextView setText耗时的原因，对TextView绘制层源码的理解？</h4><p>当textview的宽设置为wrap_content的时候，底层会调用<code>checkForRelayout()</code>函数，这个函数根据文字的多少重新开始布局</p>
+<p>因此将宽度设置为固定值或者match_parent的时候会大幅度减少绘制时间</p>
+<h4 id="8、开放问题：优化一个列表页面的打开速度和流畅性。"><a href="#8、开放问题：优化一个列表页面的打开速度和流畅性。" class="headerlink" title="8、开放问题：优化一个列表页面的打开速度和流畅性。"></a>8、开放问题：优化一个列表页面的打开速度和流畅性。</h4><p>需要更全面更深入的理解请查看<a href="">Android性能优化之绘制优化</a>、<a href="">深入探索Android布局优化（上）</a>、<a href="">深入探索Android布局优化（下）</a>、<a href="">深入探索Android卡顿优化（上）</a>、<a href="">深入探索Android卡顿优化（下）</a></p>
+<h3 id="5、App瘦身"><a href="#5、App瘦身" class="headerlink" title="5、App瘦身"></a>5、App瘦身</h3><h3 id="6、网络优化"><a href="#6、网络优化" class="headerlink" title="6、网络优化"></a>6、网络优化</h3><h4 id="1、移动端获取网络数据优化的几个点"><a href="#1、移动端获取网络数据优化的几个点" class="headerlink" title="1、移动端获取网络数据优化的几个点"></a>1、移动端获取网络数据优化的几个点</h4><ul>
+<li><p>  1、<strong>连接复用</strong>：节省连接建立时间，如开启 keep-alive。于Android来说默认情况下HttpURLConnection和HttpClient都开启了keep-alive。只是2.2之前HttpURLConnection存在影响连接池的Bug。</p>
+</li>
+<li><p>  2、<strong>请求合并</strong>：即将多个请求合并为一个进行请求，比较常见的就是网页中的CSS Image Sprites。如果某个页面内请求过多，也可以考虑做一定的请求合并。</p>
+</li>
+<li><p>  3、<strong>减少请求数据的大小</strong>：对于post请求，body可以做<strong>gzip压缩</strong>的，header也可以做数据压缩(不过只支持http 2.0)。 返回数据的body也可以做gzip压缩，body数据体积可以缩小到原来的30%左右（也可以考虑压缩返回的json数据的key数据的体积，尤其是针对返回数据格式变化不大的情况，支付宝聊天返回的数据用到了）。</p>
+</li>
+<li><p>  4、根据用户的当前的<strong>网络质量</strong>来判断下载什么质量的图片（电商用的比较多）。</p>
+</li>
+<li><p>  5、<strong>使用HttpDNS优化DNS</strong>：DNS存在解析慢和DNS劫持等问题，DNS 不仅支持 UDP，它还支持 TCP，但是大部分标准的 DNS 都是基于 UDP 与 DNS 服务器的 53 端口进行交互。HTTPDNS 则不同，顾名思义它是利用 HTTP 协议与 DNS 服务器的 80 端口进行交互。不走传统的 DNS 解析，从而绕过运营商的 LocalDNS 服务器，有效的防止了域名劫持，提高域名解析的效率。</p>
+</li>
+</ul>
+<h4 id="2、设计一个网络优化方案，针对移动端弱网环境。"><a href="#2、设计一个网络优化方案，针对移动端弱网环境。" class="headerlink" title="2、设计一个网络优化方案，针对移动端弱网环境。"></a>2、设计一个网络优化方案，针对移动端弱网环境。</h4><h3 id="7、App电量优化"><a href="#7、App电量优化" class="headerlink" title="7、App电量优化"></a>7、App电量优化</h3><h3 id="8、安卓的安全优化"><a href="#8、安卓的安全优化" class="headerlink" title="8、安卓的安全优化"></a>8、安卓的安全优化</h3><h4 id="1、提高app安全性的方法？"><a href="#1、提高app安全性的方法？" class="headerlink" title="1、提高app安全性的方法？"></a>1、提高app安全性的方法？</h4><h4 id="2、安卓的app加固如何做？"><a href="#2、安卓的app加固如何做？" class="headerlink" title="2、安卓的app加固如何做？"></a>2、安卓的app加固如何做？</h4><h4 id="3、安卓的混淆原理是什么？"><a href="#3、安卓的混淆原理是什么？" class="headerlink" title="3、安卓的混淆原理是什么？"></a>3、安卓的混淆原理是什么？</h4><h4 id="4、谈谈你对安卓签名的理解。"><a href="#4、谈谈你对安卓签名的理解。" class="headerlink" title="4、谈谈你对安卓签名的理解。"></a>4、谈谈你对安卓签名的理解。</h4><h3 id="9、为什么WebView加载会慢呢？"><a href="#9、为什么WebView加载会慢呢？" class="headerlink" title="9、为什么WebView加载会慢呢？"></a>9、为什么WebView加载会慢呢？</h3><p>这是因为在客户端中，加载H5页面之前，需要先初始化WebView，在WebView完全初始化完成之前，后续的界面加载过程都是被阻塞的。</p>
+<p>优化手段围绕着以下两个点进行：</p>
+<ul>
+<li>  预加载WebView。</li>
+<li>  加载WebView的同时，请求H5页面数据。</li>
+</ul>
+<p>因此常见的方法是：</p>
+<ul>
+<li>  全局WebView。</li>
+<li>  客户端代理页面请求。WebView初始化完成后向客户端请求数据。</li>
+<li>  asset存放离线包。</li>
+</ul>
+<p>除此之外还有一些其他的优化手段：</p>
+<ul>
+<li>  脚本执行慢，可以让脚本最后运行，不阻塞页面解析。</li>
+<li>  DNS链接慢，可以让客户端复用使用的域名与链接。</li>
+<li>  React框架代码执行慢，可以将这部分代码拆分出来，提前进行解析。</li>
+</ul>
+<h3 id="10、如何优化自定义View"><a href="#10、如何优化自定义View" class="headerlink" title="10、如何优化自定义View"></a>10、如何优化自定义View</h3><p>为了加速你的view，对于频繁调用的方法，需要尽量减少不必要的代码。先从<code>onDraw()</code>开始，需要特别注意不应该在这里做内存分配的事情，因为它会导致GC，从而导致卡顿。在初始化或者动画间隙期间做分配内存的动作。不要在动画正在执行的时候做内存分配的事情。</p>
+<p>你还需要尽可能的减少<code>onDraw()</code>被调用的次数，大多数时候导致<code>onDraw()</code>都是因为调用了<code>invalidate()</code>.因此请尽量减少调用<code>invaildate()</code>的次数。如果可能的话，尽量调用含有4个参数的invalidate()方法而不是没有参数的invalidate()。没有参数的invalidate会强制重绘整个view。</p>
+<p>另外一个非常耗时的操作是请求layout。任何时候执行<code>requestLayout()</code>，会使得Android UI系统去遍历整个View的层级来计算出每一个view的大小。如果找到有冲突的值，它会需要重新计算好几次。另外需要尽量保持View的层级是扁平化的，这样对提高效率很有帮助。</p>
+<p>如果你有一个复杂的UI，你应该考虑写一个自定义的ViewGroup来执行他的layout操作。与内置的view不同，自定义的view可以使得程序仅仅测量这一部分，这避免了遍历整个view的层级结构来计算大小。</p>
+<h3 id="11、FC-Force-Close-强制关闭什么时候会出现？"><a href="#11、FC-Force-Close-强制关闭什么时候会出现？" class="headerlink" title="11、FC(Force Close)强制关闭什么时候会出现？"></a>11、FC(Force Close)强制关闭什么时候会出现？</h3><p>Error、OOM，StackOverFlowError、Runtime,比如说空指针异常</p>
+<p>解决的办法：</p>
+<ul>
+<li>  注意内存的使用和管理</li>
+<li>  使用Thread.UncaughtExceptionHandler接口</li>
+</ul>
+<h3 id="12、Java多线程引发的性能问题，怎么解决？"><a href="#12、Java多线程引发的性能问题，怎么解决？" class="headerlink" title="12、Java多线程引发的性能问题，怎么解决？"></a>12、<a target="_blank" rel="noopener" href="https://blog.csdn.net/luofenghan/article/details/78596950">Java多线程引发的性能问题，怎么解决</a>？</h3><h3 id="14、是否使用过SysTrace，原理的了解？"><a href="#14、是否使用过SysTrace，原理的了解？" class="headerlink" title="14、是否使用过SysTrace，原理的了解？"></a>14、是否使用过SysTrace，原理的了解？</h3><h3 id="15、mmap-native-日志优化？"><a href="#15、mmap-native-日志优化？" class="headerlink" title="15、mmap + native 日志优化？"></a>15、mmap + native 日志优化？</h3><p>传统日志打印有两个性能问题，一个是<strong>反复操作文件描述符表</strong>，一个是<strong>反复进入内核态</strong>。所以需要使用mmap的方式去直接读写内存。</p>
+<h2 id="二、Android-Framework相关"><a href="#二、Android-Framework相关" class="headerlink" title="二、Android Framework相关"></a>二、Android Framework相关</h2><h3 id="1、Android系统架构"><a href="#1、Android系统架构" class="headerlink" title="1、Android系统架构"></a>1、Android系统架构</h3><p><img src="https://upload-images.jianshu.io/upload_images/14601315-9d676d0f4f90a507.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>Android 是一种基于 Linux 的开放源代码软件栈，为广泛的设备和机型而创建。下图所示为 Android 平台的五大组件：</p>
+<p><strong>1.应用程序</strong></p>
+<p>Android 随附一套用于电子邮件、短信、日历、互联网浏览和联系人等的核心应用。平台随附的应用与用户可以选择安装的应用一样，没有特殊状态。因此第三方应用可成为用户的默认网络浏览器、短信 Messenger 甚至默认键盘（有一些例外，例如系统的“设置”应用）。</p>
+<p>系统应用可用作用户的应用，以及提供开发者可从其自己的应用访问的主要功能。例如，如果您的应用要发短信，您无需自己构建该功能，可以改为调用已安装的短信应用向您指定的接收者发送消息。</p>
+<p><strong>2、Java API Framework框架</strong></p>
+<p>您可通过以 Java 语言编写的 API 使用 Android OS 的整个功能集。这些 API 形成创建 Android 应用所需的构建块，它们可简化核心模块化系统组件和服务的重复使用，包括以下组件和服务：</p>
+<ul>
+<li>丰富、可扩展的视图系统，可用以构建应用的 UI，包括列表、网格、文本框、按钮甚至可嵌入的网络浏览器</li>
+<li>资源管理器，用于访问非代码资源，例如本地化的字符串、图形和布局文件</li>
+<li>通知管理器，可让所有应用在状态栏中显示自定义提醒<br>Activity 管理器，用于管理应用的生命周期，提供常见的导航返回栈</li>
+<li>内容提供程序，可让应用访问其他应用（例如“联系人”应用）中的数据或者共享其自己的数据</li>
+</ul>
+<p>开发者可以完全访问 Android 系统应用使用的框架 API。</p>
+<p><strong>3、系统运行库</strong></p>
+<p>1)原生 C/C++ 库<br>许多核心 Android 系统组件和服务（例如 ART 和 HAL）构建自原生代码，需要以 C 和 C++ 编写的原生库。Android 平台提供 Java 框架 API 以向应用显示其中部分原生库的功能。例如，您可以通过 Android 框架的 Java OpenGL API 访问 OpenGL ES，以支持在应用中绘制和操作 2D 和 3D 图形。如果开发的是需要 C 或 C++ 代码的应用，可以使用 Android NDK 直接从原生代码访问某些原生平台库。</p>
+<p>2)Android Runtime<br>对于运行 Android 5.0（API 级别 21）或更高版本的设备，每个应用都在其自己的进程中运行，并且有其自己的 Android Runtime (ART) 实例。ART 编写为通过执行 DEX 文件在低内存设备上运行多个虚拟机，DEX 文件是一种专为 Android 设计的字节码格式，经过优化，使用的内存很少。编译工具链（例如 Jack）将 Java 源代码编译为 DEX 字节码，使其可在 Android 平台上运行。</p>
+<p>ART 的部分主要功能包括：</p>
+<ul>
+<li>预先 (AOT) 和即时 (JIT) 编译</li>
+<li>优化的垃圾回收 (GC)</li>
+<li>更好的调试支持，包括专用采样分析器、详细的诊断异常和崩溃报告，并且能够设置监视点以监控特定字段</li>
+</ul>
+<p>在 Android 版本 5.0（API 级别 21）之前，Dalvik 是 Android Runtime。如果您的应用在 ART 上运行效果很好，那么它应该也可在 Dalvik 上运行，但反过来不一定。</p>
+<p>Android 还包含一套核心运行时库，可提供 Java API 框架使用的 Java 编程语言大部分功能，包括一些 Java 8 语言功能。</p>
+<p><strong>4、硬件抽象层 (HAL)</strong></p>
+<p>硬件抽象层 (HAL) 提供标准界面，向更高级别的 Java API 框架显示设备硬件功能。HAL 包含多个库模块，其中每个模块都为特定类型的硬件组件实现一个界面，例如相机或蓝牙模块。当框架 API 要求访问设备硬件时，Android 系统将为该硬件组件加载库模块。</p>
+<p><strong>5、Linux 内核</strong></p>
+<p>Android 平台的基础是 Linux 内核。例如，Android Runtime (ART) 依靠 Linux 内核来执行底层功能，例如线程和低层内存管理。使用 Linux 内核可让 Android 利用主要安全功能，并且允许设备制造商为著名的内核开发硬件驱动程序。</p>
+<p>对于Android应用开发来说，最好能手绘下面的系统架构图：<br><img src="https://upload-images.jianshu.io/upload_images/14601315-ea3b0877037c130c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h3 id="2、View的事件分发机制？滑动冲突怎么解决？"><a href="#2、View的事件分发机制？滑动冲突怎么解决？" class="headerlink" title="2、View的事件分发机制？滑动冲突怎么解决？"></a>2、View的事件分发机制？滑动冲突怎么解决？</h3><h4 id="了解Activity的构成"><a href="#了解Activity的构成" class="headerlink" title="了解Activity的构成"></a>了解Activity的构成</h4><p>一个Activity包含了一个Window对象，这个对象是由PhoneWindow来实现的。PhoneWindow将DecorView作为整个应用窗口的根View，而这个DecorView又将屏幕划分为两个区域：一个是TitleView，另一个是ContentView，而我们平时所写的就是展示在ContentView中的。</p>
+<h4 id="触摸事件的类型"><a href="#触摸事件的类型" class="headerlink" title="触摸事件的类型"></a>触摸事件的类型</h4><p>触摸事件对应的是MotionEvent类，事件的类型主要有如下三种：</p>
+<ul>
+<li>  ACTION_DOWN</li>
+<li>  ACTION_MOVE(移动的距离超过一定的阈值会被判定为ACTION_MOVE操作)</li>
+<li>  ACTION_UP</li>
+</ul>
+<p>View事件分发本质就是对MotionEvent事件分发的过程。即当一个MotionEvent发生后，系统将这个点击事件传递到一个具体的View上。</p>
+<h4 id="事件分发流程"><a href="#事件分发流程" class="headerlink" title="事件分发流程"></a>事件分发流程</h4><p>事件分发过程由三个方法共同完成：</p>
+<p><code>dispatchTouchEvent</code>：方法返回值为true表示事件被当前视图消费掉；返回为<code>super.dispatchTouchEvent</code>表示继续分发该事件，返回为<code>false</code>表示交给父类的<code>onTouchEvent</code>处理。</p>
+<p><code>onInterceptTouchEvent</code>：方法返回值为<code>true</code>表示拦截这个事件并交由自身的<code>onTouchEvent</code>方法进行消费；返回<code>false</code>表示不拦截，需要继续传递给子视图。如果return <code>super.onInterceptTouchEvent(ev)</code>， 事件拦截分两种情况:  </p>
+<ul>
+<li>  1.如果该View存在子View且点击到了该子View, 则不拦截, 继续分发 给子View 处理, 此时相当于<code>return false</code>。</li>
+<li>  2.如果该View没有子View或者有子View但是没有点击中子View(此时ViewGroup 相当于普通View), 则交由该View的onTouchEvent响应，此时相当于<code>return true</code>。</li>
+</ul>
+<p>注意：一般的LinearLayout、 RelativeLayout、FrameLayout等ViewGroup默认不拦截， 而 ScrollView、ListView等ViewGroup则可能拦截，得看具体情况。</p>
+<p><code>onTouchEvent</code>：方法返回值为<code>true</code>表示当前视图可以处理对应的事件；返回值为<code>false</code>表示当前视图不处理这个事件，它会被传递给父视图的<code>onTouchEvent</code>方法进行处理。如果<code>return super.onTouchEvent(ev)</code>，事件处理分为两种情况：</p>
+<ul>
+<li>  1.如果该View是<code>clickable</code>或者<code>longclickable</code>的,则会返回<code>true</code>, 表示消费 了该事件, 与返回true一样;</li>
+<li>  2.如果该View不是<code>clickable</code>或者<code>longclickable</code>的,则会返回<code>false</code>, 表示不消费该事件,将会向上传递,与返回false一样。</li>
+</ul>
+<p>注意：在Android系统中，拥有事件传递处理能力的类有以下三种：</p>
+<ul>
+<li>  Activity：拥有分发和消费两个方法。</li>
+<li>  ViewGroup：拥有分发、拦截和消费三个方法。</li>
+<li>  View：拥有分发、消费两个方法。</li>
+</ul>
+<p>三个方法的关系用伪代码表示如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public boolean dispatchTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">    boolean consume &#x3D; false;</span><br><span class="line">    if (onInterceptTouchEvent(ev)) &#123;</span><br><span class="line">        consume &#x3D; onTouchEvent(ev);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        consume &#x3D; child.dispatchTouchEvent(ev);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return consume;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的伪代码，我们可以大致了解点击事件的传递规则：对应一个根ViewGroup来说，点击事件产生后，首先会传递给它，这时它的<code>dispatchTouchEvent</code>就会被调用，如果这个ViewGroup的<code>onInterceptTouchEvent</code>方法返回true就表示它要拦截当前事件，接着事件就会交给这个ViewGroup处理，这时如果它的<code>mOnTouchListener</code>被设置，则<code>onTouch</code>会被调用，否则<code>onTouchEvent</code>会被调用。在onTouchEvent中，如果设置了<code>mOnCLickListener</code>，则<code>onClick</code>会被调用。只要View的CLICKABLE和LONG_CLICKABLE有一个为true，onTouchEvent()就会返回true消耗这个事件。如果这个ViewGroup的<code>onInterceptTouchEvent</code>方法返回false就表示它不拦截当前事件，这时当前事件就会继续传递给它的子元素，接着子元素的<code>dispatchTouchEvent</code>方法就会被调用，如此反复直到事件被最终处理。</p>
+<h4 id="一些重要的结论："><a href="#一些重要的结论：" class="headerlink" title="一些重要的结论："></a>一些重要的结论：</h4><p>1、事件传递优先级：onTouchListener.onTouch &gt; onTouchEvent &gt; onClickListener.onClick。</p>
+<p>2、正常情况下，一个事件序列只能被一个View拦截且消耗。因为一旦一个元素拦截了此事件，那么同一个事件序列内的所有事件都会直接交给它处理（即不会再调用这个View的拦截方法去询问它是否要拦截了，而是把剩余的ACTION_MOVE、ACTION_DOWN等事件直接交给它来处理）。特例：通过将重写View的onTouchEvent返回false可强行将事件转交给其他View处理。</p>
+<p>3、如果View不消费除ACTION_DOWN以外的其他事件，那么这个点击事件会消失，此时父元素的onTouchEvent并不会被调用，并且当前View可以持续收到后续的事件，最终这些消失的点击事件会传递给Activity处理。</p>
+<p>4、ViewGroup默认不拦截任何事件（返回false）。</p>
+<p>5、View的onTouchEvent默认都会消耗事件（返回true），除非它是不可点击的（clickable和longClickable同时为false）。View的longClickable属性默认都为false，clickable属性要分情况，比如Button的clickable属性默认为true，而TextView的clickable默认为false。</p>
+<p>6、View的enable属性不影响onTouchEvent的默认返回值。</p>
+<p>7、通过<code>requestDisallowInterceptTouchEvent</code>方法可以在子元素中干预父元素的事件分发过程，但是ACTION_DOWN事件除外。</p>
+<p>记住这个图的传递顺序,面试的时候能够画出来,就很详细了：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-234eb5fce9cff2e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="ACTION-CANCEL什么时候触发，触摸button然后滑动到外部抬起会触发点击事件吗，再滑动回去抬起会么？"><a href="#ACTION-CANCEL什么时候触发，触摸button然后滑动到外部抬起会触发点击事件吗，再滑动回去抬起会么？" class="headerlink" title="ACTION_CANCEL什么时候触发，触摸button然后滑动到外部抬起会触发点击事件吗，再滑动回去抬起会么？"></a>ACTION_CANCEL什么时候触发，触摸button然后滑动到外部抬起会触发点击事件吗，再滑动回去抬起会么？</h4><ul>
+<li>  一般ACTION_CANCEL和ACTION_UP都作为View一段事件处理的结束。如果在父View中拦截ACTION_UP或ACTION_MOVE，在第一次父视图拦截消息的瞬间，父视图指定子视图不接受后续消息了，同时子视图会收到ACTION_CANCEL事件。</li>
+<li>  如果触摸某个控件，但是又不是在这个控件的区域上抬起（移动到别的地方了），就会出现ACTION_CANCEL。</li>
+</ul>
+<h5 id="点击事件被拦截，但是想传到下面的View，如何操作？"><a href="#点击事件被拦截，但是想传到下面的View，如何操作？" class="headerlink" title="点击事件被拦截，但是想传到下面的View，如何操作？"></a>点击事件被拦截，但是想传到下面的View，如何操作？</h5><p><strong>重写子类的requestDisallowInterceptTouchEvent()方法返回true就不会执行父类的onInterceptTouchEvent()，即可将点击事件传到下面的View。</strong></p>
+<h4 id="如何解决View的事件冲突？举个开发中遇到的例子？"><a href="#如何解决View的事件冲突？举个开发中遇到的例子？" class="headerlink" title="如何解决View的事件冲突？举个开发中遇到的例子？"></a>如何解决View的事件冲突？举个开发中遇到的例子？</h4><p>常见开发中事件冲突的有ScrollView与RecyclerView的滑动冲突、RecyclerView内嵌同时滑动同一方向。</p>
+<p>滑动冲突的处理规则：</p>
+<ul>
+<li>  对于由于外部滑动和内部滑动方向不一致导致的滑动冲突，可以根据滑动的方向判断谁来拦截事件。</li>
+<li>  对于由于外部滑动方向和内部滑动方向一致导致的滑动冲突，可以根据业务需求，规定何时让外部View拦截事件，何时由内部View拦截事件。</li>
+<li>  对于上面两种情况的嵌套，相对复杂，可同样根据需求在业务上找到突破点。</li>
+</ul>
+<p>滑动冲突的实现方法：</p>
+<ul>
+<li>  外部拦截法：指点击事件都先经过父容器的拦截处理，如果父容器需要此事件就拦截，否则就不拦截。具体方法：需要重写父容器的onInterceptTouchEvent方法，在内部做出相应的拦截。</li>
+<li>  内部拦截法：指父容器不拦截任何事件，而将所有的事件都传递给子容器，如果子容器需要此事件就直接消费，否则就交由父容器进行处理。具体方法：需要配合requestDisallowInterceptTouchEvent方法。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://jsonchao.github.io/2018/10/17/Android%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92%E6%9C%BA%E5%88%B6/">加深理解，GOGOGO</a></p>
+<h3 id="3、View的绘制流程？"><a href="#3、View的绘制流程？" class="headerlink" title="3、View的绘制流程？"></a>3、View的绘制流程？</h3><h4 id="DecorView被加载到Window中"><a href="#DecorView被加载到Window中" class="headerlink" title="DecorView被加载到Window中"></a>DecorView被加载到Window中</h4><ul>
+<li>  从Activity的startActivity开始，最终调用到ActivityThread的<code>handleLaunchActivity</code>方法来创建Activity，首先，会调用<code>performLaunchActivity</code>方法，内部会执行Activity的<code>onCreate</code>方法，从而完成DecorView和Activity的创建。然后，会调用<code>handleResumeActivity</code>，里面首先会调用<code>performResumeActivity</code>去执行Activity的<code>onResume()</code>方法，执行完后会得到一个ActivityClientRecord对象，然后通过<code>r.window.getDecorView()</code>的方式得到DecorView，然后会通过<code>a.getWindowManager()</code>得到WindowManager，最终调用其<code>addView()</code>方法将DecorView加进去。</li>
+<li>  WindowManager的实现类是WindowManagerImpl，它内部会将<code>addView</code>的逻辑委托给WindowManagerGlobal，可见这里使用了接口隔离和委托模式将实现和抽象充分解耦。在WindowManagerGlobal的<code>addView()</code>方法中不仅会将DecorView添加到Window中，同时会创建ViewRootImpl对象，并将ViewRootImpl对象和DecorView通过<code>root.setView()</code>把DecorView加载到Window中。这里的ViewRootImpl是ViewRoot的实现类，是连接WindowManager和DecorView的纽带。View的三大流程均是通过ViewRoot来完成的。</li>
+</ul>
+<h4 id="了解绘制的整体流程"><a href="#了解绘制的整体流程" class="headerlink" title="了解绘制的整体流程"></a>了解绘制的整体流程</h4><p>绘制会从根视图ViewRoot的<code>performTraversals()</code>方法开始，从上到下遍历整个视图树，每个View控件负责绘制自己，而ViewGroup还需要负责通知自己的子View进行绘制操作。</p>
+<h4 id="理解MeasureSpec"><a href="#理解MeasureSpec" class="headerlink" title="理解MeasureSpec"></a>理解MeasureSpec</h4><p>MeasureSpec表示的是一个32位的整形值，它的高2位表示测量模式SpecMode，低30位表示某种测量模式下的规格大小SpecSize。MeasureSpec是View类的一个静态内部类，用来说明应该如何测量这个View。它由三种测量模式，如下：</p>
+<ul>
+<li>  EXACTLY：精确测量模式，视图宽高指定为match_parent或具体数值时生效，表示父视图已经决定了子视图的精确大小，这种模式下View的测量值就是SpecSize的值。</li>
+<li>  AT_MOST：最大值测量模式，当视图的宽高指定为wrap_content时生效，此时子视图的尺寸可以是不超过父视图允许的最大尺寸的任何尺寸。</li>
+<li>  UNSPECIFIED：不指定测量模式, 父视图没有限制子视图的大小，子视图可以是想要的任何尺寸，通常用于系统内部，应用开发中很少用到。</li>
+</ul>
+<p>MeasureSpec通过将SpecMode和SpecSize打包成一个int值来避免过多的对象内存分配，为了方便操作，其提供了打包和解包的方法，打包方法为<code>makeMeasureSpec</code>，解包方法为<code>getMode</code>和<code>getSize</code>。</p>
+<p>普通View的MeasureSpec的创建规则如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-fa6ab8f8b8a22b36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<figcaption></figcaption>
+
+<p>对于DecorView而言，它的MeasureSpec由窗口尺寸和其自身的LayoutParams共同决定；对于普通的View，它的MeasureSpec由父视图的MeasureSpec和其自身的LayoutParams共同决定。</p>
+<h4 id="如何根据MeasureSpec去实现一个瀑布流的自定义ViewGroup？"><a href="#如何根据MeasureSpec去实现一个瀑布流的自定义ViewGroup？" class="headerlink" title="如何根据MeasureSpec去实现一个瀑布流的自定义ViewGroup？"></a>如何根据MeasureSpec去实现一个瀑布流的自定义ViewGroup？</h4><h4 id="View绘制流程之Measure"><a href="#View绘制流程之Measure" class="headerlink" title="View绘制流程之Measure"></a>View绘制流程之Measure</h4><ul>
+<li>  首先，在ViewGroup中的measureChildren()方法中会遍历测量ViewGroup中所有的View，当View的可见性处于GONE状态时，不对其进行测量。</li>
+<li>  然后，测量某个指定的View时，根据父容器的MeasureSpec和子View的LayoutParams等信息计算子View的MeasureSpec。</li>
+<li>  最后，将计算出的MeasureSpec传入View的measure方法，这里ViewGroup没有定义测量的具体过程，因为ViewGroup是一个抽象类，其测量过程的onMeasure方法需要各个子类去实现。不同的ViewGroup子类有不同的布局特性，这导致它们的测量细节各不相同，如果需要自定义测量过程，则子类可以重写这个方法。（setMeasureDimension方法用于设置View的测量宽高，如果View没有重写onMeasure方法，则会默认调用getDefaultSize来获得View的宽高）</li>
+</ul>
+<h5 id="getSuggestMinimumWidth分析"><a href="#getSuggestMinimumWidth分析" class="headerlink" title="getSuggestMinimumWidth分析"></a>getSuggestMinimumWidth分析</h5><p>如果View没有设置背景，那么返回android:minWidth这个属性所指定的值，这个值可以为0；如果View设置了背景，则返回android:minWidth和背景的最小宽度这两者中的最大值。</p>
+<h5 id="自定义View时手动处理wrap-content时的情形"><a href="#自定义View时手动处理wrap-content时的情形" class="headerlink" title="自定义View时手动处理wrap_content时的情形"></a>自定义View时手动处理wrap_content时的情形</h5><p>直接继承View的控件需要重写onMeasure方法并设置wrap_content时的自身大小，否则在布局中使用wrap_content就相当于使用match_parent。此时，可以在wrap_content的情况下（对应MeasureSpec.AT_MOST）指定内部宽/高(mWidth和mHeight)。</p>
+<h5 id="LinearLayout的onMeasure方法实现解析（这里仅分析measureVertical核心源码）"><a href="#LinearLayout的onMeasure方法实现解析（这里仅分析measureVertical核心源码）" class="headerlink" title="LinearLayout的onMeasure方法实现解析（这里仅分析measureVertical核心源码）"></a>LinearLayout的onMeasure方法实现解析（这里仅分析measureVertical核心源码）</h5><p>系统会遍历子元素并对每个子元素执行measureChildBeforeLayout方法，这个方法内部会调用子元素的measure方法，这样各个子元素就开始依次进入measure过程，并且系统会通过mTotalLength这个变量来存储LinearLayout在竖直方向的初步高度。每测量一个子元素，mTotalLength就会增加，增加的部分主要包括了子元素的高度以及子元素在竖直方向上的margin等。</p>
+<h5 id="在Activity中获取某个View的宽高"><a href="#在Activity中获取某个View的宽高" class="headerlink" title="在Activity中获取某个View的宽高"></a>在Activity中获取某个View的宽高</h5><p>由于View的measure过程和Activity的生命周期方法不是同步执行的，如果View还没有测量完毕，那么获得的宽/高就是0。所以在onCreate、onStart、onResume中均无法正确得到某个View的宽高信息。解决方式如下：</p>
+<ul>
+<li>  Activity/View#onWindowFocusChanged：此时View已经初始化完毕，当Activity的窗口得到焦点和失去焦点时均会被调用一次，如果频繁地进行onResume和onPause，那么onWindowFocusChanged也会被频繁地调用。</li>
+<li>  view.post(runnable)： 通过post可以将一个runnable投递到消息队列的尾部，初始化好了然后等待Looper调用次runnable的时候，View也已经初始化好了。</li>
+<li>  ViewTreeObserver#addOnGlobalLayoutListener：当View树的状态发生改变或者View树内部的View的可见性发生改变时，onGlobalLayout方法将被回调。</li>
+<li>  View.measure(int widthMeasureSpec, int heightMeasureSpec)：match_parent时不知道parentSize的大小，测不出；具体数值时，直接makeMeasureSpec固定值，然后调用view..measure就可以了；wrap_content时，在最大化模式下，用View理论上能支持的最大值去构造MeasureSpec是合理的。</li>
+</ul>
+<h4 id="View的绘制流程之Layout"><a href="#View的绘制流程之Layout" class="headerlink" title="View的绘制流程之Layout"></a>View的绘制流程之Layout</h4><p>首先，会通过setFrame方法来设定View的四个顶点的位置，即View在父容器中的位置。然后，会执行到onLayout空方法，子类如果是ViewGroup类型，则重写这个方法，实现ViewGroup中所有View控件布局流程。</p>
+<h5 id="LinearLayout的onLayout方法实现解析（layoutVertical核心源码）"><a href="#LinearLayout的onLayout方法实现解析（layoutVertical核心源码）" class="headerlink" title="LinearLayout的onLayout方法实现解析（layoutVertical核心源码）"></a>LinearLayout的onLayout方法实现解析（layoutVertical核心源码）</h5><p>其中会遍历调用每个子View的setChildFrame方法为子元素确定对应的位置。其中的childTop会逐渐增大，意味着后面的子元素会被放置在靠下的位置。</p>
+<p>注意：在View的默认实现中，View的测量宽/高和最终宽/高是相等的，只不过测量宽/高形成于View的measure过程，而最终宽/高形成于View的layout过程，即两者的赋值时机不同，测量宽/高的赋值时机稍微早一些。在一些特殊的情况下则两者不相等：</p>
+<ul>
+<li>  重写View的layout方法,使最终宽度总是比测量宽/高大100px。</li>
+<li>  View需要多次measure才能确定自己的测量宽/高，在前几次测量的过程中，其得出的测量宽/高有可能和最终宽/高不一致，但最终来说，测量宽/高还是和最终宽/高相同。</li>
+</ul>
+<h4 id="View的绘制流程之Draw"><a href="#View的绘制流程之Draw" class="headerlink" title="View的绘制流程之Draw"></a>View的绘制流程之Draw</h4><h5 id="Draw的基本流程"><a href="#Draw的基本流程" class="headerlink" title="Draw的基本流程"></a>Draw的基本流程</h5><p>绘制基本上可以分为六个步骤：</p>
+<ul>
+<li>  首先绘制View的背景；</li>
+<li>  如果需要的话，保持canvas的图层，为fading做准备；</li>
+<li>  然后，绘制View的内容；</li>
+<li>  接着，绘制View的子View；</li>
+<li>  如果需要的话，绘制View的fading边缘并恢复图层；</li>
+<li>  最后，绘制View的装饰(例如滚动条等等)。</li>
+</ul>
+<h5 id="setWillNotDraw的作用"><a href="#setWillNotDraw的作用" class="headerlink" title="setWillNotDraw的作用"></a>setWillNotDraw的作用</h5><p>如果一个View不需要绘制任何内容，那么设置这个标记位为true以后，系统会进行相应的优化。</p>
+<ul>
+<li>  默认情况下，View没有启用这个优化标记位，但是ViewGroup会默认启用这个优化标记位。</li>
+<li>  当我们的自定义控件继承于ViewGroup并且本身不具备绘制功能时，就可以开启这个标记位从而便于系统进行后续的优化。</li>
+<li>  当明确知道一个ViewGroup需要通过onDraw来绘制内容时，我们需要显示地关闭WILL_NOT_DRAW这个标记位。</li>
+</ul>
+<h4 id="Requestlayout，onlayout，onDraw，DrawChild区别与联系？"><a href="#Requestlayout，onlayout，onDraw，DrawChild区别与联系？" class="headerlink" title="Requestlayout，onlayout，onDraw，DrawChild区别与联系？"></a>Requestlayout，onlayout，onDraw，DrawChild区别与联系？</h4><p>requestLayout()方法 ：会导致调用 measure()过程 和 layout()过程，将会根据标志位判断是否需要ondraw。</p>
+<p>onLayout()方法：如果该View是ViewGroup对象，需要实现该方法，对每个子视图进行布局。</p>
+<p>onDraw()方法：绘制视图本身 (每个View都需要重载该方法，ViewGroup不需要实现该方法)。</p>
+<p>drawChild()：去重新回调每个子视图的draw()方法。</p>
+<h4 id="invalidate-和-postInvalidate-的区别-？"><a href="#invalidate-和-postInvalidate-的区别-？" class="headerlink" title="invalidate() 和 postInvalidate()的区别 ？"></a>invalidate() 和 postInvalidate()的区别 ？</h4><p>invalidate()与postInvalidate()都用于刷新View，主要区别是invalidate()在主线程中调用，若在子线程中使用需要配合handler；而postInvalidate()可在子线程中直接调用。</p>
+<p><a target="_blank" rel="noopener" href="https://jsonchao.github.io/2018/10/28/Android%20View%E7%9A%84%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B/">更详细的内容请点击这里</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hzp201314.github.io/2021/03/10/Android%E9%AB%98%E7%BA%A7%E7%AF%87/" data-id="ckm4ne3kq0000y0ufeu3z44uk" data-title="Android高级篇" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/03/09/Android%E5%9F%BA%E7%A1%80%E7%AF%87/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android基础篇</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/10/Android%E9%AB%98%E7%BA%A7%E7%AF%87/">Android高级篇</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/09/Android%E5%9F%BA%E7%A1%80%E7%AF%87/">Android基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/09/%E5%89%8D%E7%AB%AF-CSS-%E4%B8%8B/">前端-CSS-下</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/09/%E5%89%8D%E7%AB%AF-CSS-%E4%B8%8A/">前端-CSS-上</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Hzp<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
