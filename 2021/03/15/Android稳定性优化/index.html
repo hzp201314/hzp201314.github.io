@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Android稳定性优化 | Hzp&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="前言众所周知，移动开发已经来到了后半场，为了能够在众多开发者中脱颖而出，我们需要对某一个领域有深入地研究与心得，对于Android开发者来说，目前，有几个好的细分领域值得我们去建立自己的技术壁垒，如下所示：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android稳定性优化">
+<meta property="og:url" content="https://hzp201314.github.io/2021/03/15/Android%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="Hzp&#39;s Blog">
+<meta property="og:description" content="前言众所周知，移动开发已经来到了后半场，为了能够在众多开发者中脱颖而出，我们需要对某一个领域有深入地研究与心得，对于Android开发者来说，目前，有几个好的细分领域值得我们去建立自己的技术壁垒，如下所示：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-1225df2c458fca4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-1639669ef8e2197d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-0480493a480896a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-b3efe34fd06b0557.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-45d751162dc87716.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-08b2635c937afbff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-03-15T02:32:19.000Z">
+<meta property="article:modified_time" content="2021-03-15T09:12:53.854Z">
+<meta property="article:author" content="Hzp">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/14601315-1225df2c458fca4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Hzp's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hzp&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hzp201314.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Android稳定性优化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/15/Android%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BC%98%E5%8C%96/" class="article-date">
+  <time class="dt-published" datetime="2021-03-15T02:32:19.000Z" itemprop="datePublished">2021-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Android稳定性优化
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>众所周知，移动开发已经来到了后半场，为了能够在众多开发者中脱颖而出，我们需要对某一个领域有深入地研究与心得，对于Android开发者来说，目前，<strong>有几个好的细分领域值得我们去建立自己的技术壁垒</strong>，如下所示：</p>
+<span id="more"></span>
+
+<ul>
+<li>  1、<strong>性能优化专家</strong>：具备深度性能优化与体系化APM建设的能力</li>
+<li>  2、<strong>架构师</strong>：具有丰富的应用架构设计经验与心得，对Android Framework层与热门三方库的实现原理与架构设计了如指掌。</li>
+<li>  3、<strong>音视频/图像处理专家</strong>：毫无疑问，掌握NDK，深入音视频与图像处理领域能让我们在未来几年大放异彩。</li>
+<li>  4、<strong>大前端专家</strong>：深入掌握Flutter及其设计原理与思想，可以让我们具有快速学习前端知识的能力。</li>
+</ul>
+<p>在上述几个细分领域中，最难也最具技术壁垒的莫过于性能优化，要想成为一个顶尖的性能优化专家，<strong>需要对许多领域的深度知识及广度知识有深入的了解与研究</strong>，其中不乏<strong>需要掌握架构师、NDK、Flutter所涉及的众多技能</strong>。从这篇文章开始，笔者将会带领大家一步一步深入探索Android的性能优化。</p>
+<p>为了能够全面地了解Android的性能优化知识体系，我们先看看我总结的下面这张图，如下所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-1225df2c458fca4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>要做好应用的性能优化，我们需要建立一套成体系的性能优化方案，这套方案被业界称为 <strong>APM（Application Performance Manange）</strong>，为了让大家快速了解APM涉及的相关知识，笔者已经将其总结成图，如下所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-1639669ef8e2197d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>在建设APM和对App进行性能优化的过程中，我们<strong>必须首先解决的是App的稳定性问题</strong>，现在，<strong>让我们搭乘航班，来深入探索Android稳定性优化的疆域</strong>。</p>
+<h1 id="思维导图大纲"><a href="#思维导图大纲" class="headerlink" title="思维导图大纲"></a>思维导图大纲</h1><p><img src="https://upload-images.jianshu.io/upload_images/14601315-0480493a480896a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>[TOC]</p>
+<h1 id="一、正确认识"><a href="#一、正确认识" class="headerlink" title="一、正确认识"></a>一、正确认识</h1><p>首先，我们必须对App的<strong>稳定性</strong>有正确的认识，它<strong>是App质量构建体系中最基本和最关键的一环</strong>。如果我们的App不稳定，并且经常不能正常地提供服务，那么用户大概率会卸载掉它。所以稳定性很重要，并且Crash是P0优先级，需要优先解决。 而且，稳定性可优化的面很广，它不仅仅只包含Crash这一部分，也包括卡顿、耗电等优化范畴。</p>
+<h2 id="1、稳定性纬度"><a href="#1、稳定性纬度" class="headerlink" title="1、稳定性纬度"></a>1、稳定性纬度</h2><p>应用的稳定性可以分为三个纬度，如下所示：</p>
+<ul>
+<li>  1、<strong>Crash纬度</strong>：最重要的指标就是应用的<strong>Crash率</strong>。</li>
+<li>  2、<strong>性能纬度</strong>：包括启动速度、内存、绘制等等优化方向，相对于Crash来说是次要的，在做<strong>应用性能体系化建设</strong>之前，我们必须要确保应用的功能稳定可用。</li>
+<li>  3、<strong>业务高可用纬度</strong>：它是非常关键的一步，我们需要<strong>采用多种手段来保证我们App的主流程以及核心路径的稳定性</strong>，只有用户经常使用我们的App，它才有可能发现别的方面的问题。</li>
+</ul>
+<h2 id="2、稳定性优化注意事项"><a href="#2、稳定性优化注意事项" class="headerlink" title="2、稳定性优化注意事项"></a>2、稳定性优化注意事项</h2><p>我们在做应用的稳定性优化的时候，需要注意三个要点，如下所示：</p>
+<h3 id="1、重在预防、监控必不可少"><a href="#1、重在预防、监控必不可少" class="headerlink" title="1、重在预防、监控必不可少"></a>1、重在预防、监控必不可少</h3><p>对于稳定性来说，如果App已经到了线上才发现异常，那其实已经造成了损失，所以，对于稳定性的优化，其重点在于<strong>预防</strong>。<strong>从开发同学的编码环节，到测试同学的测试环节，以及到上线前的发布环节、上线后的运维环节，这些环节都需要来预防异常情况的发生</strong>。如果异常真的发生了，也需要将想方设法将损失降到最低，争取用最小的代价来暴露尽可能多的问题。</p>
+<p>此外，<strong>监控</strong>也是必不可少的一步，预防做的再好，到了线上，总会有各种各样的异常发生。所以，无论如何，我们都<strong>需要有全面的监控手段来更加灵敏地发现问题</strong>。</p>
+<h3 id="2、思考更深一层、重视隐含信息：如解决Crash问题时思考是否会引发同一类问题"><a href="#2、思考更深一层、重视隐含信息：如解决Crash问题时思考是否会引发同一类问题" class="headerlink" title="2、思考更深一层、重视隐含信息：如解决Crash问题时思考是否会引发同一类问题"></a>2、思考更深一层、重视隐含信息：如解决Crash问题时思考是否会引发同一类问题</h3><p>当我们看到了一个Crash的时候，不能简单地只处理这一个Crash，而是需要思考更深一层，要考虑会不会在其它地方会有一样的Crash类型发生。如果有这样的情况，我们必须<strong>对其统一处理和预防</strong>。</p>
+<p>此外，我们还要关注Crash相关的隐含信息，比如，在面试过程当中，面试官问你，你们应用的Crash率是多少，这个问题表明上问的是Crash率，但是实际上它是问你一些隐含信息的，<strong>过高的Crash率就代表开发人员的水平不行，leader的架构能力不行，项目的各个阶段中优化的空间非常大</strong>，这样一来，面试官对你的印象和评价也不会好。</p>
+<h3 id="3、长效保持需要科学流程"><a href="#3、长效保持需要科学流程" class="headerlink" title="3、长效保持需要科学流程"></a>3、长效保持需要科学流程</h3><p>应用稳定性的建设过程是一个细活，所以很容易出现这个版本优化好了，但是在接下来的版本中如果我们不管它，它就会发生持续恶化的情况，因此，我们<strong>必须从项目研发的每一个流程入手，建立科学完善的相关规范，才能保证长效的优化效果</strong>。</p>
+<h2 id="3、Crash相关指标"><a href="#3、Crash相关指标" class="headerlink" title="3、Crash相关指标"></a>3、Crash相关指标</h2><p>要对应用的稳定性进行优化，我们就必须先了解与Crash相关的一些指标。</p>
+<h3 id="1、UV、PV"><a href="#1、UV、PV" class="headerlink" title="1、UV、PV"></a>1、UV、PV</h3><ul>
+<li>  PV（Page View）：访问量</li>
+<li>  UV（Unique Visitor）：独立访客，0 - 24小时内的同一终端只计算一次</li>
+</ul>
+<h3 id="2、UV、PV、启动、增量、存量-Crash率"><a href="#2、UV、PV、启动、增量、存量-Crash率" class="headerlink" title="2、UV、PV、启动、增量、存量 Crash率"></a>2、UV、PV、启动、增量、存量 Crash率</h3><ul>
+<li>  <strong>UV Crash率（Crash UV / DAU）</strong>：针对用户使用量的统计，统计一段时间内所有用户发生崩溃的占比，用于<strong>评估Crash率的影响范围</strong>，结合PV。需要注意的是，需要确保一直使用同一种衡量方式。</li>
+<li>  <strong>PV Crash率</strong>：评估相关Crash影响的<strong>严重程度</strong>。</li>
+<li>  <strong>启动Crash率</strong>：启动阶段，用户还没有完全打开App而发生的Crash，它是影响最严重的Crash，对用户伤害最大，无法通过热修复拯救，需结合客户端容灾，以进行App的自主修复。（这块后面会讲）</li>
+<li>  <strong>增量、存量Crash率</strong>：增量Crash是指的<strong>新增的Crash</strong>，而存量Crash则表示一些<strong>历史遗留bug</strong>。增量Crash是新版本重点，存量Crash是需要持续啃的硬骨头，我们需要<strong>优先解决增量、持续跟进存量问题</strong>。</li>
+</ul>
+<h2 id="4、Crash率评价"><a href="#4、Crash率评价" class="headerlink" title="4、Crash率评价"></a>4、Crash率评价</h2><p>那么，我们App的Crash率降低多少才能算是一个正常水平或优秀的水平呢？</p>
+<ul>
+<li>  Java与Native的总崩溃率必须在千分之二以下。</li>
+<li>  Crash率万分位为优秀：需要注意90%的Crash都是比较容易解决的，但是要解决最后的10%需要付出巨大的努力。</li>
+</ul>
+<h2 id="5、Crash关键问题"><a href="#5、Crash关键问题" class="headerlink" title="5、Crash关键问题"></a>5、Crash关键问题</h2><p>这里我们还需要关注Crash相关的关键问题，如果应用发生了Crash，我们应<strong>该尽可能还原Crash现场</strong>。因此，我们<strong>需要全面地采集应用发生Crash时的相关信息</strong>，如下所示：</p>
+<ul>
+<li>  堆栈、设备、OS版本、进程、线程名、Logcat</li>
+<li>  前后台、使用时长、App版本、小版本、渠道</li>
+<li>  CPU架构、内存信息、线程数、资源包信息、用户行为日志</li>
+</ul>
+<p>接着，采集完上述信息并上报到后台后，我们会在APM后台进行聚合展示，具体的展示信息如下所示：</p>
+<ul>
+<li>  Crash现场信息</li>
+<li>  Crash Top机型、OS版本、分布版本、区域</li>
+<li>  Crash起始版本、上报趋势、是否新增、持续、量级</li>
+</ul>
+<p>最后，我们可以<strong>根据以上信息决定Crash是否需要立马解决以及在哪个版本进行解决</strong>，关于APM聚合展示这块可以参考 <strong>Bugly平台</strong> 的APM后台聚合展示。</p>
+<p>然后，我们再来看看与Crash相关的整体架构。</p>
+<h2 id="6、APM-Crash部分整体架构"><a href="#6、APM-Crash部分整体架构" class="headerlink" title="6、APM Crash部分整体架构"></a>6、APM Crash部分整体架构</h2><p>APM Crash部分的整体架构从上之下分为<strong>采集层、处理层、展示层、报警层</strong>。下面，我们来详细讲解一下每一层所做的处理。</p>
+<h5 id="采集层"><a href="#采集层" class="headerlink" title="采集层"></a>采集层</h5><p>首先，我们需要在采集层这一层去获取足够多的Crash相关信息，以<strong>确保能够精确定位到问题</strong>。需要采集的信息主要为如下几种：</p>
+<ul>
+<li>  <strong>错误堆栈</strong></li>
+<li>  <strong>设备信息</strong></li>
+<li>  <strong>行为日志</strong></li>
+<li>  <strong>其它信息</strong></li>
+</ul>
+<h5 id="处理层"><a href="#处理层" class="headerlink" title="处理层"></a>处理层</h5><p>然后，在处理层，我们会对App采集到的数据进行处理。</p>
+<ul>
+<li>  <strong>数据清洗</strong>：将一些不符合条件的数据过滤掉，比如说，因为一些特殊情况，一些App采集到的数据不完整，或者由于上传数据失败而导致的数据不完整，这些数据在APM平台上肯定是无法全面地展示的，所以，首先我们需要把这些信息进行过滤。</li>
+<li>  <strong>数据聚合</strong>：在这一层，我们会把Crash相关的数据进行聚合。</li>
+<li>  <strong>纬度分类</strong>：如Top机型下的Crash、用户Crash率的前10%等等维度。</li>
+<li>  <strong>趋势对比</strong></li>
+</ul>
+<h5 id="展示层"><a href="#展示层" class="headerlink" title="展示层"></a>展示层</h5><p>经过处理层之后，就会来到展示层，展示的信息为如下几类：</p>
+<ul>
+<li>  <strong>数据还原</strong></li>
+<li>  <strong>纬度信息</strong></li>
+<li>  <strong>起始版本</strong></li>
+<li>  <strong>其它信息</strong></li>
+</ul>
+<h5 id="报警层"><a href="#报警层" class="headerlink" title="报警层"></a>报警层</h5><p>最后，就会来到报警层，当发生严重异常的时候，会通知相关的同学进行紧急处理。报警的规则我们可以自定义，例如<strong>整体的Crash率，其环比（与上一期进行对比）或同比（如本月10号与上月10号）抖动超过5%，或者是单个Crash突然间激增</strong>。报警的方式可以通过 <strong>邮件、IM、电话、短信</strong> 等等方式。</p>
+<h2 id="7、责任归属"><a href="#7、责任归属" class="headerlink" title="7、责任归属"></a>7、责任归属</h2><p>最后，我们来看下Crash相关的非技术问题，需要注意的是，我们要解决的是如何长期保持较低的Crash率这个问题。我们<strong>需要保证能够迅速找到相关bug的相关责任人并让开发同学能够及时地处理线上的bug</strong>。具体的解决方法为如下几种：</p>
+<ul>
+<li>  <strong>设立专项小组轮值</strong>：成立一个虚拟的专项小组，来专门跟踪每个版本线上的Crash率，<strong>组内的成员可以轮流跟踪线上的Crash</strong>，这样，就可以从源头来保证所有Crash一定会有人跟进。</li>
+<li>  <strong>自动匹配责任人</strong>：<strong>将APM平台与bug单系统打通，这样APM后台一旦发现紧急bug就能第一时间下发到bug单系统给相关责任人发提醒</strong>。</li>
+<li>  <strong>处理流程全纪录</strong>：我们需要<strong>记录Crash处理流程的每一步，确保紧急Crash的处理不会被延误</strong>。</li>
+</ul>
+<h1 id="二、Crash优化"><a href="#二、Crash优化" class="headerlink" title="二、Crash优化"></a>二、Crash优化</h1><h2 id="1、单个Crash处理方案"><a href="#1、单个Crash处理方案" class="headerlink" title="1、单个Crash处理方案"></a>1、单个Crash处理方案</h2><p>对与单个Crash的处理方案我们可以按如下三个步骤来进行解决处理。</p>
+<h4 id="1、根据堆栈及现场信息找答案"><a href="#1、根据堆栈及现场信息找答案" class="headerlink" title="1、根据堆栈及现场信息找答案"></a>1、根据堆栈及现场信息找答案</h4><ul>
+<li>解决90%问题</li>
+<li>解决完后需考虑产生Crash深层次的原因</li>
+</ul>
+<h4 id="2、找共性：机型、OS、实验开关、资源包，考虑影响范围"><a href="#2、找共性：机型、OS、实验开关、资源包，考虑影响范围" class="headerlink" title="2、找共性：机型、OS、实验开关、资源包，考虑影响范围"></a>2、找共性：机型、OS、实验开关、资源包，考虑影响范围</h4><h4 id="3、线下复现、远程调试"><a href="#3、线下复现、远程调试" class="headerlink" title="3、线下复现、远程调试"></a>3、线下复现、远程调试</h4><h2 id="2、Crash率治理方案"><a href="#2、Crash率治理方案" class="headerlink" title="2、Crash率治理方案"></a>2、Crash率治理方案</h2><p>要对应用的Crash率进行治理，一般需要对以下三种类型的Crash进行对应的处理，如下所示：</p>
+<ul>
+<li>  1、解决线上常规Crash</li>
+<li>  2、系统级Crash尝试Hook绕过</li>
+<li>  3、疑难Crash重点突破或更换方案</li>
+</ul>
+<h2 id="3、Java-Crash"><a href="#3、Java-Crash" class="headerlink" title="3、Java Crash"></a>3、Java Crash</h2><p>出现未捕获异常，导致出现异常退出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread.setDefaultUncaughtExceptionHandler();</span><br></pre></td></tr></table></figure>
+
+<p>我们通过<strong>实现自定义的UncaughtExceptionHandler，复写uncaughtException()方法</strong>，就可以在崩溃发生的时候获取到现场信息。注意，<strong>这个钩子是针对单个进程而言的，在多进程的APP中，监控哪个进程，就需要在哪个进程中设置一遍ExceptionHandler</strong>。</p>
+<p>获取主线程的堆栈信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Looper.getMainLooper().getThread().getStackTrace();</span><br></pre></td></tr></table></figure>
+
+<p>获取当前线程的堆栈信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread.currentThread().getStackTrace();</span><br></pre></td></tr></table></figure>
+
+<p>获取全部线程的堆栈信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread.getAllStackTraces();</span><br></pre></td></tr></table></figure>
+
+<p>第三方Crash监控工具如 <strong>Fabric、腾讯Bugly</strong>，都是以<strong>字符串拼接的方式将数组StackTraceElement[]转换成字符串形式</strong>，进行保存、上报或者展示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CrashHandler</span> <span class="keyword">implements</span> <span class="title">UncaughtExceptionHandler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">&quot;CrashHandler&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> DEBUG = <span class="keyword">true</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PATH = Environment.getExternalStorageDirectory().getPath() + <span class="string">&quot;/ryg_test/log/&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String FILE_NAME = <span class="string">&quot;crash&quot;</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//log文件的后缀名</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String FILE_NAME_SUFFIX = <span class="string">&quot;.trace&quot;</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> CrashHandler sInstance = <span class="keyword">new</span> CrashHandler();</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//系统默认的异常处理（默认情况下，系统会终止当前的异常程序）</span></span><br><span class="line">    <span class="keyword">private</span> UncaughtExceptionHandler mDefaultCrashHandler;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> Context mContext;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//构造方法私有，防止外部构造多个实例，即采用单例模式</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">CrashHandler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CrashHandler <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sInstance;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//这里主要完成初始化工作</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//获取系统默认的异常处理器</span></span><br><span class="line">        mDefaultCrashHandler = Thread.getDefaultUncaughtExceptionHandler();</span><br><span class="line">        <span class="comment">//将当前实例设为系统默认的异常处理器</span></span><br><span class="line">        Thread.setDefaultUncaughtExceptionHandler(<span class="keyword">this</span>);</span><br><span class="line">        <span class="comment">//获取Context，方便内部使用</span></span><br><span class="line">        mContext = context.getApplicationContext();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这个是最关键的函数，当程序中有未被捕获的异常，系统将会自动调用#uncaughtException方法</span></span><br><span class="line"><span class="comment">     * thread为出现未捕获异常的线程，ex为未捕获的异常，有了这个ex，我们就可以得到异常信息。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">uncaughtException</span><span class="params">(Thread thread, Throwable ex)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//导出异常信息到SD卡中</span></span><br><span class="line">            dumpExceptionToSDCard(ex);</span><br><span class="line">            <span class="comment">//这里可以通过网络上传异常信息到服务器，便于开发人员分析日志从而解决bug</span></span><br><span class="line">            uploadExceptionToServer();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//打印出当前调用栈信息</span></span><br><span class="line">        ex.printStackTrace();</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//如果系统提供了默认的异常处理器，则交给系统去结束我们的程序，否则就由我们自己结束自己</span></span><br><span class="line">        <span class="keyword">if</span> (mDefaultCrashHandler != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mDefaultCrashHandler.uncaughtException(thread, ex);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Process.killProcess(Process.myPid());</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dumpExceptionToSDCard</span><span class="params">(Throwable ex)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//如果SD卡不存在或无法使用，则无法把异常信息写入SD卡</span></span><br><span class="line">        <span class="keyword">if</span> (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                Log.w(TAG, <span class="string">&quot;sdcard unmounted,skip dump exception&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        File dir = <span class="keyword">new</span> File(PATH);</span><br><span class="line">        <span class="keyword">if</span> (!dir.exists()) &#123;</span><br><span class="line">            dir.mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> current = System.currentTimeMillis();</span><br><span class="line">        String time = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>).format(<span class="keyword">new</span> Date(current));</span><br><span class="line">        <span class="comment">//以当前时间创建log文件</span></span><br><span class="line">        File file = <span class="keyword">new</span> File(PATH + FILE_NAME + time + FILE_NAME_SUFFIX);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            PrintWriter pw = <span class="keyword">new</span> PrintWriter(<span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> FileWriter(file)));</span><br><span class="line">            <span class="comment">//导出发生异常的时间</span></span><br><span class="line">            pw.println(time);</span><br><span class="line"> </span><br><span class="line">            <span class="comment">//导出手机信息</span></span><br><span class="line">            dumpPhoneInfo(pw);</span><br><span class="line"> </span><br><span class="line">            pw.println();</span><br><span class="line">            <span class="comment">//导出异常的调用栈信息</span></span><br><span class="line">            ex.printStackTrace(pw);</span><br><span class="line"> </span><br><span class="line">            pw.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">&quot;dump crash info failed&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dumpPhoneInfo</span><span class="params">(PrintWriter pw)</span> <span class="keyword">throws</span> NameNotFoundException </span>&#123;</span><br><span class="line">        <span class="comment">//应用的版本名称和版本号</span></span><br><span class="line">        PackageManager pm = mContext.getPackageManager();</span><br><span class="line">        PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);</span><br><span class="line">        pw.print(<span class="string">&quot;App Version: &quot;</span>);</span><br><span class="line">        pw.print(pi.versionName);</span><br><span class="line">        pw.print(<span class="string">&#x27;_&#x27;</span>);</span><br><span class="line">        pw.println(pi.versionCode);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//android版本号</span></span><br><span class="line">        pw.print(<span class="string">&quot;OS Version: &quot;</span>);</span><br><span class="line">        pw.print(Build.VERSION.RELEASE);</span><br><span class="line">        pw.print(<span class="string">&quot;_&quot;</span>);</span><br><span class="line">        pw.println(Build.VERSION.SDK_INT);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//手机制造商</span></span><br><span class="line">        pw.print(<span class="string">&quot;Vendor: &quot;</span>);</span><br><span class="line">        pw.println(Build.MANUFACTURER);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//手机型号</span></span><br><span class="line">        pw.print(<span class="string">&quot;Model: &quot;</span>);</span><br><span class="line">        pw.println(Build.MODEL);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//cpu架构</span></span><br><span class="line">        pw.print(<span class="string">&quot;CPU ABI: &quot;</span>);</span><br><span class="line">        pw.println(Build.CPU_ABI);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//异常上传APM平台</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">uploadExceptionToServer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//TODO Upload Exception Message To Your Web Server</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestApp</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> TestApp sInstance;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        sInstance = <span class="keyword">this</span>;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//在这里为应用设置异常处理程序，然后我们的程序才能捕获未处理的异常</span></span><br><span class="line">        CrashHandler crashHandler = CrashHandler.getInstance();</span><br><span class="line">        crashHandler.init(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TestApp <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sInstance;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="那么，我们如何反混淆上传的堆栈信息？"><a href="#那么，我们如何反混淆上传的堆栈信息？" class="headerlink" title="那么，我们如何反混淆上传的堆栈信息？"></a>那么，我们如何反混淆上传的堆栈信息？</h3><p>对此，我们一般有两种可选的处理方案，如下所示：</p>
+<ul>
+<li><p>1、每次打包生成混淆APK的时候，需要把<strong>Mapping</strong>文件保存并上传到监控后台。</p>
+</li>
+<li><p>2、Android原生的反混淆的工具包是<strong>retrace.jar</strong>，在监控后台用来实时解析每个上报的崩溃时。它会将Mapping文件进行文本解析和对象实例化，这个过程比较耗时。因此可以将Mapping对象实例进行内存缓存，但为了防止内存泄露和内存过多占用，需要增加定期自动回收的逻辑。</p>
+<p><code>java -jar retrace.jar mapping_file.txt stacktrace_file.txt</code></p>
+</li>
+</ul>
+<h3 id="如何获取logcat方法？"><a href="#如何获取logcat方法？" class="headerlink" title="如何获取logcat方法？"></a>如何获取logcat方法？</h3><p>logcat日志流程是这样的，<strong>应用层 –&gt; liblog.so –&gt; logd</strong>，底层使用 <strong>ring buffer</strong> 来存储数据。获取的方式有以下三种：</p>
+<h4 id="1、通过logcat命令获取。"><a href="#1、通过logcat命令获取。" class="headerlink" title="1、通过logcat命令获取。"></a>1、通过logcat命令获取。</h4><ul>
+<li>  优点：非常简单，兼容性好。</li>
+<li>  缺点：整个链路比较长，可控性差，失败率高，特别是堆破坏或者堆内存不足时，基本会失败。</li>
+</ul>
+<h4 id="2、hook-liblog-so实现"><a href="#2、hook-liblog-so实现" class="headerlink" title="2、hook liblog.so实现"></a>2、hook liblog.so实现</h4><p>通过hook liblog.so 中的 <strong>__android_log_buf_write</strong> 方法，<strong>将内容重定向到自己的buffer中</strong>。</p>
+<ul>
+<li>  优点：简单，兼容性相对还好。</li>
+<li>  缺点：要一直打开。</li>
+</ul>
+<h4 id="3、自定义获取代码。通过移植底层获取logcat的实现，使用socket直接跟logd交互。"><a href="#3、自定义获取代码。通过移植底层获取logcat的实现，使用socket直接跟logd交互。" class="headerlink" title="3、自定义获取代码。通过移植底层获取logcat的实现，使用socket直接跟logd交互。"></a>3、自定义获取代码。通过移植底层获取logcat的实现，使用socket直接跟logd交互。</h4><ul>
+<li>  优点：比较灵活，预先分配好资源，成功率也比较高。</li>
+<li>  缺点：实现非常复杂</li>
+</ul>
+<h3 id="如何获取Java-堆栈？"><a href="#如何获取Java-堆栈？" class="headerlink" title="如何获取Java 堆栈？"></a>如何获取Java 堆栈？</h3><p>当发生native崩溃时，我们<strong>通过unwind只能拿到Native堆栈</strong>。我们<strong>希望可以拿到当时各个线程的Java堆栈</strong>。对于这个问题，目前有两种处理方式，分别如下所示：</p>
+<h4 id="1、Thread-getAllStackTraces-。"><a href="#1、Thread-getAllStackTraces-。" class="headerlink" title="1、Thread.getAllStackTraces()。"></a>1、Thread.getAllStackTraces()。</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><p>简单，兼容性好。</p>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>  成功率不高，依靠系统接口在极端情况也会失败。</li>
+<li>  7.0之后这个接口是没有主线程堆栈。</li>
+<li>  使用Java层的接口需要暂停线程。</li>
+</ul>
+<h4 id="2、hook-libart-so。"><a href="#2、hook-libart-so。" class="headerlink" title="2、hook libart.so。"></a>2、hook libart.so。</h4><p>通过hook <strong>ThreadList和Thread</strong> 的函数，<strong>获得跟ANR一样的堆栈</strong>。为了稳定性，<strong>需要在fork的子进程中执行</strong>。</p>
+<ul>
+<li>  优点：信息很全，基本跟ANR的日志一样，有native线程状态，锁信息等等。</li>
+<li>  缺点：黑科技的兼容性问题，失败时我们可以使用Thread.getAllStackTraces()兜底。</li>
+</ul>
+<h2 id="4、Java-Crash处理流程"><a href="#4、Java-Crash处理流程" class="headerlink" title="4、Java Crash处理流程"></a>4、Java Crash处理流程</h2><p>讲解了Java Crash相关的知识后，我们就可以去了解下Java Crash的处理流程，这里借用Gityuan流程图进行讲解，如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-b3efe34fd06b0557.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="1、首先发生crash到所在进程，在创建之初便准备好了defaultUncaughtHandler，用来处理Uncaught-Exception，并输出当前crash基本信息；"><a href="#1、首先发生crash到所在进程，在创建之初便准备好了defaultUncaughtHandler，用来处理Uncaught-Exception，并输出当前crash基本信息；" class="headerlink" title="1、首先发生crash到所在进程，在创建之初便准备好了defaultUncaughtHandler，用来处理Uncaught Exception，并输出当前crash基本信息；"></a>1、首先发生crash到所在进程，在创建之初便准备好了defaultUncaughtHandler，用来处理Uncaught Exception，并输出当前crash基本信息；</h4><h4 id="2、调用当前进程中的AMP-handleApplicationCrash；经过binder-ipc机制，传递到system-server进程；"><a href="#2、调用当前进程中的AMP-handleApplicationCrash；经过binder-ipc机制，传递到system-server进程；" class="headerlink" title="2、调用当前进程中的AMP.handleApplicationCrash；经过binder ipc机制，传递到system_server进程；"></a>2、调用当前进程中的AMP.handleApplicationCrash；经过binder ipc机制，传递到system_server进程；</h4><h4 id="3、接下来，进入system-server进程，调用binder服务端执行AMS-handleApplicationCrash；"><a href="#3、接下来，进入system-server进程，调用binder服务端执行AMS-handleApplicationCrash；" class="headerlink" title="3、接下来，进入system_server进程，调用binder服务端执行AMS.handleApplicationCrash；"></a>3、接下来，进入system_server进程，调用binder服务端执行AMS.handleApplicationCrash；</h4><h4 id="4、从mProcessNames查找到目标进程的ProcessRecord对象；并将进程crash信息输出到目录-data-system-dropbox；"><a href="#4、从mProcessNames查找到目标进程的ProcessRecord对象；并将进程crash信息输出到目录-data-system-dropbox；" class="headerlink" title="4、从mProcessNames查找到目标进程的ProcessRecord对象；并将进程crash信息输出到目录/data/system/dropbox；"></a>4、从mProcessNames查找到目标进程的ProcessRecord对象；并将进程crash信息输出到目录/data/system/dropbox；</h4><h4 id="5、执行makeAppCrashingLocked："><a href="#5、执行makeAppCrashingLocked：" class="headerlink" title="5、执行makeAppCrashingLocked："></a>5、执行makeAppCrashingLocked：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private boolean makeAppCrashingLocked(ProcessRecord app,</span><br><span class="line">        String shortMsg, String longMsg, String stackTrace) &#123;</span><br><span class="line">    app.crashing &#x3D; true;</span><br><span class="line">	&#x2F;&#x2F; 注释1 封装crash信息到crashingReport对象中</span><br><span class="line">    app.crashingReport &#x3D; generateProcessError(app,</span><br><span class="line">            ActivityManager.ProcessErrorStateInfo.CRASHED, null, shortMsg, longMsg, stackTrace);</span><br><span class="line">	&#x2F;&#x2F; 注释2 获取当前用户下crash应用的error receiver和忽略当前app的广播接收者</span><br><span class="line">    startAppProblemLocked(app);</span><br><span class="line">	&#x2F;&#x2F; 注释3 停止屏幕冻结,当前进程中所有activity中的WMS的冻结屏幕消息，并执行相关一些屏幕相关操作；</span><br><span class="line">    app.stopFreezingAllLocked();</span><br><span class="line">	&#x2F;&#x2F; 注释4 继续处理crash流程</span><br><span class="line">    return handleAppCrashLocked(app, &quot;force-crash&quot; &#x2F;*reason*&#x2F;, shortMsg, longMsg, stackTrace);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="6、再执行handleAppCrashLocked方法："><a href="#6、再执行handleAppCrashLocked方法：" class="headerlink" title="6、再执行handleAppCrashLocked方法："></a>6、再执行handleAppCrashLocked方法：</h4><ul>
+<li>  当1分钟内同一进程连续crash两次时，且非persistent进程，则直接结束该应用所有activity，并杀死该进程以及同一个进程组下的所有进程。然后再恢复栈顶第一个非finishing状态的activity;</li>
+<li>  当1分钟内同一进程连续crash两次时，且persistent进程，，则只执行恢复栈顶第一个非finishing状态的activity;</li>
+<li>  当1分钟内同一进程未发生连续crash两次时，则执行结束栈顶正在运行activity的流程。</li>
+</ul>
+<h4 id="7、通过mUiHandler发送消息SHOW-ERROR-MSG，弹出crash对话框；"><a href="#7、通过mUiHandler发送消息SHOW-ERROR-MSG，弹出crash对话框；" class="headerlink" title="7、通过mUiHandler发送消息SHOW_ERROR_MSG，弹出crash对话框；"></a>7、通过mUiHandler发送消息SHOW_ERROR_MSG，弹出crash对话框；</h4><h4 id="8、到此，system-server进程执行完成。回到crash进程开始执行杀掉当前进程的操作；"><a href="#8、到此，system-server进程执行完成。回到crash进程开始执行杀掉当前进程的操作；" class="headerlink" title="8、到此，system_server进程执行完成。回到crash进程开始执行杀掉当前进程的操作；"></a>8、到此，system_server进程执行完成。回到crash进程开始执行杀掉当前进程的操作；</h4><h4 id="9、当crash进程被杀，通过binder死亡通知，告知system-server进程来执行appDiedLocked-；"><a href="#9、当crash进程被杀，通过binder死亡通知，告知system-server进程来执行appDiedLocked-；" class="headerlink" title="9、当crash进程被杀，通过binder死亡通知，告知system_server进程来执行appDiedLocked()；"></a>9、当crash进程被杀，通过binder死亡通知，告知system_server进程来执行appDiedLocked()；</h4><h4 id="10、最后，执行清理应用相关的activity-service-ContentProvider-receiver组件信息。"><a href="#10、最后，执行清理应用相关的activity-service-ContentProvider-receiver组件信息。" class="headerlink" title="10、最后，执行清理应用相关的activity/service/ContentProvider/receiver组件信息。"></a>10、最后，执行清理应用相关的activity/service/ContentProvider/receiver组件信息。</h4><h4 id="补充加油站：binder对象死亡通知原理"><a href="#补充加油站：binder对象死亡通知原理" class="headerlink" title="补充加油站：binder对象死亡通知原理"></a>补充加油站：binder对象死亡通知原理</h4><p>这里我们还需要了解下binder 对象死亡通知的原理，其流程图如下所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-45d751162dc87716.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>由于Crash进程中拥有一个Binder服务端ApplicationThread，而应用进程在创建过程调用attachApplicationLocked()，从而attach到system_server进程，在system_server进程内有一个ApplicationThreadProxy，这是相对应的Binder客户端。当Binder服务端ApplicationThread所在进程(即Crash进程)挂掉后，则Binder客户端能收到相应的死亡通知，从而进入binderDied流程。</p>
+<h2 id="5、Native-Crash"><a href="#5、Native-Crash" class="headerlink" title="5、Native Crash"></a>5、Native Crash</h2><p>特点:</p>
+<ul>
+<li>  访问非法地址</li>
+<li>  地址对齐出错</li>
+<li>  发送程序主动abort</li>
+</ul>
+<p>上述都会产生相应的signal信号，导致程序异常退出。</p>
+<h3 id="1、合格的异常捕获组件"><a href="#1、合格的异常捕获组件" class="headerlink" title="1、合格的异常捕获组件"></a>1、合格的异常捕获组件</h3><p>一个合格的异常捕获组件需要包含以下功能：</p>
+<ul>
+<li>  支持在crash时进行更多扩张操作</li>
+<li>  打印logcat和日志</li>
+<li>  上报crash次数</li>
+<li>  对不同crash做不同恢复措施</li>
+<li>  可以针对业务不断改进的适应</li>
+</ul>
+<h3 id="2、现有方案"><a href="#2、现有方案" class="headerlink" title="2、现有方案"></a>2、现有方案</h3><h5 id="1、Google-Breakpad"><a href="#1、Google-Breakpad" class="headerlink" title="1、Google Breakpad"></a>1、Google Breakpad</h5><ul>
+<li>  优点：权威、跨平台</li>
+<li>  缺点：代码体量较大</li>
+</ul>
+<h5 id="2、Logcat"><a href="#2、Logcat" class="headerlink" title="2、Logcat"></a>2、Logcat</h5><ul>
+<li>  优点：利用安卓系统实现</li>
+<li>  缺点：需要在crash时启动新进程过滤logcat日志，不可靠</li>
+</ul>
+<h5 id="3、coffeecatch"><a href="#3、coffeecatch" class="headerlink" title="3、coffeecatch"></a>3、coffeecatch</h5><ul>
+<li>  优点：实现简洁、改动容易</li>
+<li>  缺点：有兼容性问题</li>
+</ul>
+<h3 id="3、Native崩溃捕获流程"><a href="#3、Native崩溃捕获流程" class="headerlink" title="3、Native崩溃捕获流程"></a>3、Native崩溃捕获流程</h3><p>Native崩溃捕获的过程涉及到三端，这里我们分别来了解下其对应的处理。</p>
+<h5 id="1、编译端"><a href="#1、编译端" class="headerlink" title="1、编译端"></a>1、编译端</h5><p>编译C/C++需将带符号信息的文件保留下来。</p>
+<h5 id="2、客户端"><a href="#2、客户端" class="headerlink" title="2、客户端"></a>2、客户端</h5><p>捕获到崩溃时，将收集到尽可能多的有用信息写入日志文件，然后选择合适的时机上传到服务器。</p>
+<h5 id="3、服务端"><a href="#3、服务端" class="headerlink" title="3、服务端"></a>3、服务端</h5><p>读取客户端上报的日志文件，寻找合适的符号文件，生成可读的C/C++调用栈。</p>
+<h3 id="4、Native崩溃捕获的难点"><a href="#4、Native崩溃捕获的难点" class="headerlink" title="4、Native崩溃捕获的难点"></a>4、Native崩溃捕获的难点</h3><p>核心：如何确保客户端在各种极端情况下依然可以生成崩溃日志。</p>
+<h5 id="1、文件句柄泄漏，导致创建日志文件失败？"><a href="#1、文件句柄泄漏，导致创建日志文件失败？" class="headerlink" title="1、文件句柄泄漏，导致创建日志文件失败？"></a>1、文件句柄泄漏，导致创建日志文件失败？</h5><p>提前申请文件句柄fd预留。</p>
+<h5 id="2、栈溢出导致日志生成失败？"><a href="#2、栈溢出导致日志生成失败？" class="headerlink" title="2、栈溢出导致日志生成失败？"></a>2、栈溢出导致日志生成失败？</h5><ul>
+<li>  使用额外的栈空间signalstack，避免栈溢出导致进程没有空间创建调用栈执行处理函数。（signalstack：系统会在危险情况下把栈指针指向这个地方，使得可以在一个新的栈上运行信号处理函数）</li>
+<li>  特殊请求需直接替换当前栈，所以应在堆中预留部分空间。</li>
+</ul>
+<h5 id="3、堆内存耗尽导致日志生产失败？"><a href="#3、堆内存耗尽导致日志生产失败？" class="headerlink" title="3、堆内存耗尽导致日志生产失败？"></a>3、堆内存耗尽导致日志生产失败？</h5><p>参考Breakpad重新封装Linux Syscall Support的做法以避免直接调用libc去分配堆内存。</p>
+<h5 id="4、堆破坏或二次崩溃导致日志生成失败？"><a href="#4、堆破坏或二次崩溃导致日志生成失败？" class="headerlink" title="4、堆破坏或二次崩溃导致日志生成失败？"></a>4、堆破坏或二次崩溃导致日志生成失败？</h5><p>Breakpad使用了fork子进程甚至孙进程的方式去收集崩溃现场，即便出现二次崩溃，也只是这部分信息丢失。</p>
+<p>这里说下Breakpad缺点：</p>
+<ul>
+<li>  生成的minidump文件时二进制的，包含过多不重要的信息，导致文件数MB。但minidump可以使用gdb调试、看到传入参数。</li>
+</ul>
+<p>需要了解的是，未来Chromium会使用Crashpad替代Breakpad。</p>
+<h5 id="5、想要遵循Android的文本格式并添加更多重要的信息？"><a href="#5、想要遵循Android的文本格式并添加更多重要的信息？" class="headerlink" title="5、想要遵循Android的文本格式并添加更多重要的信息？"></a>5、想要遵循Android的文本格式并添加更多重要的信息？</h5><p>改造Breakpad，增加Logcat信息，Java调用栈信息、其它有用信息。</p>
+<h3 id="5、Native崩溃捕获注册"><a href="#5、Native崩溃捕获注册" class="headerlink" title="5、Native崩溃捕获注册"></a>5、Native崩溃捕获注册</h3><p>一个Native Crash log信息如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-08b2635c937afbff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>堆栈信息中 pc 后面跟的内存地址，就是当前函数的栈地址，我们可以通过下面的命令行得出出错的代码行数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arm-linux-androideabi-addr2line -e 内存地址</span><br></pre></td></tr></table></figure>
+
+<p>下面列出全部的信号量以及所代表的含义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGHUP 1  <span class="comment">// 终端连接结束时发出(不管正常或非正常)</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGINT 2  <span class="comment">// 程序终止(例如Ctrl-C)</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGQUIT 3 <span class="comment">// 程序退出(Ctrl-\)</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGILL 4 <span class="comment">// 执行了非法指令，或者试图执行数据段，堆栈溢出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTRAP 5 <span class="comment">// 断点时产生，由debugger使用</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGABRT 6 <span class="comment">// 调用abort函数生成的信号，表示程序异常</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGIOT 6 <span class="comment">// 同上，更全，IO异常也会发出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGBUS 7 <span class="comment">// 非法地址，包括内存地址对齐出错，比如访问一个4字节的整数, 但其地址不是4的倍数</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGFPE 8 <span class="comment">// 计算错误，比如除0、溢出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGKILL 9 <span class="comment">// 强制结束程序，具有最高优先级，本信号不能被阻塞、处理和忽略</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGUSR1 10 <span class="comment">// 未使用，保留</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGSEGV 11 <span class="comment">// 非法内存操作，与 SIGBUS不同，他是对合法地址的非法访问，    比如访问没有读权限的内存，向没有写权限的地址写数据</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGUSR2 12 <span class="comment">// 未使用，保留</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGPIPE 13 <span class="comment">// 管道破裂，通常在进程间通信产生</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGALRM 14 <span class="comment">// 定时信号,</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTERM 15 <span class="comment">// 结束程序，类似温和的 SIGKILL，可被阻塞和处理。通常程序如    果终止不了，才会尝试SIGKILL</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGSTKFLT 16  <span class="comment">// 协处理器堆栈错误</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGCHLD 17 <span class="comment">// 子进程结束时, 父进程会收到这个信号。</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGCONT 18 <span class="comment">// 让一个停止的进程继续执行</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGSTOP 19 <span class="comment">// 停止进程,本信号不能被阻塞,处理或忽略</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTSTP 20 <span class="comment">// 停止进程,但该信号可以被处理和忽略</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTTIN 21 <span class="comment">// 当后台作业要从用户终端读数据时, 该作业中的所有进程会收到SIGTTIN信号</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTTOU 22 <span class="comment">// 类似于SIGTTIN, 但在写终端时收到</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGURG 23 <span class="comment">// 有紧急数据或out-of-band数据到达socket时产生</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGXCPU 24 <span class="comment">// 超过CPU时间资源限制时发出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGXFSZ 25 <span class="comment">// 当进程企图扩大文件以至于超过文件大小资源限制</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGVTALRM 26 <span class="comment">// 虚拟时钟信号. 类似于SIGALRM,     但是计算的是该进程占用的CPU时间.</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGPROF 27 <span class="comment">// 类似于SIGALRM/SIGVTALRM, 但包括该进程用的CPU时间以及系统调用的时间</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGWINCH 28 <span class="comment">// 窗口大小改变时发出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGIO 29 <span class="comment">// 文件描述符准备就绪, 可以开始进行输入/输出操作</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGPOLL SIGIO <span class="comment">// 同上，别称</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGPWR 30 <span class="comment">// 电源异常</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGSYS 31 <span class="comment">// 非法的系统调用</span></span></span><br></pre></td></tr></table></figure>
+
+<p>一般关注SIGILL, SIGABRT, SIGBUS, SIGFPE, SIGSEGV, SIGSTKFLT, SIGSYS即可。</p>
+<p>要订阅异常发生的信号，最简单的做法就是直接用一个循环遍历所有要订阅的信号，对每个信号调用sigaction()。</p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>  JNI_OnLoad是最适合安装信号初识函数的地方。</li>
+<li>  建议在上报时调用Java层的方法统一上报。Native崩溃捕获注册。</li>
+</ul>
+<h3 id="6、崩溃分析流程"><a href="#6、崩溃分析流程" class="headerlink" title="6、崩溃分析流程"></a>6、崩溃分析流程</h3><p>首先，应收集崩溃现场的一些相关信息，如下：</p>
+<h5 id="1、崩溃信息"><a href="#1、崩溃信息" class="headerlink" title="1、崩溃信息"></a>1、崩溃信息</h5><ul>
+<li>  进程名、线程名</li>
+<li>  崩溃堆栈和类型</li>
+<li>  有时候也需要知道主线程的调用栈</li>
+</ul>
+<h5 id="2、系统信息"><a href="#2、系统信息" class="headerlink" title="2、系统信息"></a>2、系统信息</h5><ul>
+<li><p>系统运行日志</p>
+<p>  /system/etc/event-log-tags</p>
+</li>
+<li><p>  机型、系统、厂商、CPU、ABI、Linux版本等</p>
+</li>
+</ul>
+<p>注意，我们可以去寻找共性问题，如下：</p>
+<ul>
+<li>  设备状态</li>
+<li>  是否root</li>
+<li>  是否是模拟器</li>
+</ul>
+<h5 id="3、内存信息"><a href="#3、内存信息" class="headerlink" title="3、内存信息"></a>3、内存信息</h5><h6 id="系统剩余内存"><a href="#系统剩余内存" class="headerlink" title="系统剩余内存"></a>系统剩余内存</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;proc&#x2F;meminfo</span><br></pre></td></tr></table></figure>
+
+<p>当系统可用内存小于MemTotal的10%时，OOM、大量GC、系统频繁自杀拉起等问题非常容易出现。</p>
+<h6 id="应用使用内存"><a href="#应用使用内存" class="headerlink" title="应用使用内存"></a>应用使用内存</h6><p>包括Java内存、RSS、PSS</p>
+<p>PSS和RSS通过/proc/self/smap计算，可以得到apk、dex、so等更详细的分类统计。</p>
+<h6 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h6><p>获取大小：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;proc&#x2F;self&#x2F;status</span><br></pre></td></tr></table></figure>
+
+<p>获取其具体的分布情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;proc&#x2F;self&#x2F;maps</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，<strong>对于32位进程，32位CPU，虚拟内存达到3GB就可能会引起内存失败的问题</strong>。如果是64位的CPU，虚拟内存一般在3~4GB。如果支持64位进程，虚拟内存就不会成为问题。</p>
+<h5 id="4、资源信息"><a href="#4、资源信息" class="headerlink" title="4、资源信息"></a>4、资源信息</h5><p>如果应用堆内存和设备内存比较充足，但还出现内存分配失败，则可能跟资源泄漏有关。</p>
+<h6 id="文件句柄fd"><a href="#文件句柄fd" class="headerlink" title="文件句柄fd"></a>文件句柄fd</h6><p>获取fd的限制数量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;proc&#x2F;self&#x2F;limits</span><br></pre></td></tr></table></figure>
+
+<p>一般<strong>单个进程允许打开的最大句柄个数为1024</strong>，如果<strong>超过800需将所有fd和文件名输出日志进行排查</strong>。</p>
+<h6 id="线程数"><a href="#线程数" class="headerlink" title="线程数"></a>线程数</h6><p>获取线程数大小：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;proc&#x2F;self&#x2F;status</span><br></pre></td></tr></table></figure>
+
+<p>一个线程一般占2MB的虚拟内存，线程数超过400个比较危险，需要将所有tid和线程名输出到日志进行排查。</p>
+<h6 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h6><p>容易出现引用失效、引用爆表等崩溃。</p>
+<p>通过DumpReferenceTables统计JNI的引用表，进一步分析是否出现JNI泄漏等问题。</p>
+<p><strong>补充加油站：dumpReferenceTables的出处</strong></p>
+<p>在dalvik.system.VMDebug类中，是一个native方法，亦是static方法；在JNI中可以这么调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jclass vm_class &#x3D; env-&gt;FindClass(&quot;dalvik&#x2F;system&#x2F;VMDebug&quot;);</span><br><span class="line">jmethodID dump_mid &#x3D; env-&gt;GetStaticMethodID( vm_class, &quot;dumpReferenceTables&quot;, &quot;()V&quot; );</span><br><span class="line">env-&gt;CallStaticVoidMethod( vm_class, dump_mid );</span><br></pre></td></tr></table></figure>
+
+<h5 id="5、应用信息"><a href="#5、应用信息" class="headerlink" title="5、应用信息"></a>5、应用信息</h5><ul>
+<li>  崩溃场景</li>
+<li>  关键操作路径</li>
+<li>  其它跟自身应用相关的自定义信息：运行时间、是否加载补丁、是否全新安装或升级。</li>
+</ul>
+<h5 id="6、崩溃分析流程-1"><a href="#6、崩溃分析流程-1" class="headerlink" title="6、崩溃分析流程"></a>6、崩溃分析流程</h5><p>接下来进行崩溃分析：</p>
+<h6 id="1、确定重点"><a href="#1、确定重点" class="headerlink" title="1、确定重点"></a>1、确定重点</h6><ul>
+<li>  确认严重程度</li>
+<li>  优先解决Top崩溃或对业务有重大影响的崩溃：如启动、支付过程的崩溃</li>
+<li>  Java崩溃：如果是OOM，需进一步查看日志中的内存信息和资源信息</li>
+<li>  Native崩溃：查看signal、code、fault addr以及崩溃时的Java堆栈</li>
+</ul>
+<p>常见的崩溃类型有：</p>
+<ul>
+<li>  SIGSEGV：空指针、非法指针等</li>
+<li>  SIGABRT：ANR、调用abort推出等</li>
+</ul>
+<p>如果是ANR，先看主线程堆栈、是否因为锁等待导致，然后看ANR日志中的iowait、CPU、GC、systemserver等信息，确定是I/O问题或CPU竞争问题还是大量GC导致的ANR。</p>
+<p>注意，当从一条崩溃日志中无法看出问题原因时，需要查看相同崩溃点下的更多崩溃日志，或者也可以查看内存信息、资源信息等进行异常排查。</p>
+<h6 id="2、查找共性"><a href="#2、查找共性" class="headerlink" title="2、查找共性"></a>2、查找共性</h6><p>机型、系统、ROM、厂商、ABI这些信息都可以作为共性参考，对于下一步复现问题有明确指引。</p>
+<h6 id="3、尝试复现"><a href="#3、尝试复现" class="headerlink" title="3、尝试复现"></a>3、尝试复现</h6><p>复现之后再增加日志或使用Debugger、GDB进行调试。如不能复现，可以采用一些高级手段，如xlog日志、远程诊断、动态分析等等。</p>
+<p>补充加油站：系统崩溃解决方式</p>
+<ul>
+<li>  1、通过共性信息查找可能的原因</li>
+<li>  2、尝试使用其它使用方式规避</li>
+<li>  3、Hook解决</li>
+</ul>
+<h3 id="7、实战：使用Breakpad捕获native崩溃"><a href="#7、实战：使用Breakpad捕获native崩溃" class="headerlink" title="7、实战：使用Breakpad捕获native崩溃"></a>7、实战：使用Breakpad捕获native崩溃</h3><p>首先，这里给出《Android开发高手课》张绍文老师写的<a target="_blank" rel="noopener" href="https://github.com/AndroidAdvanceWithGeektime/Chapter01">crash捕获示例工程</a>，工程里面已经集成了Breakpad 来获取发生 native crash 时候的系统信息和线程堆栈信息。下面来详细介绍下使用Breakpad来分析native崩溃的流程：</p>
+<h4 id="1、示例工程是采用cmake的构建方式，所以需要先到Android-Studio中SDK-Manager中的SDK-Tools下下载NDK和cmake。"><a href="#1、示例工程是采用cmake的构建方式，所以需要先到Android-Studio中SDK-Manager中的SDK-Tools下下载NDK和cmake。" class="headerlink" title="1、示例工程是采用cmake的构建方式，所以需要先到Android Studio中SDK Manager中的SDK Tools下下载NDK和cmake。"></a>1、示例工程是采用cmake的构建方式，所以需要先到Android Studio中SDK Manager中的SDK Tools下下载NDK和cmake。</h4><h4 id="2、安装实例工程后，点击CRASH按钮产生一个native崩溃。生成的-crash信息，如果授予Sdcard权限会优先存放在-sdcard-crashDump下，便于我们做进一步的分析。反之会放到目录-data-data-com-dodola-breakpad-files-crashDump中。"><a href="#2、安装实例工程后，点击CRASH按钮产生一个native崩溃。生成的-crash信息，如果授予Sdcard权限会优先存放在-sdcard-crashDump下，便于我们做进一步的分析。反之会放到目录-data-data-com-dodola-breakpad-files-crashDump中。" class="headerlink" title="2、安装实例工程后，点击CRASH按钮产生一个native崩溃。生成的 crash信息，如果授予Sdcard权限会优先存放在/sdcard/crashDump下，便于我们做进一步的分析。反之会放到目录 /data/data/com.dodola.breakpad/files/crashDump中。"></a>2、安装实例工程后，点击CRASH按钮产生一个native崩溃。生成的 crash信息，如果授予Sdcard权限会优先存放在/sdcard/crashDump下，便于我们做进一步的分析。反之会放到目录 /data/data/com.dodola.breakpad/files/crashDump中。</h4><h4 id="3、使用adb-pull命令将抓取到的crash日志文件放到电脑本地目录中："><a href="#3、使用adb-pull命令将抓取到的crash日志文件放到电脑本地目录中：" class="headerlink" title="3、使用adb pull命令将抓取到的crash日志文件放到电脑本地目录中："></a>3、使用adb pull命令将抓取到的crash日志文件放到电脑本地目录中：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb pull &#x2F;sdcard&#x2F;crashDump&#x2F;***.dmp &gt; ~&#x2F;Documents&#x2F;crash_log.dmp</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、下载并编译Breakpad源码，在src-processor目录下找到minidump-stackwalk，使用这个工具将dmp文件转换为txt文件："><a href="#4、下载并编译Breakpad源码，在src-processor目录下找到minidump-stackwalk，使用这个工具将dmp文件转换为txt文件：" class="headerlink" title="4、下载并编译Breakpad源码，在src/processor目录下找到minidump_stackwalk，使用这个工具将dmp文件转换为txt文件："></a>4、下载并编译Breakpad源码，在src/processor目录下找到minidump_stackwalk，使用这个工具将dmp文件转换为txt文件：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在项目目录下clone Breakpad仓库</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;google&#x2F;breakpad.git</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 切换到Breakpad根目录进行配置、编译</span><br><span class="line">cd breakpad</span><br><span class="line">.&#x2F;configure &amp;&amp; make</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 使用src&#x2F;processor目录下的minidump_stackwalk工具将dmp文件转换为txt文件</span><br><span class="line">.&#x2F;src&#x2F;processor&#x2F;minidump_stackwalk ~&#x2F;Documents&#x2F;crashDump&#x2F;crash_log.dmp &gt;crash_log.txt </span><br></pre></td></tr></table></figure>
+
+<h4 id="5、打开crash-log-txt，可以得到如下内容："><a href="#5、打开crash-log-txt，可以得到如下内容：" class="headerlink" title="5、打开crash_log.txt，可以得到如下内容："></a>5、打开crash_log.txt，可以得到如下内容：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Operating system: Android</span><br><span class="line">                  0.0.0 Linux 4.4.78-perf-g539ee70 #1 SMP PREEMPT Mon Jan 14 17:08:14 CST 2019 aarch64</span><br><span class="line">CPU: arm64</span><br><span class="line">     8 CPUs</span><br><span class="line"></span><br><span class="line">GPU: UNKNOWN</span><br><span class="line"></span><br><span class="line">Crash reason:  SIGSEGV &#x2F;SEGV_MAPERR</span><br><span class="line">Crash address: 0x0</span><br><span class="line">Process uptime: not available</span><br><span class="line"></span><br><span class="line">Thread 0 (crashed)</span><br><span class="line"> 0  libcrash-lib.so + 0x650</span><br></pre></td></tr></table></figure>
+
+<p>其中我们需要的关键信息为CPU是arm64的，并且crash的地址为0x650。接下来我们需要将这个地址转换为代码中对应的行。</p>
+<h4 id="6、使用ndk-中提供的addr2line来根据地址进行一个符号反解的过程。"><a href="#6、使用ndk-中提供的addr2line来根据地址进行一个符号反解的过程。" class="headerlink" title="6、使用ndk 中提供的addr2line来根据地址进行一个符号反解的过程。"></a>6、使用ndk 中提供的addr2line来根据地址进行一个符号反解的过程。</h4><p>如果是arm64的so使用 $NDKHOME/toolchains/aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin/aarch64-linux-android-addr2line。</p>
+<p>如果是arm的so使用 $NDKHOME/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-addr2line。</p>
+<p>由crash_log.txt的信息可知，我们机器的cpu架构是arm64的，因此需要使用aarch64-linux-android-addr2line这个命令行工具。该命令的一般使用格式如下： // 注意：在mac下 ./ 代表执行文件 ./aarch64-linux-android-addr2line -e 对应的.so 需要解析的地址</p>
+<p>上述中对应的.so文件在项目编译之后，会出现在Chapter01-master/sample/build/intermediates/merged_native_libs/debug/out/lib/arm64-v8a/libcrash-lib.so这个位置，由于我的手机CPU架构是arm64的，所以这里选择的是arm64-v8a中的libcrash-lib.so。接下来我们使用aarch64-linux-android-addr2line这个命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;aarch64-linux-android-addr2line -f -C -e ~&#x2F;Documents&#x2F;open-project&#x2F;Chapter01-master&#x2F;sample&#x2F;build&#x2F;intermediates&#x2F;merged_native_libs&#x2F;debug&#x2F;out&#x2F;lib&#x2F;arm64-v8a&#x2F;libcrash-lib.so 0x650</span><br><span class="line"></span><br><span class="line">参数含义：</span><br><span class="line">-e --exe&#x3D;&lt;executable&gt;：指定需要转换地址的可执行文件名。</span><br><span class="line">-f --functions：在显示文件名、行号输出信息的同时显示函数名信息。</span><br><span class="line">-C --demangle[&#x3D;style]：将低级别的符号名解码为用户级别的名字。</span><br></pre></td></tr></table></figure>
+
+<p>结果输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Crash()</span><br><span class="line">&#x2F;Users&#x2F;quchao&#x2F;Documents&#x2F;open-project&#x2F;Chapter01-master&#x2F;sample&#x2F;src&#x2F;main&#x2F;cpp&#x2F;crash.cpp:10</span><br></pre></td></tr></table></figure>
+
+<p>由此，我们得出crash的代码行为crahs.cpp文件中的第10行，接下来根据项目具体情况进行相应的修改即可。</p>
+<p>Tips：这是从事NDK开发（音视频、图像处理、OpenCv、热修复框架开发）同学调试native层错误时经常要使用的技巧，强烈建议熟练掌握。</p>
+<h2 id="6、疑难Crash解决方案"><a href="#6、疑难Crash解决方案" class="headerlink" title="6、疑难Crash解决方案"></a>6、疑难Crash解决方案</h2><p>最后，笔者这里再讲解下一些疑难Crash的解决方案。</p>
+<h3 id="问题1：如何解决Android-7-0-Toast-BadTokenException？"><a href="#问题1：如何解决Android-7-0-Toast-BadTokenException？" class="headerlink" title="问题1：如何解决Android 7.0 Toast BadTokenException？"></a>问题1：如何解决Android 7.0 Toast BadTokenException？</h3><p>参考Android 8.0 try catch的做法，代理Toast里的mTN（handler）就可以实现捕获异常。</p>
+<h3 id="问题2：如何解决-SharedPreference-apply-引起的-ANR-问题"><a href="#问题2：如何解决-SharedPreference-apply-引起的-ANR-问题" class="headerlink" title="问题2：如何解决 SharedPreference apply 引起的 ANR 问题"></a>问题2：如何解决 SharedPreference apply 引起的 ANR 问题</h3><h4 id="apply为什么会引起ANR？"><a href="#apply为什么会引起ANR？" class="headerlink" title="apply为什么会引起ANR？"></a>apply为什么会引起ANR？</h4><p>SP 调用 apply 方法，会创建一个等待锁放到 QueuedWork 中，并将真正数据持久化封装成一个任务放到异步队列中执行，任务执行结束会释放锁。Activity onStop 以及 Service 处理 onStop，onStartCommand 时，<strong>执行 QueuedWork.waitToFinish() 等待所有的等待锁释放</strong>。</p>
+<h4 id="如何解决？"><a href="#如何解决？" class="headerlink" title="如何解决？"></a>如何解决？</h4><p>所有此类 ANR 都是经由 QueuedWork.waitToFinish() 触发的，只要在调用此函数之前，将其中保存的队列手动清空即可。</p>
+<p>具体是Hook ActivityThrad的Handler变量，拿到此变量后给其设置一个Callback，Handler 的 dispatchMessage 中会先处理 callback。最后在 Callback 中调用队列的清理工作，注意队列清理需要反射调用 QueuedWork。</p>
+<h4 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h4><p>apply 机制本身的失败率就比较高（1.8%左右），清理等待锁队列对持久化造成的影响不大。</p>
+<h3 id="问题3：如何解决TimeoutExceptin异常？"><a href="#问题3：如何解决TimeoutExceptin异常？" class="headerlink" title="问题3：如何解决TimeoutExceptin异常？"></a>问题3：如何解决TimeoutExceptin异常？</h3><p>它是由系统的FinalizerWatchdogDaemon抛出来的。</p>
+<p>这里首先介绍下看门狗 WatchDog，它的作用是监控重要服务的运行状态，当重要服务停止时，发生 Timeout 异常崩溃，WatchDog 负责将应用重启。而<strong>当关闭 WatchDog（执行stop()方法）后，当重要服务停止时，也不会发生 Timeout 异常</strong>，是一种通过非正常手段防止异常发生的方法。</p>
+<h4 id="规避方案"><a href="#规避方案" class="headerlink" title="规避方案"></a>规避方案</h4><p>stop方法，在Android 6.0之前会有线程同步问题。 因为6.0之前调用threadToStop的interrupt方法是没有加锁的，所以可能会有线程同步的问题。</p>
+<p>注意：Stop的时候有一定概率导致即使没有超时也会报timeoutexception。</p>
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><p>只是为了避免上报异常采取的一种hack方案，并没有真正解决引起finialize超时的问题。</p>
+<h3 id="问题4：如何解决输入法的内存泄漏？"><a href="#问题4：如何解决输入法的内存泄漏？" class="headerlink" title="问题4：如何解决输入法的内存泄漏？"></a>问题4：如何解决输入法的内存泄漏？</h3><p>通过反射将输入法的两个View置空。</p>
+<h2 id="7、进程保活"><a href="#7、进程保活" class="headerlink" title="7、进程保活"></a>7、进程保活</h2><p>我们可以<strong>利用SyncAdapter提高进程优先级</strong>，它是Android系统提供一个<strong>账号同步机制</strong>，它属于<strong>核心进程级别</strong>，而使用了SyncAdapter的进程优先级本身也会提高，使用方式请Google，关联SyncAdapter后，进程的<strong>优先级变为1</strong>，仅低于前台正在运行的进程，因此可以<strong>降低应用被系统杀掉的概率</strong>。</p>
+<h2 id="8、总结"><a href="#8、总结" class="headerlink" title="8、总结"></a>8、总结</h2><p>对于App的Crash优化，总的来说，我们需要考虑以下四个要点：</p>
+<ul>
+<li>  1、重在预防：重视应用的整个流程、包括开发人员的培训、编译检查、静态扫描、规范的测试、灰度、发布流程等</li>
+<li>  2、不应该随意使用try catch去隐藏问题：而应该从源头入手，了解崩溃的本质原因，保证后面的运行流程。</li>
+<li>  3、解决崩溃的过程应该由点到面，考虑一类崩溃怎么解决。</li>
+<li>  4、崩溃与内存、卡顿、I/O内存紧密相关</li>
+</ul>
+<h1 id="三、ANR优化"><a href="#三、ANR优化" class="headerlink" title="三、ANR优化"></a>三、ANR优化</h1><h2 id="1、ANR监控实现方式"><a href="#1、ANR监控实现方式" class="headerlink" title="1、ANR监控实现方式"></a>1、ANR监控实现方式</h2><h3 id="1、使用FileObserver监听-data-anr-traces-txt的变化"><a href="#1、使用FileObserver监听-data-anr-traces-txt的变化" class="headerlink" title="1、使用FileObserver监听 /data/anr/traces.txt的变化"></a>1、使用FileObserver监听 /data/anr/traces.txt的变化</h3><h4 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h4><p>高版本ROM需要root权限。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>海外Google Play服务、国内Hardcoder。</p>
+<h3 id="2、监控消息队列的运行时间（WatchDog）"><a href="#2、监控消息队列的运行时间（WatchDog）" class="headerlink" title="2、监控消息队列的运行时间（WatchDog）"></a>2、监控消息队列的运行时间（WatchDog）</h3><h4 id="卡顿监控原理："><a href="#卡顿监控原理：" class="headerlink" title="卡顿监控原理："></a>卡顿监控原理：</h4><p>利用主线程的消息队列处理机制，应用发生卡顿，一定是在dispatchMessage中执行了耗时操作。我们通过给主线程的Looper设置一个Printer，打点统计dispatchMessage方法执行的时间，如果超出阀值，表示发生卡顿，则dump出各种信息，提供开发者分析性能瓶颈。</p>
+<p>为卡顿监控代码增加ANR的线程监控，在发送消息时，在ANR线程中保存一个状态，主线程消息执行完后再Reset标志位。如果在ANR线程中收到发送消息后，超过一定时间没有复位，就可以认定发生了ANR。</p>
+<h4 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>  无法准确判断是否真正出现ANR，只能说明APP发生了UI阻塞，需要进行二次校验。校验的方式就是等待手机系统出现发生了Error的进程，并且Error类型是NOT_RESPONDING（值为2）。 在每次出现ANR弹框前，Native层都会发出signal为SIGNAL_QUIT（值为3）的信号事件，也可以监听此信号。</li>
+<li>  无法得到完整ANR日志</li>
+<li>  隶属于卡顿优化的方式</li>
+</ul>
+<h3 id="3、需要考虑应用退出场景"><a href="#3、需要考虑应用退出场景" class="headerlink" title="3、需要考虑应用退出场景"></a>3、需要考虑应用退出场景</h3><ul>
+<li>  主动自杀</li>
+<li>  Process.killProcess()、exit()等。</li>
+<li>  崩溃</li>
+<li>  系统重启</li>
+<li>  系统异常、断电、用户重启等：通过比较应用开机运行时间是否比之前记录的值更小。</li>
+<li>  被系统杀死</li>
+<li>  被LMK杀死、从系统的任务管理器中划掉等。</li>
+</ul>
+<h4 id="注意-2"><a href="#注意-2" class="headerlink" title="注意"></a>注意</h4><p>由于traces.txt上传比较耗时，所以一般线下采用，线上建议综合ProcessErrorStateInfo和出现ANR时的堆栈信息来实现ANR的实时上传。</p>
+<h2 id="2、ANR优化"><a href="#2、ANR优化" class="headerlink" title="2、ANR优化"></a>2、ANR优化</h2><p>ANR发生原因：没有在规定的时间内完成要完成的事情。</p>
+<h3 id="ANR分类"><a href="#ANR分类" class="headerlink" title="ANR分类"></a>ANR分类</h3><h4 id="发生场景"><a href="#发生场景" class="headerlink" title="发生场景"></a>发生场景</h4><ul>
+<li>  Activity onCreate方法或Input事件超过5s没有完成</li>
+<li>  BroadcastReceiver前台10s，后台60s</li>
+<li>  ContentProvider 在publish过超时10s;</li>
+<li>  Service前台20s，后台200s</li>
+</ul>
+<h4 id="发生原因"><a href="#发生原因" class="headerlink" title="发生原因"></a>发生原因</h4><ul>
+<li>  主线程有耗时操作</li>
+<li>  复杂布局</li>
+<li>  IO操作</li>
+<li>  被子线程同步锁block</li>
+<li>  被Binder对端block</li>
+<li>  Binder被占满导致主线程无法和SystemServer通信</li>
+<li>  得不到系统资源（CPU/RAM/IO）</li>
+</ul>
+<p>从进程角度看发生原因有：</p>
+<ul>
+<li>  当前进程：主线程本身耗时或者主线程的消息队列存在耗时操作、主线程被本进程的其它子线程所blocked</li>
+<li>  远端进程：binder call、socket通信</li>
+</ul>
+<p>Andorid系统监测ANR的核心原理是消息调度和超时处理。</p>
+<h3 id="ANR排查流程"><a href="#ANR排查流程" class="headerlink" title="ANR排查流程"></a>ANR排查流程</h3><h4 id="1、Log获取"><a href="#1、Log获取" class="headerlink" title="1、Log获取"></a>1、Log获取</h4><p>1、抓取bugreport</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell bugreport &gt; bugreport.txt</span><br></pre></td></tr></table></figure>
+
+<p>2、直接导出/data/anr/traces.txt文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb pull &#x2F;data&#x2F;anr&#x2F;traces.txt trace.txt</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、搜索“ANR-in”处log关键点解读"><a href="#2、搜索“ANR-in”处log关键点解读" class="headerlink" title="2、搜索“ANR in”处log关键点解读"></a>2、搜索“ANR in”处log关键点解读</h4><ul>
+<li><p>  发生时间（可能会延时10-20s）</p>
+</li>
+<li><p>  pid：当pid=0，说明在ANR之前，进程就被LMK杀死或出现了Crash，所以无法接受到系统的广播或者按键消息，因此会出现ANR</p>
+</li>
+<li><p>cpu负载Load: 7.58 / 6.21 / 4.83</p>
+<p>  代表此时一分钟有平均有7.58个进程在等待 ，1、5、15分钟内系统的平均负荷，当系统负荷持续大于1.0，必须将值降下来；当系统负荷达到5.0，表面系统有很严重的问题</p>
+</li>
+<li><p>cpu使用率</p>
+<p>  CPU usage from 18101ms to 0ms ago 28% 2085/system_server: 18% user + 10% kernel / faults: 8689 minor 24 major 11% 752/android.hardware.sensors@1.0-service: 4% user + 6.9% kernel / faults: 2 minor 9.8% 780/surfaceflinger: 6.2% user + 3.5% kernel / faults: 143 minor 4 major</p>
+</li>
+</ul>
+<p>上述表示Top进程的cpu占用情况。</p>
+<h5 id="注意-3"><a href="#注意-3" class="headerlink" title="注意"></a>注意</h5><p>如果CPU使用量很少，说明主线程可能阻塞。</p>
+<h4 id="3、在bugreport-txt中根据pid和发生时间搜索到阻塞的log处"><a href="#3、在bugreport-txt中根据pid和发生时间搜索到阻塞的log处" class="headerlink" title="3、在bugreport.txt中根据pid和发生时间搜索到阻塞的log处"></a>3、在bugreport.txt中根据pid和发生时间搜索到阻塞的log处</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">----- pid 10494 at 2019-11-18 15:28:29 -----</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、往下翻找到“main”线程则可看到对应的阻塞log"><a href="#4、往下翻找到“main”线程则可看到对应的阻塞log" class="headerlink" title="4、往下翻找到“main”线程则可看到对应的阻塞log"></a>4、往下翻找到“main”线程则可看到对应的阻塞log</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;main&quot; prio&#x3D;5 tid&#x3D;1 Sleeping</span><br><span class="line">| group&#x3D;&quot;main&quot; sCount&#x3D;1 dsCount&#x3D;0 flags&#x3D;1 obj&#x3D;0x746bf7f0 self&#x3D;0xe7c8f000</span><br><span class="line">| sysTid&#x3D;10494 nice&#x3D;-4 cgrp&#x3D;default sched&#x3D;0&#x2F;0 handle&#x3D;0xeb6784a4</span><br><span class="line">| state&#x3D;S schedstat&#x3D;( 5119636327 325064933 4204 ) utm&#x3D;460 stm&#x3D;51 core&#x3D;4 HZ&#x3D;100</span><br><span class="line">| stack&#x3D;0xff575000-0xff577000 stackSize&#x3D;8MB</span><br><span class="line">| held mutexes&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p>上述关键字段的含义如下所示：</p>
+<ul>
+<li>  tid：线程号</li>
+<li>  sysTid：主进程线程号和进程号相同</li>
+<li>  Waiting/Sleeping：各种线程状态</li>
+<li>  nice：nice值越小，则优先级越高，-17~16</li>
+<li>  schedstat：Running、Runable时间(ns)与Switch次数</li>
+<li>  utm：该线程在用户态的执行时间(jiffies)</li>
+<li>  stm：该线程在内核态的执行时间(jiffies)</li>
+<li>  sCount：该线程被挂起的次数</li>
+<li>  dsCount：该线程被调试器挂起的次数</li>
+<li>  self：线程本身的地址</li>
+</ul>
+<h4 id="补充加油站：各种线程状态"><a href="#补充加油站：各种线程状态" class="headerlink" title="补充加油站：各种线程状态"></a>补充加油站：各种线程状态</h4><p>需要注意的是，这里的各种线程状态指的是Native层的线程状态，关于Java线程状态与Native线程状态的对应关系如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">enum ThreadState &#123;</span><br><span class="line">  &#x2F;&#x2F;                                   Thread.State   JDWP state</span><br><span class="line">  kTerminated &#x3D; 66,                 &#x2F;&#x2F; TERMINATED     TS_ZOMBIE    Thread.run has returned, but Thread* still around</span><br><span class="line">  kRunnable,                        &#x2F;&#x2F; RUNNABLE       TS_RUNNING   runnable</span><br><span class="line">  kTimedWaiting,                    &#x2F;&#x2F; TIMED_WAITING  TS_WAIT      in Object.wait() with a timeout</span><br><span class="line">  kSleeping,                        &#x2F;&#x2F; TIMED_WAITING  TS_SLEEPING  in Thread.sleep()</span><br><span class="line">  kBlocked,                         &#x2F;&#x2F; BLOCKED        TS_MONITOR   blocked on a monitor</span><br><span class="line">  kWaiting,                         &#x2F;&#x2F; WAITING        TS_WAIT      in Object.wait()</span><br><span class="line">  kWaitingForLockInflation,         &#x2F;&#x2F; WAITING        TS_WAIT      blocked inflating a thin-lock</span><br><span class="line">  kWaitingForTaskProcessor,         &#x2F;&#x2F; WAITING        TS_WAIT      blocked waiting for taskProcessor</span><br><span class="line">  kWaitingForGcToComplete,          &#x2F;&#x2F; WAITING        TS_WAIT      blocked waiting for GC</span><br><span class="line">  kWaitingForCheckPointsToRun,      &#x2F;&#x2F; WAITING        TS_WAIT      GC waiting for checkpoints to run</span><br><span class="line">  kWaitingPerformingGc,             &#x2F;&#x2F; WAITING        TS_WAIT      performing GC</span><br><span class="line">  kWaitingForDebuggerSend,          &#x2F;&#x2F; WAITING        TS_WAIT      blocked waiting for events to be sent</span><br><span class="line">  kWaitingForDebuggerToAttach,      &#x2F;&#x2F; WAITING        TS_WAIT      blocked waiting for debugger to attach</span><br><span class="line">  kWaitingInMainDebuggerLoop,       &#x2F;&#x2F; WAITING        TS_WAIT      blocking&#x2F;reading&#x2F;processing debugger events</span><br><span class="line">  kWaitingForDebuggerSuspension,    &#x2F;&#x2F; WAITING        TS_WAIT      waiting for debugger suspend all</span><br><span class="line">  kWaitingForJniOnLoad,             &#x2F;&#x2F; WAITING        TS_WAIT      waiting for execution of dlopen and JNI on load code</span><br><span class="line">  kWaitingForSignalCatcherOutput,   &#x2F;&#x2F; WAITING        TS_WAIT      waiting for signal catcher IO to complete</span><br><span class="line">  kWaitingInMainSignalCatcherLoop,  &#x2F;&#x2F; WAITING        TS_WAIT      blocking&#x2F;reading&#x2F;processing signals</span><br><span class="line">  kWaitingForDeoptimization,        &#x2F;&#x2F; WAITING        TS_WAIT      waiting for deoptimization suspend all</span><br><span class="line">  kWaitingForMethodTracingStart,    &#x2F;&#x2F; WAITING        TS_WAIT      waiting for method tracing to start</span><br><span class="line">  kWaitingForVisitObjects,          &#x2F;&#x2F; WAITING        TS_WAIT      waiting for visiting objects</span><br><span class="line">  kWaitingForGetObjectsAllocated,   &#x2F;&#x2F; WAITING        TS_WAIT      waiting for getting the number of allocated objects</span><br><span class="line">  kWaitingWeakGcRootRead,           &#x2F;&#x2F; WAITING        TS_WAIT      waiting on the GC to read a weak root</span><br><span class="line">  kWaitingForGcThreadFlip,          &#x2F;&#x2F; WAITING        TS_WAIT      waiting on the GC thread flip (CC collector) to finish</span><br><span class="line">  kStarting,                        &#x2F;&#x2F; NEW            TS_WAIT      native thread started, not yet ready to run managed code</span><br><span class="line">  kNative,                          &#x2F;&#x2F; RUNNABLE       TS_RUNNING   running in a JNI native method</span><br><span class="line">  kSuspended,                       &#x2F;&#x2F; RUNNABLE       TS_RUNNING   suspended by GC or debugger</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="其它分析方法：Java线程调用分析方法"><a href="#其它分析方法：Java线程调用分析方法" class="headerlink" title="其它分析方法：Java线程调用分析方法"></a>其它分析方法：Java线程调用分析方法</h4><ul>
+<li>  先使用jps命令列出当前系统中运行的所有Java虚拟机进程，拿到应用进程的pid。</li>
+<li>  然后再使用jstack命令查看该进程中所有线程的状态以及调用关系，以及一些简单的分析结果。</li>
+</ul>
+<h2 id="3、关于ANR的一些常见问题"><a href="#3、关于ANR的一些常见问题" class="headerlink" title="3、关于ANR的一些常见问题"></a>3、关于ANR的一些常见问题</h2><h3 id="1、sp调用apply导致anr问题？"><a href="#1、sp调用apply导致anr问题？" class="headerlink" title="1、sp调用apply导致anr问题？"></a>1、sp调用apply导致anr问题？</h3><p>虽然apply并不会阻塞主线程，但是会将等待时间转嫁到主线程。</p>
+<h3 id="2、检测运行期间是否发生过异常退出？"><a href="#2、检测运行期间是否发生过异常退出？" class="headerlink" title="2、检测运行期间是否发生过异常退出？"></a>2、检测运行期间是否发生过异常退出？</h3><p>在应用启动时设定一个标志，在主动自杀或崩溃后更新标志 ，下次启动时检测此标志即可判断。</p>
+<h2 id="4、理解ANR的触发流程"><a href="#4、理解ANR的触发流程" class="headerlink" title="4、理解ANR的触发流程"></a>4、理解ANR的触发流程</h2><p>broadcast跟service超时机制大抵相同，但有一个非常隐蔽的技能点，那就是通过静态注册的广播超时会受SharedPreferences(简称SP)的影响。</p>
+<p>当SP有未同步到磁盘的工作，则需等待其完成，才告知系统已完成该广播。并且只有XML静态注册的广播超时检测过程会考虑是否有SP尚未完成，动态广播并不受其影响。</p>
+<ul>
+<li>  对于Service, Broadcast, Input发生ANR之后,最终都会调用AMS.appNotResponding。</li>
+<li>  对于provider,在其进程启动时publish过程可能会出现ANR, 则会直接杀进程以及清理相应信息,而不会弹出ANR的对话框。</li>
+<li>  对于输入事件发生ANR，首先会调用InputMonitor.notifyANR，最终也会调用AMS.appNotResponding。</li>
+</ul>
+<h3 id="1、AMS-appNotResponding流程"><a href="#1、AMS-appNotResponding流程" class="headerlink" title="1、AMS.appNotResponding流程"></a>1、AMS.appNotResponding流程</h3><ul>
+<li>  输出ANR Reason信息到EventLog. 也就是说ANR触发的时间点最接近的就是EventLog中输出的am_anr信息。</li>
+<li>  收集并输出重要进程列表中的各个线程的traces信息，该方法较耗时。</li>
+<li>  输出当前各个进程的CPU使用情况以及CPU负载情况。</li>
+<li>  将traces文件和 CPU使用情况信息保存到dropbox，即data/system/dropbox目录（ANR信息最为重要的信息）。</li>
+<li>  根据进程类型,来决定直接后台杀掉,还是弹框告知用户。</li>
+</ul>
+<h3 id="2、AMS-dumpStackTraces流程"><a href="#2、AMS-dumpStackTraces流程" class="headerlink" title="2、AMS.dumpStackTraces流程"></a>2、AMS.dumpStackTraces流程</h3><h4 id="1、收集firstPids进程的stacks："><a href="#1、收集firstPids进程的stacks：" class="headerlink" title="1、收集firstPids进程的stacks："></a>1、收集firstPids进程的stacks：</h4><ul>
+<li>  第一个是发生ANR进程；</li>
+<li>  第二个是system_server；</li>
+<li>  其余的是mLruProcesses中所有的persistent进程。</li>
+</ul>
+<h4 id="2、收集Native进程的stacks。-dumpNativeBacktraceToFile"><a href="#2、收集Native进程的stacks。-dumpNativeBacktraceToFile" class="headerlink" title="2、收集Native进程的stacks。(dumpNativeBacktraceToFile)"></a>2、收集Native进程的stacks。(dumpNativeBacktraceToFile)</h4><ul>
+<li>  依次是mediaserver,sdcard,surfaceflinger进程。</li>
+</ul>
+<h4 id="3、收集lastPids进程的stacks："><a href="#3、收集lastPids进程的stacks：" class="headerlink" title="3、收集lastPids进程的stacks："></a>3、收集lastPids进程的stacks：</h4><ul>
+<li>  依次输出CPU使用率top 5的进程；</li>
+</ul>
+<h5 id="注意-4"><a href="#注意-4" class="headerlink" title="注意"></a>注意</h5><p>上述导出每个进程trace时，进程之间会休眠200ms。</p>
+<h1 id="四、移动端业务高可用方案建设"><a href="#四、移动端业务高可用方案建设" class="headerlink" title="四、移动端业务高可用方案建设"></a>四、移动端业务高可用方案建设</h1><h2 id="1、业务高可用重要性"><a href="#1、业务高可用重要性" class="headerlink" title="1、业务高可用重要性"></a>1、业务高可用重要性</h2><p>关于业务高可用重要性有如下五点：</p>
+<ul>
+<li>  高可用</li>
+<li>  性能</li>
+<li>  业务</li>
+<li>  侧重于用户功能完整可用</li>
+<li>  真实影响收入</li>
+</ul>
+<h2 id="2、业务高可用方案建设"><a href="#2、业务高可用方案建设" class="headerlink" title="2、业务高可用方案建设"></a>2、业务高可用方案建设</h2><p>业务高可用方案建设需要注意的点比较繁杂，但是总体可以归结为如下几点：</p>
+<ul>
+<li>  数据采集</li>
+<li>  梳理项目主流程、核心路径、关键节点</li>
+<li>  Aop自动采集、统一上报</li>
+<li>  报警策略：阈值报警、趋势报警、特定指标报警、直接上报（或底阈值）</li>
+<li>  异常监控</li>
+<li>  单点追查：需要针对性分析的特定问题，全量日志回捞，专项分析</li>
+<li>  兜底策略</li>
+<li>  配置中心、功能开关</li>
+<li>  跳转分发中心（组件化路由）</li>
+</ul>
+<h2 id="3、移动端容灾方案"><a href="#3、移动端容灾方案" class="headerlink" title="3、移动端容灾方案"></a>3、移动端容灾方案</h2><h3 id="灾包括："><a href="#灾包括：" class="headerlink" title="灾包括："></a>灾包括：</h3><ul>
+<li>  性能异常</li>
+<li>  业务异常</li>
+</ul>
+<h3 id="传统流程："><a href="#传统流程：" class="headerlink" title="传统流程："></a>传统流程：</h3><p>用户反馈、重新打包、渠道更新、不可接受。</p>
+<h3 id="容灾方案建设"><a href="#容灾方案建设" class="headerlink" title="容灾方案建设"></a>容灾方案建设</h3><p>关于容灾方案的建设主要可以细分为以下七点，下面，我们分别来了解下。</p>
+<h4 id="1、功能开关"><a href="#1、功能开关" class="headerlink" title="1、功能开关"></a>1、功能开关</h4><p>配置中心，服务端下发配置控制</p>
+<h5 id="针对场景"><a href="#针对场景" class="headerlink" title="针对场景"></a>针对场景</h5><ul>
+<li>  功能新增</li>
+<li>  代码改动</li>
+</ul>
+<h4 id="2、统跳中心"><a href="#2、统跳中心" class="headerlink" title="2、统跳中心"></a>2、统跳中心</h4><ul>
+<li>  界面切换通过路由，路由决定是否重定向</li>
+<li>  Native Bug不能热修复则跳转到临时H5页面</li>
+</ul>
+<h4 id="3、动态化修复"><a href="#3、动态化修复" class="headerlink" title="3、动态化修复"></a>3、动态化修复</h4><p>热修复能力，可监控、灰度、回滚、清除。</p>
+<h4 id="4、推拉结合、多场景调用保证到达率"><a href="#4、推拉结合、多场景调用保证到达率" class="headerlink" title="4、推拉结合、多场景调用保证到达率"></a>4、推拉结合、多场景调用保证到达率</h4><h4 id="5、Weex、RN增量更新"><a href="#5、Weex、RN增量更新" class="headerlink" title="5、Weex、RN增量更新"></a>5、Weex、RN增量更新</h4><h4 id="6、安全模式"><a href="#6、安全模式" class="headerlink" title="6、安全模式"></a>6、安全模式</h4><p>微信读书、蘑菇街、淘宝、天猫等“重运营”的APP都使用了安全模式保障客户端启动流程，启动失败后给用户自救机会。先介绍一下它的核心特点：</p>
+<ul>
+<li>  根据Crash信息自动恢复，多次启动失败重置应用为安装初始状态</li>
+<li>  严重Bug可阻塞性热修复</li>
+</ul>
+<h5 id="安全模式设计"><a href="#安全模式设计" class="headerlink" title="安全模式设计"></a>安全模式设计</h5><p>配置后台：统一的配置后台，具备灰度发布机制</p>
+<p>1、客户端能力：</p>
+<ul>
+<li>  在APP连续Crash的情况下具备分级、无感自修复能力</li>
+<li>  具备同步热修复能力</li>
+<li>  具备指定触发某项特定功能的能力</li>
+<li>  具体功能注册能力，方便后期扩展安全模式</li>
+</ul>
+<p>2、数据统计及告警</p>
+<ul>
+<li>  统一的数据平台</li>
+<li>  监控告警功能，及时发现问题</li>
+<li>  查看热修复成功率等数据</li>
+</ul>
+<p>3、快速测试</p>
+<ul>
+<li>  优化预发布环境下测试</li>
+<li>  优化回归验证安全模式难点等</li>
+</ul>
+<h5 id="天猫安全模式原理"><a href="#天猫安全模式原理" class="headerlink" title="天猫安全模式原理"></a>天猫安全模式原理</h5><p>1、如何判断异常退出？</p>
+<p>APP启动时记录一个flag值，满足以下条件时，将flag值清空</p>
+<ul>
+<li>  APP正常启动10秒</li>
+<li>  用户正常退出应用</li>
+<li>  用户主动从前台切换到后台</li>
+</ul>
+<p>如果在启动阶段发生异常，则flag值不会清空，通过flag值就可以判断客户端是否异常退出，每次异常退出，flag值都+1。</p>
+<p>2、安全模式的分级执行策略</p>
+<p>分为两级安全模式，连续Crash 2次为一级安全模式，连续Crash 2次及以上为二级安全模式。</p>
+<p>业务线可以在一级安全模式中注册行为，比如清空缓存数据，再进入该模式时，会使用注册行为尝试修复客户端 如果一级安全模式无法修复APP，则进入二级安全模式将APP恢复到初次安装状态，并将Document、Library、Cache三个根目录清空。</p>
+<p>3、热修复执行策略</p>
+<p>只要发现配置中需要热修复，APP就会同步阻塞进行热修复,保证修复的及时性</p>
+<p>4、灰度方案</p>
+<p>灰度时，配置中会包含灰度、正式两份配置及其灰度概率 APP根据特定算法算出自己是否满足灰度条件，则使用灰度配置</p>
+<h5 id="易用性考量"><a href="#易用性考量" class="headerlink" title="易用性考量"></a>易用性考量</h5><p>1、接入成本</p>
+<p>完善文档、接口简洁</p>
+<p>2、统一配置后台</p>
+<p>可按照APP、版本配置</p>
+<p>3、定制性</p>
+<p>支持定制功能，让接入方来决定具体行为</p>
+<p>4、灰度机制</p>
+<p>5、数据分析</p>
+<p>采用统一数据平台，为安全模式改进提供依据</p>
+<p>6、快速测试</p>
+<p>创建更多的针对性测试案例，如模拟连续Crash</p>
+<h4 id="7、异常熔断"><a href="#7、异常熔断" class="headerlink" title="7、异常熔断"></a>7、异常熔断</h4><p>当多次请求失败则可让网络库主动拒绝请求。</p>
+<h3 id="容灾方案集合路径"><a href="#容灾方案集合路径" class="headerlink" title="容灾方案集合路径"></a>容灾方案集合路径</h3><p>功能开关 -&gt; 统跳中心 -&gt; 动态修复 -&gt; 安全模式</p>
+<h1 id="五、稳定性长效治理"><a href="#五、稳定性长效治理" class="headerlink" title="五、稳定性长效治理"></a>五、稳定性长效治理</h1><p>要实现App稳定性的长效治理，我们需要从 <strong>开发阶段 =&gt; 测试阶段 =&gt; 合码阶段 =&gt; 发布阶段 =&gt; 运维阶段</strong> 这五个阶段来做针对性地处理。</p>
+<h2 id="1、开发阶段"><a href="#1、开发阶段" class="headerlink" title="1、开发阶段"></a>1、开发阶段</h2><ul>
+<li>  统一编码规范、增强编码功底、技术评审、CodeReview机制</li>
+<li>  架构优化</li>
+<li>  能力收敛</li>
+<li>  统一容错：如在网络库utils中统一对返回信息进行预校验，如不合法就直接不走接下来的流程。</li>
+</ul>
+<h2 id="2、测试阶段"><a href="#2、测试阶段" class="headerlink" title="2、测试阶段"></a>2、测试阶段</h2><ul>
+<li>  功能测试、自动化测试、回归测试、覆盖安装</li>
+<li>  特殊场景、机型等边界测试：如服务端返回异常数据、服务端宕机</li>
+<li>  云测平台：提供更全面的机型进行测试</li>
+</ul>
+<h2 id="3、合码阶段"><a href="#3、合码阶段" class="headerlink" title="3、合码阶段"></a>3、合码阶段</h2><ul>
+<li>  编译检测、静态扫描</li>
+<li>  预编译流程、主流程自动回归</li>
+</ul>
+<h2 id="4、发布阶段"><a href="#4、发布阶段" class="headerlink" title="4、发布阶段"></a>4、发布阶段</h2><ul>
+<li>  多轮灰度</li>
+<li>  分场景、纬度全面覆盖</li>
+</ul>
+<h2 id="5、运维阶段"><a href="#5、运维阶段" class="headerlink" title="5、运维阶段"></a>5、运维阶段</h2><ul>
+<li>  灵敏监控</li>
+<li>  回滚、降级策略</li>
+<li>  热修复、本地容灾方案</li>
+</ul>
+<h1 id="六、稳定性优化问题"><a href="#六、稳定性优化问题" class="headerlink" title="六、稳定性优化问题"></a>六、稳定性优化问题</h1><h2 id="1、你们做了哪些稳定性方面的优化？"><a href="#1、你们做了哪些稳定性方面的优化？" class="headerlink" title="1、你们做了哪些稳定性方面的优化？"></a>1、你们做了哪些稳定性方面的优化？</h2><p>随着项目的逐渐成熟，用户基数逐渐增多，DAU持续升高，我们遇到了很多稳定性方面的问题，对于我们技术同学遇到了很多的挑战，用户经常使用我们的App卡顿或者是功能不可用，因此我们就针对稳定性开启了专项的优化，我们主要优化了三项：</p>
+<ul>
+<li>  <strong>Crash专项优化</strong></li>
+<li>  <strong>性能稳定性优化</strong></li>
+<li>  <strong>业务稳定性优化</strong></li>
+</ul>
+<p>通过这三方面的优化我们搭建了移动端的高可用平台。同时，也做了很多的措施来让App真正地实现了高可用。</p>
+<h2 id="2、性能稳定性是怎么做的？"><a href="#2、性能稳定性是怎么做的？" class="headerlink" title="2、性能稳定性是怎么做的？"></a>2、性能稳定性是怎么做的？</h2><ul>
+<li>  <strong>全面的性能优化</strong>：启动速度、内存优化、绘制优化</li>
+<li>  <strong>线下发现问题、优化为主</strong></li>
+<li>  <strong>线上监控为主</strong></li>
+<li>  <strong>Crash专项优化</strong></li>
+</ul>
+<p>我们针对启动速度，内存、布局加载、卡顿、瘦身、流量、电量等多个方面做了多维的优化。</p>
+<p>我们的优化主要分为了两个层次，即线上和线下，针对于线下呢，我们侧重于发现问题，直接解决，将问题尽可能在上线之前解决为目的。而真正到了线上呢，我们最主要的目的就是为了监控，对于各个性能纬度的监控呢，可以让我们尽可能早地获取到异常情况的报警。</p>
+<p>同时呢，对于线上最严重的性能问题性问题：Crash，我们做了专项的优化，不仅优化了Crash的具体指标，而且也尽可能地获取了Crash发生时的详细信息，结合后端的聚合、报警等功能，便于我们快速地定位问题。</p>
+<h2 id="3、业务稳定性如何保障？"><a href="#3、业务稳定性如何保障？" class="headerlink" title="3、业务稳定性如何保障？"></a>3、业务稳定性如何保障？</h2><ul>
+<li>  <strong>数据采集 + 报警</strong></li>
+<li>  需要对项目的<strong>主流程与核心路径进行埋点监控</strong>，</li>
+<li>  同时还<strong>需知道每一步发生了多少异常</strong>，这样，我们就知道了<strong>所有业务流程的转换率以及相应界面的转换率</strong></li>
+<li>  <strong>结合大盘，如果转换率低于某个值，进行报警</strong></li>
+<li>  <strong>异常监控 + 单点追查</strong></li>
+<li>  <strong>兜底策略，如天猫安全模式</strong></li>
+</ul>
+<p>移动端业务高可用它侧重于用户功能完整可用，主要是为了解决一些线上一些异常情况导致用户他虽然没有崩溃，也没有性能问题，但是呢，只是单纯的功能不可用的情况，我们需要对项目的主流程、核心路径进行埋点监控，来计算每一步它真实的转换率是多少，同时呢，还需要知道在每一步到底发生了多少异常。这样我们就知道了所有业务流程的转换率以及相应界面的转换率，有了大盘的数据呢，我们就知道了，如果转换率或者是某些监控的成功率低于某个值，那很有可能就是出现了线上异常，结合了相应的报警功能，我们就不需要等用户来反馈了，这个就是业务稳定性保障的基础。</p>
+<p>同时呢，对于一些特殊情况，比如说，开发过程当中或代码中出现了一些catch代码块，捕获住了异常，让程序不崩溃，这其实是不合理的，程序虽然没有崩溃，当时程序的功能已经变得不可用，所以呢，这些被catch的异常我们也需要上报上来，这样我们才能知道用户到底出现了什么问题而导致的异常。此外，线上还有一些单点问题，比如说用户点击登录一直进不去，这种就属于单点问题，其实我们是无法找出其和其它问题的共性之处的，所以呢，我们就必须要找到它对应的详细信息。</p>
+<p>最后，如果发生了异常情况，我们还采取了一系列措施进行快速止损。（=&gt;4）</p>
+<h2 id="4、如果发生了异常情况，怎么快速止损？"><a href="#4、如果发生了异常情况，怎么快速止损？" class="headerlink" title="4、如果发生了异常情况，怎么快速止损？"></a>4、如果发生了异常情况，怎么快速止损？</h2><ul>
+<li>  <strong>功能开关</strong></li>
+<li>  <strong>统跳中心</strong></li>
+<li>  <strong>动态修复：热修复、资源包更新</strong></li>
+<li>  <strong>自主修复：安全模式</strong></li>
+</ul>
+<p>首先，需要让App具备一些高级的能力，我们对于任何要上线的新功能，要加上一个功能的开关，通过配置中心下发的开关呢，来决定是否要显示新功能的入口。如果有异常情况，可以紧急关闭新功能的入口，那就可以让这个App处于可控的状态了。</p>
+<p>然后，我们需要给App设立路由跳转，所有的界面跳转都需要通过路由来分发，如果我们匹配到需要跳转到有bug的这样一个新功能时，那我们就不跳转了，或者是跳转到统一的异常正处理中的界面。如果这两种方式都不可以，那就可以考虑通过热修复的方式来动态修复，目前热修复的方案其实已经比较成熟了，我们完全可以低成本地在我们的项目中添加热修复的能力，当然，如果有些功能是由RN或WeeX来实现就更好了，那就可以通过更新资源包的方式来实现动态更新。而这些如果都不可以的话呢，那就可以考虑自己去给应用加上一个自主修复的能力，如果App启动多次的话，那就可以考虑清空所有的缓存数据，将App重置到安装的状态，到了最严重的等级呢，可以阻塞主线程，此时一定要等App热修复成功之后才允许用户进入。</p>
+<h1 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h1><p>Android稳定性优化是一个需要 <strong>长期投入，持续运营和维护</strong> 的一个过程，上文中我们不仅深入探讨了Java Crash、Native Crash和ANR的解决流程及方案，还分析了其内部实现原理和监控流程。到这里，可以看到，要想做好稳定性优化，我们 <strong>必须对虚拟机运行、Linux信号处理和内存分配</strong> 有一定程度的了解，<strong>只有深入了解这些底层知识，我们才能比别人设计出更好的稳定性优化方案</strong>。</p>
+<p>本文转载于jsonchao大佬，在此基础上加以完善修改，仅作自己知识点查漏补缺。<br>原文作者：jsonchao<br>原文链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844903972587716621">https://juejin.im/post/6844903972587716621</a><br>原文来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hzp201314.github.io/2021/03/15/Android%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BC%98%E5%8C%96/" data-id="ckmafl1no00041kuf015j4mab" data-title="Android稳定性优化" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/03/15/View%E7%9A%84%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">View的绘制流程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/15/Android%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BC%98%E5%8C%96/">Android稳定性优化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/15/View%E7%9A%84%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B/">View的绘制流程</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/15/Android%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92%E6%9C%BA%E5%88%B6/">Android触摸事件传递机制</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/Android%E9%AB%98%E7%BA%A7%E7%AF%87/">Android高级篇</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/09/Android%E5%9F%BA%E7%A1%80%E7%AF%87/">Android基础篇</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Hzp<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
