@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-b22bc86f08a9bc60.image?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="article:published_time" content="2021-03-17T02:41:49.000Z">
-<meta property="article:modified_time" content="2021-03-22T01:43:12.562Z">
+<meta property="article:modified_time" content="2021-03-24T08:22:31.099Z">
 <meta property="article:author" content="Hzp">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
@@ -276,8 +276,8 @@
 </ul>
 <p>需要注意的是，出现OOM是因为内存溢出导致，这种情况不一定会发生在相对应的代码处，也不一定是出现OOM的代码使用内存有问题，而是刚好执行到这段代码。</p>
 <h1 id="三、避免内存泄漏"><a href="#三、避免内存泄漏" class="headerlink" title="三、避免内存泄漏"></a>三、避免内存泄漏</h1><h2 id="1、内存泄漏的定义"><a href="#1、内存泄漏的定义" class="headerlink" title="1、内存泄漏的定义"></a>1、内存泄漏的定义</h2><p>Android系统虚拟机的垃圾回收是通过虚拟机GC机制来实现的。GC会选择一些还存活的对象作为内存遍历的根节点GC Roots，通过对GC Roots的可达性来判断是否需要回收。内存泄漏就是<strong>在当前应用周期内不再使用的对象被GC Roots引用，导致不能回收，使实际可使用内存变小</strong>。</p>
-<h2 id="2、使用MAT来查找内存泄漏"><a href="#2、使用MAT来查找内存泄漏" class="headerlink" title="2、使用MAT来查找内存泄漏"></a>2、使用MAT来查找内存泄漏</h2><p>MAT工具可以帮助开发者定位导致内存泄漏的对象，以及发现大的内存对象，然后解决内存泄漏并通过优化内存对象，以达到减少内存消耗的目的。</p>
-<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><h4 id="1、在eclipse-org-mat-downloads…"><a href="#1、在eclipse-org-mat-downloads…" class="headerlink" title="1、在eclipse.org/mat/downloads…"></a>1、在<a target="_blank" rel="noopener" href="https://eclipse.org/mat/downloads.php%E4%B8%8B%E8%BD%BDMAT%E5%AE%A2%E6%88%B7%E7%AB%AF%E3%80%82">eclipse.org/mat/downloads…</a></h4><h4 id="2、从Android-Studio进入Profile的Memory视图，选择需要分析的应用进程，对应用进行怀疑有内存问题的操作，结束操作后，主动GC几次，最后export-dump文件。"><a href="#2、从Android-Studio进入Profile的Memory视图，选择需要分析的应用进程，对应用进行怀疑有内存问题的操作，结束操作后，主动GC几次，最后export-dump文件。" class="headerlink" title="2、从Android Studio进入Profile的Memory视图，选择需要分析的应用进程，对应用进行怀疑有内存问题的操作，结束操作后，主动GC几次，最后export dump文件。"></a>2、从Android Studio进入Profile的Memory视图，选择需要分析的应用进程，对应用进行怀疑有内存问题的操作，结束操作后，主动GC几次，最后export dump文件。</h4><h4 id="3、因为Android-Studio保存的是Android-Dalvik-ART格式的-hprof文件，所以需要转换成J2SE-HPROF格式才能被MAT识别和分析。Android-SDK自带了一个转换工具在SDK的platform-tools下，其中转换语句为："><a href="#3、因为Android-Studio保存的是Android-Dalvik-ART格式的-hprof文件，所以需要转换成J2SE-HPROF格式才能被MAT识别和分析。Android-SDK自带了一个转换工具在SDK的platform-tools下，其中转换语句为：" class="headerlink" title="3、因为Android Studio保存的是Android Dalvik/ART格式的.hprof文件，所以需要转换成J2SE HPROF格式才能被MAT识别和分析。Android SDK自带了一个转换工具在SDK的platform-tools下，其中转换语句为："></a>3、因为Android Studio保存的是Android Dalvik/ART格式的.hprof文件，所以需要转换成J2SE HPROF格式才能被MAT识别和分析。Android SDK自带了一个转换工具在SDK的platform-tools下，其中转换语句为：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hprof-conv file.hprof converted.hprof</span><br></pre></td></tr></table></figure>
+<h2 id="2、使用MAT-Memory-Analyzer-来查找内存泄漏"><a href="#2、使用MAT-Memory-Analyzer-来查找内存泄漏" class="headerlink" title="2、使用MAT(Memory Analyzer)来查找内存泄漏"></a>2、使用MAT(Memory Analyzer)来查找内存泄漏</h2><p>MAT工具可以帮助开发者定位导致内存泄漏的对象，以及发现大的内存对象，然后解决内存泄漏并通过优化内存对象，以达到减少内存消耗的目的。</p>
+<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><h4 id="1、在eclipse-org-mat-downloads…下载MAT"><a href="#1、在eclipse-org-mat-downloads…下载MAT" class="headerlink" title="1、在eclipse.org/mat/downloads…下载MAT"></a>1、在<a target="_blank" rel="noopener" href="https://eclipse.org/mat/downloads.php%E4%B8%8B%E8%BD%BDMAT%E5%AE%A2%E6%88%B7%E7%AB%AF%E3%80%82">eclipse.org/mat/downloads…</a>下载MAT</h4><h4 id="2、从Android-Studio进入Profile的Memory视图，选择需要分析的应用进程，对应用进行怀疑有内存问题的操作，结束操作后，主动GC几次，最后export-dump文件。"><a href="#2、从Android-Studio进入Profile的Memory视图，选择需要分析的应用进程，对应用进行怀疑有内存问题的操作，结束操作后，主动GC几次，最后export-dump文件。" class="headerlink" title="2、从Android Studio进入Profile的Memory视图，选择需要分析的应用进程，对应用进行怀疑有内存问题的操作，结束操作后，主动GC几次，最后export dump文件。"></a>2、从Android Studio进入Profile的Memory视图，选择需要分析的应用进程，对应用进行怀疑有内存问题的操作，结束操作后，主动GC几次，最后export dump文件。</h4><h4 id="3、因为Android-Studio保存的是Android-Dalvik-ART格式的-hprof文件，所以需要转换成J2SE-HPROF格式才能被MAT识别和分析。Android-SDK自带了一个转换工具在SDK的platform-tools下，其中转换语句为："><a href="#3、因为Android-Studio保存的是Android-Dalvik-ART格式的-hprof文件，所以需要转换成J2SE-HPROF格式才能被MAT识别和分析。Android-SDK自带了一个转换工具在SDK的platform-tools下，其中转换语句为：" class="headerlink" title="3、因为Android Studio保存的是Android Dalvik/ART格式的.hprof文件，所以需要转换成J2SE HPROF格式才能被MAT识别和分析。Android SDK自带了一个转换工具在SDK的platform-tools下，其中转换语句为："></a>3、因为Android Studio保存的是Android Dalvik/ART格式的.hprof文件，所以需要转换成J2SE HPROF格式才能被MAT识别和分析。Android SDK自带了一个转换工具在SDK的platform-tools下，其中转换语句为：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hprof-conv file.hprof converted.hprof</span><br></pre></td></tr></table></figure>
 
 <h4 id="4、通过MAT打开转换后的HPROF文件。"><a href="#4、通过MAT打开转换后的HPROF文件。" class="headerlink" title="4、通过MAT打开转换后的HPROF文件。"></a>4、通过MAT打开转换后的HPROF文件。</h4><h3 id="MAT视图"><a href="#MAT视图" class="headerlink" title="MAT视图"></a>MAT视图</h3><p>在MAT窗口上，OverView是一个总体概览，显示总体的内存消耗情况和疑似问题。MAT提供了多种分析维度，其中Histogram、Dominator Tree、Top Consumers和Leak Suspects的分析维度是不同的。下面分别介绍下它们，如下所示：</p>
 <h4 id="1、Histogram"><a href="#1、Histogram" class="headerlink" title="1、Histogram"></a>1、<strong>Histogram</strong></h4><p>列出内存中的<strong>所有实例类型对象和其个数以及大小</strong>，并在顶部的<strong>regex</strong>区域支持正则表达式查找。</p>
@@ -577,6 +577,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/24/%E7%BB%98%E5%88%B6%E4%BC%98%E5%8C%96/">绘制优化</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/23/%E5%8D%A1%E9%A1%BF%E4%BC%98%E5%8C%96/">卡顿优化</a>
           </li>
         
@@ -590,10 +594,6 @@
         
           <li>
             <a href="/2021/03/17/%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">内存优化</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/16/Android%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6%E4%BC%98%E5%8C%96/">Android启动速度优化</a>
           </li>
         
       </ul>
