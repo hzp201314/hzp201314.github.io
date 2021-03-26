@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>网络优化-基础篇 | Hzp&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="前言思维大图大纲 一、为什么要进行网络优化？等待网络是我们 App 最大的性能瓶颈，再怎么优化绘制、内存、卡顿或其它方面，也抵不上网络优化！网络通信速度越快，则：    1）、用户黏性越高。   2）、用户忠诚度更高。   3）、转化率越高。  而网络优化最核心的处理方式就是 消除和减少不必要的网络延迟，把传输的字节数降到最少。 二、网络性能评估1、无线网络通信过程1手机 &#x3D;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络优化-基础篇">
+<meta property="og:url" content="https://hzp201314.github.io/2021/03/26/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96-%E5%9F%BA%E7%A1%80%E7%AF%87/index.html">
+<meta property="og:site_name" content="Hzp&#39;s Blog">
+<meta property="og:description" content="前言思维大图大纲 一、为什么要进行网络优化？等待网络是我们 App 最大的性能瓶颈，再怎么优化绘制、内存、卡顿或其它方面，也抵不上网络优化！网络通信速度越快，则：    1）、用户黏性越高。   2）、用户忠诚度更高。   3）、转化率越高。  而网络优化最核心的处理方式就是 消除和减少不必要的网络延迟，把传输的字节数降到最少。 二、网络性能评估1、无线网络通信过程1手机 &#x3D;&gt;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-134d608998fba48c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-e00d6e59ad07bb3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-bc6da7441bb54096.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-a810a694b95ea782.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-9f70e2ed973b6787.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-20f04319ba4509d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-c6a9f02088c9fdb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-68eea557e79b6dda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-edcba8a6e1147c24.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-ac5b0a25379e8839.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-4db3d1aad4df9c04.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-20ab5e94f0bfb8b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-54431a85427a1bba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-0a0bf2a0808b2834.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-1dd7105ff1657372.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-7bcdb02b11c1dac5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-99df880398e711c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-70fe003f2890bc29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-2ea456f32515037e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14601315-f79befa1d93e01ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-03-26T06:39:57.000Z">
+<meta property="article:modified_time" content="2021-03-26T10:28:34.272Z">
+<meta property="article:author" content="Hzp">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/14601315-134d608998fba48c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Hzp's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hzp&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hzp201314.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-网络优化-基础篇" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/26/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96-%E5%9F%BA%E7%A1%80%E7%AF%87/" class="article-date">
+  <time class="dt-published" datetime="2021-03-26T06:39:57.000Z" itemprop="datePublished">2021-03-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      网络优化-基础篇
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="思维大图大纲"><a href="#思维大图大纲" class="headerlink" title="思维大图大纲"></a>思维大图大纲</h1><p><img src="https://upload-images.jianshu.io/upload_images/14601315-134d608998fba48c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h1 id="一、为什么要进行网络优化？"><a href="#一、为什么要进行网络优化？" class="headerlink" title="一、为什么要进行网络优化？"></a>一、为什么要进行网络优化？</h1><p><strong>等待网络是我们 App 最大的性能瓶颈，再怎么优化绘制、内存、卡顿或其它方面，也抵不上网络优化</strong>！网络通信速度越快，则：</p>
+<ul>
+<li>  1）、<strong>用户黏性越高</strong>。</li>
+<li>  2）、<strong>用户忠诚度更高</strong>。</li>
+<li>  3）、<strong>转化率越高</strong>。</li>
+</ul>
+<p>而网络优化最核心的处理方式就是 <strong>消除和减少不必要的网络延迟，把传输的字节数降到最少</strong>。</p>
+<h1 id="二、网络性能评估"><a href="#二、网络性能评估" class="headerlink" title="二、网络性能评估"></a>二、网络性能评估</h1><h2 id="1、无线网络通信过程"><a href="#1、无线网络通信过程" class="headerlink" title="1、无线网络通信过程"></a>1、无线网络通信过程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">手机 &#x3D;&gt; 无线网络 &#x3D;&gt; 基站 &#x3D;&gt; 运营商核心网 &#x3D;&gt; 互联网 &#x3D;&gt; 服务器</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、重要指标"><a href="#2、重要指标" class="headerlink" title="2、重要指标"></a>2、重要指标</h2><h3 id="1）、延时"><a href="#1）、延时" class="headerlink" title="1）、延时"></a>1）、延时</h3><p><strong>数据从信息源发送到目的地所需的时间</strong>。客户端到服务端的总延迟时间如下所示：</p>
+<ul>
+<li>  1）、<strong>传播延迟：消息从发送端到接收端需要的时间，是信号传播距离和速度的函数。光速是所有能量、物质和信息运动所能达到的最高速度，这个结论给网络分组的传播速度设定了上限</strong>。</li>
+<li>  2）、<strong>传输延迟：把消息中的所有比特转移到链路中需要的时间，是消息长度和链路速率的函数</strong>。</li>
+<li>  3）、<strong>处理延迟：处理分组首部、检查位错误及确定分组目标所需的时间</strong>。</li>
+<li>  4）、<strong>排队延迟：到来的分组排队等待处理的时间</strong>。</li>
+</ul>
+<p>一路上经过的路由器越多，每个分组的处理和传输延迟就越多。并且，网络流量越拥挤，分组在入站缓冲区中被延迟的可能性就越大。</p>
+<p>最后，延迟中相当大的一部分往往花在了最后几公里，通过 traceroute 命令，我们就可以知道上网服务商的拓扑结构和速度。</p>
+<h3 id="2）、带宽"><a href="#2）、带宽" class="headerlink" title="2）、带宽"></a>2）、带宽</h3><p><strong>逻辑或物理通通信路径的最大吞吐量</strong>。</p>
+<h4 id="网络核心的带宽"><a href="#网络核心的带宽" class="headerlink" title="网络核心的带宽"></a>网络核心的带宽</h4><h5 id="光纤"><a href="#光纤" class="headerlink" title="光纤"></a>光纤</h5><p>就是一根“光导管”，比人的头发稍粗一点，专门用来从一端向另一端传送光信号。</p>
+<h5 id="金属线"><a href="#金属线" class="headerlink" title="金属线"></a>金属线</h5><p>用于传送电信号，但信号损失、电磁干扰较大，同时维护成本也较高。</p>
+<p>这两种线路我们的数据分组很可能都会经过，但一般长距离的分组传输都是通过光纤完成的。</p>
+<p>通过 <strong>波分复用（WDM，Wavelength-Division Multiplexing）技术，光纤可以同时传输很多不同波长（信道）的光</strong>，因而具有明显的带宽优势。</p>
+<p><strong>一条光纤连接的总带宽，等于每个信道的数据传输速率乘以可复用的信道数。而每条光缆会封装几条光纤（常见的是4条），折算出来的带宽容量能达到每秒几百太比特</strong>。</p>
+<h4 id="网络边缘的带宽"><a href="#网络边缘的带宽" class="headerlink" title="网络边缘的带宽"></a>网络边缘的带宽</h4><p>用户可用带宽取决于客户端与目标服务器间最低容量连接，我们可以在 <a target="_blank" rel="noopener" href="http://www.akamai.io/">akamai</a> 查看世界各地的平均带宽。但是，<strong>高带宽并不能保证端到端的传输速度</strong>。</p>
+<blockquote>
+<p>延迟、带宽与什么因素有关？</p>
+</blockquote>
+<p><strong>信号强度、基站距离、网络制式、拥塞情况</strong> 等等很多因素相关。</p>
+<h2 id="3、了解不同网络制式的带宽与延迟参考值"><a href="#3、了解不同网络制式的带宽与延迟参考值" class="headerlink" title="3、了解不同网络制式的带宽与延迟参考值"></a>3、了解不同网络制式的带宽与延迟参考值</h2><table>
+<thead>
+<tr>
+<th>网络制式</th>
+<th>带宽（下行/上行）</th>
+<th>延迟</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2.75 G</td>
+<td>384KB/48KB</td>
+<td>600~700ms</td>
+</tr>
+<tr>
+<td>3 G</td>
+<td>7MB/2MB</td>
+<td>150~400ms</td>
+</tr>
+<tr>
+<td>4 G</td>
+<td>128MB/56MB</td>
+<td>40~50ms</td>
+</tr>
+<tr>
+<td>5G</td>
+<td>&gt;100MB/&gt;50MB</td>
+<td>&lt;10ms</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>什么是弱网络？</p>
+</blockquote>
+<p>即 <strong>高延时、低带宽</strong> 的网络，它具有 <strong>丢包率、误码率高</strong> 的特点。</p>
+<p><strong>网络优化需要结合 App 的实际情况来综合考虑，看我们的 App 是重延时的应用还是重带宽的应用</strong>。</p>
+<p>遗憾的是，人类不太可能跳出物理定律的 “掌心”。如果需要针对延迟采取优化措施，就必须从 <strong>设计和优化协议及应用</strong> 着手，并且时刻牢记光速的限制。</p>
+<h1 id="三、TCP-优化"><a href="#三、TCP-优化" class="headerlink" title="三、TCP 优化"></a>三、TCP 优化</h1><p>因特网有两个核心协议:IP 和 TCP。</p>
+<ul>
+<li>  IP：即 <code>Internet Protocol(因特网协议)</code>，负责联网主机之间的路由选择和寻址;</li>
+<li>  TCP：即 <code>Transmission Control Protocol(传输控制协议)</code>，负责在不可靠的传输信道之上提供可靠的抽象层。</li>
+</ul>
+<p>而 TCP/IP 也常被称为 <code>“因特网协议套件”(Internet Protocol Suite)</code>。在现实当中，由于 TCP 提 供了很多有用的功能，几乎所有 HTTP 流量都是通过 TCP 传送的。</p>
+<blockquote>
+<p>我们都知道有 IPv4 和 IPv6，那 IPv1~3 和 IPv5 呢?</p>
+</blockquote>
+<p>IPv4 中的 4 表示 TCP/IP 协议的第 4 个版本，发布于 1981 年 9 月。**IPv4 中的 v4 只是表明了它与 TCP 前 3 个版本的承继关系，之前并没有单独的 IPv1、IPv2 或 IPv3 协议。而 v5 已经被分配给了另一个试验性协议 Internet Stream Protocol(ST)**。但 ST 一直没有什么进展，这也是我们为什么很少听说它的原因。结果 TCP/IP 的下 一版本就成了 IPv6。</p>
+<h2 id="1、三次握手"><a href="#1、三次握手" class="headerlink" title="1、三次握手"></a>1、三次握手</h2><ul>
+<li>  1）、出于安全考虑，序列号由两端随机生成。</li>
+<li>  2）、客户端可以在发送 ACK 分组之后立即发送数据，而服务器必须等接收到 ACK 分组之后才能发送数据。</li>
+<li>  3）、三次握手带来的延迟使得每创建一个新 TCP 连接都要付出很大代价。而这也决定了提高 TCP 应用性能的关键，在于想办法重用连接。</li>
+</ul>
+<h3 id="TFO（TCP-Fast-Open，TCP-快速打-开"><a href="#TFO（TCP-Fast-Open，TCP-快速打-开" class="headerlink" title="TFO（TCP Fast Open，TCP 快速打 开)"></a>TFO（TCP Fast Open，TCP 快速打 开)</h3><p>TFO 致力于减少新建 TCP 连接带来的性能损失。但却只能在某些情况下有效。比如，<strong>随同 SYN 分组一起发送的数据净荷有最大尺寸限制、只能发送某些类型的 HTTP 请 求，以及由于依赖加密 cookie，只能应用于重复的连接</strong>。</p>
+<h2 id="2、拥塞预防及控制"><a href="#2、拥塞预防及控制" class="headerlink" title="2、拥塞预防及控制"></a>2、拥塞预防及控制</h2><p><code>ARPANET(Advanced Research Projects Agency Network，高级研究计划局 网络)</code> 是现代互联网的前身，是世界上第一个实际运行的分组交换网络。这个项目于 1959 年正式启动，<strong>1983 年 TCP/IP 作为主要通信协议取代了原来 的 NCP(Network Control Program)协议</strong>。</p>
+<h3 id="1）、流量控制"><a href="#1）、流量控制" class="headerlink" title="1）、流量控制"></a>1）、流量控制</h3><p>为实现流量控制，TCP 连接的每一方都要通告自己的接收窗口(rwnd)，其中包含能够保存数据的缓冲区空间大小信息。这个过程贯穿于每个 TCP 连接的整个生命周期: <strong>每个 ACK 分组都会携带相应的最新 rwnd 值，以便两端动态调整数据流速，使之适应发送端和接收端的容量及处理能力</strong>。</p>
+<h4 id="窗口缩放-RFC-1323"><a href="#窗口缩放-RFC-1323" class="headerlink" title="窗口缩放(RFC 1323)"></a>窗口缩放(RFC 1323)</h4><p>最初的 TCP 规范分配给通告窗口大小的字段是 16 位的，RFC 1323 提供了“TCP 窗口缩放”(TCP Window Scaling)选项，可以 <strong>把接收窗口大小由 65535 字节提高到 1G 字节</strong>!缩放 TCP 窗口是在三次握手期间完成的，其中有一个值表示在将来的 ACK 中左移 16 位窗口字段的位数。</p>
+<h3 id="2）、慢启动"><a href="#2）、慢启动" class="headerlink" title="2）、慢启动"></a>2）、慢启动</h3><p>拥塞窗口大小(cwnd)，即发送端对从客户端接收确认(ACK)之前可以发送数据量的限制。</p>
+<p>新 TCP 连接传输的最大数据量取 rwnd 和 cwnd 中的最小值，而服务器实际上可以 向客户端发送 4 个 TCP 段，然后就必须停下来等待确认。</p>
+<p>为减少增长到拥塞窗口的时间，可以减少客户端与服务器之间的往返时间。比如， 把服务器部署到地理上靠近客户端的地方。要么，就把初始拥塞窗口大小增加到 RFC 9828 规定的 10 段。</p>
+<p>因为慢启动限制了可用的吞吐量，而这对于小文件传输非常不利。</p>
+<h4 id="SSR-Slow-Start-Restart，慢启动重启"><a href="#SSR-Slow-Start-Restart，慢启动重启" class="headerlink" title="SSR(Slow-Start Restart，慢启动重启)"></a>SSR(Slow-Start Restart，慢启动重启)</h4><p>在连接空闲一定时间后重置连接的拥塞窗口。道理很简单， 在连接空闲的同时，网络状况也可能发生了变化，为了避免拥塞，理应将拥塞窗口重置回“安全的”默认值。</p>
+<p>但是，<strong>SSR 对于那些会出现突发空闲的长周期 TCP 连接(比如 HTTP 的 keep-alive 连接)有很大的影响。因此，我们建议在服务器上禁用 SSR</strong>。</p>
+<p>可以看到，服务器和客户端之间的 5 Mbit/s 带宽并不影响 TCP 连接的启动阶 段。此时，延迟和拥塞窗口大小才是限制因素。</p>
+<h3 id="3）、拥塞预防"><a href="#3）、拥塞预防" class="headerlink" title="3）、拥塞预防"></a>3）、拥塞预防</h3><p>慢启动以保守的窗口初始化连接，随后的 每次往返都会成倍提高传输的数据量，直到超过接收端的流量控制窗口，即系统 配置的拥塞阈值(ssthresh)窗口，或者有分组丢失为止，此时拥塞预防算法介入。</p>
+<p><strong>拥塞预防算法把丢包作为网络拥塞的标志</strong>，即路径中某个连接或路由器已经拥堵了， 以至于必须采取删包措施。因此，必须调整窗口大小，以避免造成更多的包丢失， 从而保证网络畅通。</p>
+<p>重置拥塞窗口后，拥塞预防机制按照自己的算法来增大窗口以尽量避免丢包。某个 时刻，可能又会有包丢失，于是这个过程再从头开始。如果你看到过 TCP 连接的吞 吐量跟踪曲线，发现该曲线呈锯齿状，那现在就该明白为什么了。这是拥塞控制和 预防算法在调整拥塞窗口，进而消除网络中的丢包问题。</p>
+<h4 id="TCP-PRR-Proportional-Rate-Reduction，比例降速"><a href="#TCP-PRR-Proportional-Rate-Reduction，比例降速" class="headerlink" title="TCP PRR(Proportional Rate Reduction，比例降速)"></a>TCP PRR(Proportional Rate Reduction，比例降速)</h4><p>最初，TCP 使用 <code>AIMD(Multiplicative Decrease and Additive Increase，倍减加增)</code> 算法，即发生丢包时，<strong>先将拥塞窗口减半，然后每次往返再缓慢地给窗口增加一 个固定的值</strong>。</p>
+<p>后来，出现了 <code>PRR(Proportional Rate Reduction，比例降速)</code>，它是 RFC 6937 规定的一个新算法，其目标就是 <strong>改进丢包后的恢复速度。使用它因丢包造成的平均连接延迟减少了 3%~10%。此外，PRR 现在也是 Linux 3.2+ 内核默认的拥塞预防算法</strong>。</p>
+<h2 id="3、BDP-Bandwidth-delay-product，带宽延迟积"><a href="#3、BDP-Bandwidth-delay-product，带宽延迟积" class="headerlink" title="3、BDP(Bandwidth-delay product，带宽延迟积)"></a>3、BDP(Bandwidth-delay product，带宽延迟积)</h2><p>接收窗口（rwnd）会随每次 ACK 一起发送，而 拥塞窗口（cwnd）则由发送端根据拥塞控制和预防算法动态调整。</p>
+<p>无论发送端发送的数据还是接收端接收的数据超过了未确认的最大数据量，都必须停 下来等待另一方 ACK 确认某些分组才能继续。</p>
+<p>而 BDP(Bandwidth-delay product，带宽延迟积) 就是 <strong>任意时刻处于在途未确认状态的最大数据量</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BDP &#x3D; 数据链路的容量 * 其端到端延迟</span><br></pre></td></tr></table></figure>
+
+<p><strong>在高速连接的客户端与服务器之间，如果实际传输速度只有可用带宽的几分之一，那窗口大小很可能就是 罪魁祸首。要么因为某一饱和端通告的接收窗口很小，要么因为网络拥堵和丢包导致拥塞窗口重置，更可能因为流量增长过快导致对连接吞吐量施加了限制</strong>。</p>
+<h2 id="4、TCP-队首-HOL，Head-of-Line-阻塞"><a href="#4、TCP-队首-HOL，Head-of-Line-阻塞" class="headerlink" title="4、TCP 队首(HOL，Head of Line)阻塞"></a>4、TCP 队首(HOL，Head of Line)阻塞</h2><p>TCP 在不可靠的信道上实现了可靠的网络传输。基本的分组错误检测与纠正、按 序交付、丢包重发，以及保证网络最高效率的流量控制、拥塞控制和预防机制，让 TCP 成为大多数网络应用中最常见的传输协议。</p>
+<p>但是，其中的按序交付和可靠交付有时候并不必要，反而会导致额外的延迟，对性能造成负面影响。例如：每个 TCP 分组都会带着一个唯一的序列号被发出，而 所有分组必须按顺序传送到接收端。如果中途有一个分组没能到达接收 端，那么后续分组必须保存在接收端的 TCP 缓冲区，等待丢失的分组重发并到达接 收端。这一切都发生在 TCP 层，应用程序对 TCP 重发和缓冲区中排队的分组一无所 知，必须等待分组全部到达才能访问数据。在此之前，应用程序只能在通过套接字 读数据时感觉到延迟交付。这种效应称为 TCP 的队首(HOL，Head of Line)阻塞。</p>
+<p><strong>队首阻塞使得分组到达时间会存在无法预知的延迟变化，而这个时间变化通常被称为抖动</strong>。</p>
+<p>因此，对于无需按序交付数据或能够处理分组丢失的应用程序，以及对延迟或抖动要求很高的应用程序，最好选择 UDP 等协议。</p>
+<h3 id="丢包的反作用力"><a href="#丢包的反作用力" class="headerlink" title="丢包的反作用力"></a>丢包的反作用力</h3><p>丢包是让 TCP 达到最佳性能的关键。被删除的包恰恰是一种反馈机制， 能够让接收端和发送端各自调整速度，以避免网络拥堵，同时保持延迟最短。</p>
+<p>对与实时性比较强的音视频应用来说，就算有个包丢了，音频编解码器只要在音频中插入一个小小的间歇，就可以继续 处理后来的包。只要间歇够小，用户就注意不到，而等待丢失的包则可能导致音 频输出产生无法预料的暂停。相对来说，后者的用户体验更糟糕。</p>
+<h2 id="5、TCP-优化-Tips"><a href="#5、TCP-优化-Tips" class="headerlink" title="5、TCP 优化 Tips"></a>5、TCP 优化 Tips</h2><h3 id="1）、TCP-中的关键细节"><a href="#1）、TCP-中的关键细节" class="headerlink" title="1）、TCP 中的关键细节"></a>1）、TCP 中的关键细节</h3><ul>
+<li>  1）、<strong>TCP 三次握手增加了整整一次往返时间</strong>;</li>
+<li>  2）、<strong>TCP 慢启动将被应用到每个新连接</strong>;</li>
+<li>  3）、<strong>TCP 流量及拥塞控制会影响所有连接的吞吐量</strong>;</li>
+<li>  4）、<strong>TCP 的吞吐量由当前拥塞窗口大小控制</strong>。</li>
+</ul>
+<p>大多数情况下，<strong>TCP 的瓶颈都是延迟，而非带宽</strong>。</p>
+<h3 id="2）、服务端配置优化"><a href="#2）、服务端配置优化" class="headerlink" title="2）、服务端配置优化"></a>2）、服务端配置优化</h3><h4 id="1）、增大TCP的初始拥塞窗口"><a href="#1）、增大TCP的初始拥塞窗口" class="headerlink" title="1）、增大TCP的初始拥塞窗口"></a>1）、增大TCP的初始拥塞窗口</h4><p>加大起始拥塞窗口可以让 TCP 在第一次往返就传输较多数据，而随后的速度提 升也会很明显。对于突发性的短暂连接，这也是特别关键的一个优化。</p>
+<h4 id="2）、慢启动重启"><a href="#2）、慢启动重启" class="headerlink" title="2）、慢启动重启"></a>2）、慢启动重启</h4><p>在连接空闲时禁用慢启动可以改善瞬时发送数据的长 TCP 连接的性能。</p>
+<h4 id="3）、窗口缩放-RFC-1323"><a href="#3）、窗口缩放-RFC-1323" class="headerlink" title="3）、窗口缩放(RFC 1323)"></a>3）、窗口缩放(RFC 1323)</h4><p>启用窗口缩放可以增大最大接收窗口大小，可以让高延迟的连接达到更好吞 吐量。</p>
+<h4 id="4）、TCP快速打开"><a href="#4）、TCP快速打开" class="headerlink" title="4）、TCP快速打开"></a>4）、TCP快速打开</h4><p>在某些条件下，允许在第一个 SYN 分组中发送应用程序数据。TFO(TCP Fast Open，TCP 快速打开)是一种新的优化选项，注意，TFO 需要客户端和服务器共同支持。</p>
+<h3 id="3）、客户端优化"><a href="#3）、客户端优化" class="headerlink" title="3）、客户端优化"></a>3）、客户端优化</h3><ul>
+<li>  1）、<strong>少发或者不发网络情况（请求合并）：消除不必要的数据传输本身就是很大的优化。比如，减少下载不必要的资源，或者通过压缩算法把要发送的比特数降到最低</strong>。</li>
+<li>  2）、<strong>使用 CDN，让通信距离更短：通过在不同的地区部署服务器，把数据放到接近客户端的地方，可以减少网络往返的延迟，从而显著提升 TCP 性能</strong>。</li>
+<li>  3）、<strong>重用 TCP 连接：把慢启动和其他拥塞控制机制的影响降到最低</strong>。</li>
+</ul>
+<h1 id="四、UDP-优化"><a href="#四、UDP-优化" class="headerlink" title="四、UDP 优化"></a>四、UDP 优化</h1><p>数据报，即一个完整、独立的数据实体，携带着从源节点到目的地节点的足够信息，对这些 节点间之前的数据交换和传输网络没有任何依赖。</p>
+<h2 id="1、数据包和分组的区别"><a href="#1、数据包和分组的区别" class="headerlink" title="1、数据包和分组的区别"></a>1、数据包和分组的区别</h2><p>数据报(datagram)和分组(packet)是两个经常被人混用的词，实际上它们还是 有区别的。<strong>分组可以用来指代任何格式化的数据块，而数据报则通常只用来描述那 些通过不可靠的服务传输的分组，既不保证送达，也不发送失败通知</strong>。</p>
+<p>IETF 和 W3C 工作组共同制定了一套新 API—— <code>WebRTC(Web Real-Time Communication，Web 实时通信)</code>。<strong>WebRTC 着眼于在浏览器中通过 UDP 实现原生的语音和视频实时通信，以及其他形式的 P2P(Peer-to-Peer，端到端)通信</strong>。</p>
+<h2 id="2、无协议服务"><a href="#2、无协议服务" class="headerlink" title="2、无协议服务"></a>2、无协议服务</h2><p>众所周知，IP 层的主要任务就是按照地址从源主机向目标主机发送数据报。而 <strong>数据报</strong> 则暗示着:<strong>IP 层不保证消息可靠的交付，也不发送失败通知，实际上是把底层网络的不可靠性直接暴露给了上一层</strong>。如果某个路由节点因为网络拥塞、负载过高或其他原因而删除了 IP 分组，那么在必要的情况下，IP 的上一层协议要负责检测、恢复和重发数据。</p>
+<p>UDP 数据报中的源端口和校验和字段都是可选的。IP 分组的首部也有校验和，应用程序可以忽略 UDP 校验和。因此，<strong>UDP 仅仅是在 IP 层之上通过嵌入应用程序的源端口和目标端口，提供了一个“应用程序多路复用”机制</strong>。</p>
+<h3 id="UDP-的无服务"><a href="#UDP-的无服务" class="headerlink" title="UDP 的无服务"></a>UDP 的无服务</h3><ul>
+<li>  1）、<strong>不保证消息交付：不确认，不重传，无超时</strong>。</li>
+<li>  2）、<strong>不保证交付顺序：不设置包序号，不重排，不会发生队首阻塞</strong>。</li>
+<li>  3）、<strong>不跟踪连接状态：不必建立连接或重启状态机</strong>。</li>
+<li>  4）、<strong>不需要拥塞控制：不内置客户端或网络反馈机制</strong>。</li>
+</ul>
+<h2 id="3、UDP-与网络地址转换器-NAT，Network-Address-Translator"><a href="#3、UDP-与网络地址转换器-NAT，Network-Address-Translator" class="headerlink" title="3、UDP 与网络地址转换器(NAT，Network Address Translator)"></a>3、UDP 与网络地址转换器(NAT，Network Address Translator)</h2><h3 id="1）、连接状态超时"><a href="#1）、连接状态超时" class="headerlink" title="1）、连接状态超时"></a>1）、连接状态超时</h3><p>对于较长时间的 UDP 通信，有一个事实上的最佳做法，即引入一个双向 <code>keep-alive</code> 分组，<strong>周期性地重置传输路径上所有 NAT 设备中转换记录的计时器</strong>。</p>
+<h3 id="2）、NAT-穿透"><a href="#2）、NAT-穿透" class="headerlink" title="2）、NAT 穿透"></a>2）、NAT 穿透</h3><p>NAT 导致了几个问题，如下所示：</p>
+<ul>
+<li>  1）、内部客户端不知道外网 IP 地址，只知道内网 IP 地址。</li>
+<li>  2）、任何到达 NAT 设备外网 IP 的分组还必须有一个目标端口，而且 NAT 转换表中也要有一个条目可以将其转换为内部主机的 IP 地址和端口号。如果没有这个条目(通常是从外网传数据进来)，那到达的分组就会被删除。</li>
+</ul>
+<p>为解决 UDP 与 NAT 的这种不搭配，人们发明了很多穿透技术(TURN、STUN、 ICE)，用于在 UDP 主机之间建立端到端的连接。</p>
+<h3 id="3）、STUN-Session-Traversal-Utilities-for-NAT-协议-RFC-5389"><a href="#3）、STUN-Session-Traversal-Utilities-for-NAT-协议-RFC-5389" class="headerlink" title="3）、STUN(Session Traversal Utilities for NAT)协议(RFC 5389)"></a>3）、STUN(Session Traversal Utilities for NAT)协议(RFC 5389)</h3><p><img src="https://upload-images.jianshu.io/upload_images/14601315-e00d6e59ad07bb3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ul>
+<li>  1）、应用程序可以获得外网 IP 和端口，并利用这些信息与对端通信;</li>
+<li>  2）、发送到 STUN 服务器的出站绑定请求将在通信要经过的 NAT 中建立路由条目， 使得到达该 IP 和端口的入站分组可以找到内网中的应用程序;</li>
+<li>  3）、STUN 协议定义了一个简单 keep-alive 探测机制，可以保证 NAT 路由条目不超时。</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>STUN 并不能适应所有类型的 NAT 和网络配置。不仅如此，某些情况下 UDP 还会被防火墙或其他网络设备完全屏蔽。</p>
+<p>为解决这个问题，在 STUN 失败的情况下，我们还可以使用 TURN(Traversal Using Relays around NAT)协议(RFC 5766)作为后备。TURN 可以在最坏的情况下跳过 UDP 而切换到 TCP。</p>
+<h3 id="4）、TURN-Traversal-Using-Relays-around-NAT-协议-RFC-5766"><a href="#4）、TURN-Traversal-Using-Relays-around-NAT-协议-RFC-5766" class="headerlink" title="4）、TURN(Traversal Using Relays around NAT)协议(RFC 5766)"></a>4）、TURN(Traversal Using Relays around NAT)协议(RFC 5766)</h3><p><img src="https://upload-images.jianshu.io/upload_images/14601315-bc6da7441bb54096.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h4><ul>
+<li>  1）、两端都要向同一台 TURN 服务器发送分配请求来建立连接，然后再进行权限协商。</li>
+<li>  2）、协商完毕，两端都把数据发送到 TURN 服务器，再由 TURN 服务器转发，从而 实现通信。</li>
+</ul>
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><p>为满足传输数据的需要，中继设备的容量必须足够大。</p>
+<p>谷歌的 <code>libjingle</code> 是一个用 C++ 开发的用于构建端到端应用程序的开源库，其文档也为我们考量现实中的 STUN 与 TURN 性能提供了有价值的参考:</p>
+<ul>
+<li>  92% 的时间可以直接连接(STUN);</li>
+<li>  8% 的时间要使用中继器(TURN)。</li>
+</ul>
+<h3 id="5）、ICE-Interactive-Connectivity-Establishment-协议-RFC-5245"><a href="#5）、ICE-Interactive-Connectivity-Establishment-协议-RFC-5245" class="headerlink" title="5）、ICE(Interactive Connectivity Establishment)协议(RFC 5245)"></a>5）、ICE(Interactive Connectivity Establishment)协议(RFC 5245)</h3><p>ICE 规定了一套方法，致力于在通信各端之间建立一条最有效的通道:能直连就直连，必要时 STUN 协商，再不行使用 TURN。如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-a810a694b95ea782.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>如果要构建基于 UDP 的 P2P 应用程序，我们应该选择现有的平台 API，或者实现了 ICE、STUN 和 TURN 的第三方库。</p>
+<h2 id="4、UDP-优化-Tips"><a href="#4、UDP-优化-Tips" class="headerlink" title="4、UDP 优化 Tips"></a>4、UDP 优化 Tips</h2><p><strong>UDP 的特色在于它所省略的那些功能:连接状态、握手、重发、重组、重排、拥塞控制、拥塞预防、流量控制，甚至可选的错误检测，统统没有</strong>。</p>
+<p>在 RFC 5405 中，对设计单播 UDP 应用程序给出了很多设计建议，如下所示：</p>
+<ul>
+<li>  1）、<strong>必须容忍各种因特网路径条件</strong>;</li>
+<li>  2）、<strong>应该控制传输速度</strong>;</li>
+<li>  3）、<strong>应该对所有流量进行拥塞控制</strong>;</li>
+<li>  4）、<strong>应该使用与 TCP 相近的带宽</strong>;</li>
+<li>  5）、<strong>应该准备基于丢包的重发计数器</strong>;</li>
+<li>  6）、<strong>应该不发送大于路径 MTU 的数据报</strong>;</li>
+<li>  7）、<strong>应该处理数据报丢失、重复和重排</strong>;</li>
+<li>  8）、<strong>应该足够稳定以支持 2 分钟以上的交付延迟</strong>;</li>
+<li>  9）、<strong>应该支持 IPv4 UDP 校验和，必须支持 IPv6 校验和</strong>;</li>
+<li>  10）、**可以在需要时使用 keep-alive(最小间隔 15 秒)**。</li>
+</ul>
+<p>而 WebRTC 协议则是上述的设计典范。</p>
+<h1 id="五、TLS（Transport-Layer-Security，传输层安全）"><a href="#五、TLS（Transport-Layer-Security，传输层安全）" class="headerlink" title="五、TLS（Transport Layer Security，传输层安全）"></a>五、TLS（Transport Layer Security，传输层安全）</h1><p>SSL 协议在直接位于 TCP 上一层的应用层被实现。</p>
+<p>IETF 后来在标准化 SSL 协议时，将其改名为 Transport Layer Security (TLS，传输层安全)。很多人会混用 TLS 和 SSL，但严格来讲它们并不相 同，因为它们指代的协议版本不同。</p>
+<p>鉴于 SSL 协议是网景公司专有的，IETF 成立了一个小组负责标准化该协 议，后来就有了 RFC 2246，即 TLS 1.0，也就是 SSL 3.0 的升级版。</p>
+<ul>
+<li>  <strong>TLS 1.0 在 1999 年 1 月发布</strong>。</li>
+<li>  <strong>2006 年 4 月发布了 TLS 1.1</strong>。</li>
+<li>  <strong>2008 年 8 月发布了 TLS 1.2</strong>。</li>
+</ul>
+<p>TLS 也可以实现在 UDP 之上，DTLS(Datagram Transport Layer Security，数据报传输层安全)（RFC 6347）就旨在以 TLS 协议为基础，同时兼顾数据报交付模式并提供类似的安全保障。</p>
+<h2 id="1、加密、身份验证与完整性"><a href="#1、加密、身份验证与完整性" class="headerlink" title="1、加密、身份验证与完整性"></a>1、加密、身份验证与完整性</h2><p>TLS 协议的目标是为在它之上运行的应用提供三个基本服务：</p>
+<ul>
+<li>  1）、<strong>加密：混淆数据的机制</strong>。</li>
+<li>  2）、<strong>身份验证：验证身份标识有效性的机制</strong>。</li>
+<li>  3）、<strong>数据完整性：检测消息是否被篡改或伪造的机制</strong>。</li>
+</ul>
+<h3 id="1）、加密"><a href="#1）、加密" class="headerlink" title="1）、加密"></a>1）、加密</h3><p>在握手机制中设计最巧妙的地方，就是其使用的公钥密码系统 (也称“非对称密钥加密”)，这套系统可以让通信双方不必事先“认识”即可商定共 享的安全密钥，而且协商过程还是通过非加密通道完成的。</p>
+<h3 id="2）、身份验证"><a href="#2）、身份验证" class="headerlink" title="2）、身份验证"></a>2）、身份验证</h3><p>握手过程中，TLS 协议还允许通信两端互相验明正身。这个验证首先需要建立“认证机构信任链”(Chain of Trust and Certificate Authorities)。</p>
+<h3 id="3）、数据完整性"><a href="#3）、数据完整性" class="headerlink" title="3）、数据完整性"></a>3）、数据完整性</h3><p>消息分帧机制，使用 MAC (Message Authentication Code，消息认证码)签署每一条消息。MAC 算法是一个单向加密的散列函数(本质上是一个校验和)，<strong>密钥由连接双方协商确定。只要发送 TLS 记录，就会生成一个 MAC 值并附加到该消息中</strong>。接收端通过计算和验证这个 MAC 值来判断消息的完整性和可靠性。</p>
+<h2 id="2、TLS-握手"><a href="#2、TLS-握手" class="headerlink" title="2、TLS 握手"></a>2、TLS 握手</h2><p><img src="https://upload-images.jianshu.io/upload_images/14601315-9f70e2ed973b6787.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<ul>
+<li>  0 ms:TLS 在可靠的传输层(TCP)之上运行，这意味着首先必须完成 TCP 的“三 次握手”，即一次完整的往返。</li>
+<li>  56 ms:TCP 连接建立之后，客户端再以纯文本形式发送一些规格说明，比如它所运 行的 TLS 协议的版本、它所支持的加密套件列表，以及它支持或希望使用的另外一 些 TLS 选项。</li>
+<li>  84 ms:然后，服务器取得 TLS 协议版本以备将来通信使用，从客户端提供的加密 套件列表中选择一个，再附上自己的证书，将响应发送回客户端。作为可选项，服 务器也可以发送一个请求，要求客户端提供证书以及其他 TLS 扩展参数。</li>
+<li>  112 ms:假设两端经过协商确定了共同的版本和加密套件，客户端也高高兴兴地 把自己的证书提供给了服务器。然后，客户端会生成一个新的对称密钥，用服务 器的公钥来加密，加密后发送给服务器，告诉服务器可以开始加密通信了。到 目前为止，除了用服务器公钥加密的新对称密钥之外，所有数据都以明文形式 发送。</li>
+<li>  140 ms:最后，服务器解密出客户端发来的对称密钥，通过验证消息的 MAC 检 测消息完整性，再返回给客户端一个加密的“Finished”消息。</li>
+<li>  168 ms:客户端用它之前生成的对称密钥解密这条消息，验证 MAC，如果一切 顺利，则建立信道并开始发送应用数据。</li>
+</ul>
+<h3 id="1）、应用层协议协商-ALPN，Application-Layer-Protocol-Negotiation"><a href="#1）、应用层协议协商-ALPN，Application-Layer-Protocol-Negotiation" class="headerlink" title="1）、应用层协议协商(ALPN，Application Layer Protocol Negotiation)"></a>1）、应用层协议协商(ALPN，Application Layer Protocol Negotiation)</h3><p>NPN(Next Protocol Negotiation，下一代协议协商)是谷歌在 SPDY 协议中开发的一个 TLS 扩展，<strong>目的是通过在 TLS 握手期间协商应用协议来提高效率</strong>。</p>
+<p>ALPN 是 IETF 在 NPN 基础上修订并批准的版本。在 NPN 中，服务器广播自己 支持的协议，客户端选择和确认协议。而 <strong>在 ALPN 中，交换次序颠倒过来了，客 户端先声明自己支持的协议，服务器选择并确认协议。而这样修改的目的是为了让 ALPN 与其他协议协商标准保持一致</strong>。</p>
+<p>ALPN 作为 TLS 扩展，让我们能在 TLS 握手的同时协商应用协议，从而省掉了 HTTP 的 Upgrade 机制所需的额外往返时间。</p>
+<p>只要 TLS 握手完成、建立了加密信道并就应用协议达成一致，客户端与服务器就可 以立即通信。</p>
+<h3 id="2）、SNI-Server-Name-Indication，服务器名称指示"><a href="#2）、SNI-Server-Name-Indication，服务器名称指示" class="headerlink" title="2）、SNI (Server Name Indication，服务器名称指示)"></a>2）、SNI (Server Name Indication，服务器名称指示)</h3><p>如果服务器想在一个 IP 地址为多个站点提供服务，而每个站点都拥有自己的 TLS 证书，那怎么办?</p>
+<p>为了解决这个问题，SNI 扩展被引入 TLS 协议，该扩展 <strong>允许客户端在握手之初就指明要连接的主机名</strong>。</p>
+<h2 id="3、TLS-会话恢复"><a href="#3、TLS-会话恢复" class="headerlink" title="3、TLS 会话恢复"></a>3、TLS 会话恢复</h2><p>即在多个连接间共享协商后的安全密钥。</p>
+<h3 id="1）、会话标识符-Session-Identifier，RFC-5246"><a href="#1）、会话标识符-Session-Identifier，RFC-5246" class="headerlink" title="1）、会话标识符 (Session Identifier，RFC 5246)"></a>1）、会话标识符 (Session Identifier，RFC 5246)</h3><p>最早的“会话标识符”机制是在 SSL 2.0 中引入的， 支持服务器创建 32 字节的会话标识符，它是在完整的 TLS 协商期间作为其“ServerHello”消息的一部分发送。</p>
+<p>在内部，服务器会为每个客户端保存一个会话 ID 和协商后的会话参数。相应地，客 户端也可以保存会话 ID 信息，并将该 ID 包含在后续会话的“ClientHello”消息中， 从而告诉服务器自己还记着上次握手协商后的加密套件和密钥，这些都可以重用。</p>
+<p>假设客户端和服务器都可以在自己的缓存中找到共享的会话 ID 参数，那么就可以进 行简短握手。否则，就要重新启动一次全新的会话协商，生成新的会话 ID。简短的 TLS 握手如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-20f04319ba4509d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h4><ul>
+<li>  1）、<strong>节省一次往返</strong>。</li>
+<li>  2）、<strong>省掉用于协商共享加密密钥的公钥加密计算</strong>。</li>
+</ul>
+<h4 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h4><p>对于那些每天都要“接待”几万甚至几百万独立连接的服务器来说，由于每个打开的 TLS 连接都要占用内存，因此需要一套会话 ID 缓存和清除策略。</p>
+<p>为了解决上述服务器端部署 TLS 会话缓存的问题，“会话记录单” 机制出现了。</p>
+<h3 id="2）、会话记录单-Session-Ticket，-RFC-5077"><a href="#2）、会话记录单-Session-Ticket，-RFC-5077" class="headerlink" title="2）、会话记录单(Session Ticket， RFC 5077)"></a>2）、会话记录单(Session Ticket， RFC 5077)</h3><p>该机制不用服务器保存每个客户端的会话状态。只要客户端表明其支持会话记录单，则<strong>服务器可以在完整 TLS 握手的最后一次交换中添加一条“新会话记录单”(New Session Ticket)记录，包含只有服务器知道的安全密钥加密过的所有会话数据</strong>。</p>
+<p>然后，客户端将这个会话记录单保存起来，在后续会话的 ClientHello 消息中，可以将其包含在 SessionTicket 扩展中。这样，所有会话数据只保存在客户端，而由于 数据被加密过，且密钥只有服务器知道，因此仍然是安全的。</p>
+<p>会话标识符和会话记录单机制，即“会话缓存”或“无状态恢复”机制。其优点**主要是消除了服务器端的缓存负担，通过要求客户端在与服务器建立新连接时提供会话记录单简化了部署(除非记录单过期)**。</p>
+<h2 id="4、信任链与证书颁发机构"><a href="#4、信任链与证书颁发机构" class="headerlink" title="4、信任链与证书颁发机构"></a>4、信任链与证书颁发机构</h2><p><strong>身份验证即用自己的私钥签名，然后对方用自己的公钥验证收到的消息签名</strong>。但信任是交流的关键。</p>
+<p>对于浏览器来说，它信任谁呢?</p>
+<p><strong>至少有三个答案</strong>：</p>
+<ul>
+<li>  1）、<strong>手工指定证书：所有浏览器和操作系统都提供了一种手工导入信任证书的机制</strong>。</li>
+<li>  2）、<strong>CA(Certificate Authority，证书颁发机构)：被证书接受者(拥有者)和依赖证 书的一方共同信任的第三方</strong>。</li>
+<li>  3）、<strong>浏览器和操作系统：其中都会内置一个知名证书颁发机构的名单。因此，你也会信任操作系统及浏览器提供商提供和维护的可信任机构</strong>。</li>
+</ul>
+<p>最常见的方案，就是浏览器指定可信任的证书颁发机构(根 CA)。而 <strong>证书颁发机构签署数字证书的流程</strong> 如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-c6a9f02088c9fdb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>所有浏览器都允许用户检视自己安全连接的信任链，<strong>常见的访问入口就是地址栏头儿上的锁图标</strong>，点击即可查看。如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-68eea557e79b6dda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p><strong>整个链条的“信任依据”是根证书颁发机构，而每个浏览器都会内置一个可信任的证书颁发机构(根机构)的名单</strong>。</p>
+<h2 id="5、证书撤销"><a href="#5、证书撤销" class="headerlink" title="5、证书撤销"></a>5、证书撤销</h2><p>通信的任何一端都可以根据嵌入的指令和签名检查链条中每个证书的状态。</p>
+<h3 id="1）、CRL-Certificate-Revocation-List，证书撤销名单-RFC-528"><a href="#1）、CRL-Certificate-Revocation-List，证书撤销名单-RFC-528" class="headerlink" title="1）、CRL(Certificate Revocation List，证书撤销名单) (RFC 528)"></a>1）、CRL(Certificate Revocation List，证书撤销名单) (RFC 528)</h3><ul>
+<li>  <strong>每个证书颁发机构维护并定期发布已撤销证书的序列号名单</strong>。</li>
+<li>  <strong>任何想验证证书的人都可以下载撤销名单，检查相应证书是否榜上有名。 如果有，说明证书已经被撤销了</strong>。</li>
+</ul>
+<h4 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>  1）、<strong>CRL 名单会随着要撤销的证书增多而变长，每个客户端都必须取得包含所有序列 号的完整名单</strong>。</li>
+<li>  2）、<strong>没有办法立即更新刚刚被撤销的证书序列号，比如客户端先缓存了 CRL，之后某 证书被撤销，那到缓存过期之前，该证书将一直被视为有效</strong>。</li>
+</ul>
+<h3 id="2）、OCSP-Online-Certificate-Status-Protocol，在线证书状态协议-（RFC-2560）"><a href="#2）、OCSP-Online-Certificate-Status-Protocol，在线证书状态协议-（RFC-2560）" class="headerlink" title="2）、OCSP(Online Certificate Status Protocol，在线证书状态协议)（RFC 2560）"></a>2）、OCSP(Online Certificate Status Protocol，在线证书状态协议)（RFC 2560）</h3><ul>
+<li>  <strong>一种实时检查证书状态的机制</strong>。</li>
+<li>  <strong>支持验证端直接查询证书数据库中的序列号，从而验证证书链是否有效</strong>。</li>
+</ul>
+<h4 id="缺点-4"><a href="#缺点-4" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>  1）、<strong>证书颁发机构必须处理实时查询</strong>。</li>
+<li>  2）、<strong>证书颁发机构必须确保随时随地可以访问</strong>。</li>
+<li>  3）、<strong>客户端在进一步协商之前阻塞</strong> OCSP 请求。</li>
+<li>  4）、<strong>由于证书颁发机构知道客户端要访问哪个站点，因此实时 OCSP 请求可能会泄露 客户端的隐私</strong>。</li>
+</ul>
+<p>现实中，<strong>CRL 和 OCSP 机制是互补存在的，大多数证书既提供指令也支持查询</strong>。</p>
+<h2 id="6、TLS-记录协议"><a href="#6、TLS-记录协议" class="headerlink" title="6、TLS 记录协议"></a>6、TLS 记录协议</h2><p>TLS 记录协议负责 <strong>识别不同的消息类型(握手、警告或数据，通过“内容类型”字段)，以及每条消息的安全和完整性验证</strong>。TLS 记录结构如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-edcba8a6e1147c24.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>交付应用数据的典型流程如下：</p>
+<ul>
+<li>  1）、<strong>记录协议接收应用数据</strong>。</li>
+<li>  2）、<strong>接收到的数据被切分为块:最大为每条记录 214 字节，即 16 KB</strong>。</li>
+<li>  3）、**压缩应用数据(可选)**。</li>
+<li>  4）、<strong>添加 MAC(Message Authentication Code)或 HMAC</strong>。</li>
+<li>  5）、<strong>使用商定的加密套件加密数据</strong>。</li>
+</ul>
+<p>之后，加密数据就会被交给 TCP 层传输。<strong>接收端的流程</strong> 相同，顺序相反:<strong>使用商定的加密套件解密数据、验证 MAC、提取并把数据转交给上层的应用</strong>。</p>
+<h3 id="缺点-5"><a href="#缺点-5" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>  1）、<strong>TLS 记录最大为 16 KB</strong>;</li>
+<li>  2）、<strong>每条记录包含 5 字节的首部、MAC(在 SSL 3.0、TLS 1.0、TLS 1.1 中最多 20 字节，在 TLS 1.2 中最多 32 字节)，如果使用块加密则还有填充</strong>;</li>
+<li>  3）、<strong>必须接收到整条记录才能开始解密和验证</strong>。</li>
+</ul>
+<h2 id="7、TLS-优化-Tips"><a href="#7、TLS-优化-Tips" class="headerlink" title="7、TLS 优化 Tips"></a>7、TLS 优化 Tips</h2><h3 id="1）、尽早完成握手"><a href="#1）、尽早完成握手" class="headerlink" title="1）、尽早完成握手"></a>1）、尽早完成握手</h3><p>使用 CDN，在世界各地的服务器上缓存或重复部署数据和服务，而不需要让所有用户都通过跨海或跨大陆光缆连接到一个中心原始服务器。</p>
+<h4 id="优势-2"><a href="#优势-2" class="headerlink" title="优势"></a>优势</h4><ul>
+<li>  1）、<strong>通过使用本地代理服务器分流负载等手段降低延迟</strong>。</li>
+<li>  2）、<strong>本地代理服务器也可以与原始服务器建立一批长期的安全连接，全权代理请求与响应</strong>。</li>
+<li>  3）、<strong>在 CDN 中，客户端连接终止于邻近 CDN 节点，该节点将请求转发到与对端服务器邻近的 CDN 节点，之后请求才会被路由到原始服务器。这可以让数据在优化的 CDN 骨干网中寻路，从而进一步减少客户端与服务器之间的延迟</strong>。</li>
+</ul>
+<h3 id="2）、使用会话缓存与无状态恢复"><a href="#2）、使用会话缓存与无状态恢复" class="headerlink" title="2）、使用会话缓存与无状态恢复"></a>2）、使用会话缓存与无状态恢复</h3><ul>
+<li>  在大多数服务器的默认配置下它是禁用的，我们需要手动开启它。</li>
+<li>  在支持的客户端中使用会话记录单，而在不支持的客户端中使用会话标识符。</li>
+</ul>
+<h3 id="3）、TLS-记录大小"><a href="#3）、TLS-记录大小" class="headerlink" title="3）、TLS 记录大小"></a>3）、TLS 记录大小</h3><p>小记录会造成浪费，大记录会导致延迟。最优 TLS 记录大小的参考值如下所示：</p>
+<ul>
+<li>  <strong>IPv4 帧需要 20 字节，IPv6 需要 40 字节</strong>;</li>
+<li>  <strong>TCP 帧需要 20 字节</strong>;</li>
+<li>  **TCP 选项需要 40 字节(时间戳、SACK 等)**。</li>
+</ul>
+<p><strong>默认情况下，OpenSSL 等常用的库会给每个连接分配 50 KB 空间，而谷歌的服务器把 OpenSSL 缓冲区的大小减少到 了大约 5KB。因此，我们需要在保障功能的前提下尽可能使用最小的内存</strong>。</p>
+<h3 id="4）、证书链的长度"><a href="#4）、证书链的长度" class="headerlink" title="4）、证书链的长度"></a>4）、证书链的长度</h3><blockquote>
+<p>浏览器怎么知道到哪里去找证书呢?</p>
+</blockquote>
+<p>因为 <strong>子证书中通常包含父证书的 URL</strong>。</p>
+<p>我们应该确保证书链的长度最小。<strong>如果证书链长度超过了 TCP 的初始拥塞窗口，那我们无意间就会让握手多了一次往返:证书长度超过拥塞窗口，从而导致服务器停下来等待 客户端的 ACK 消息</strong>。</p>
+<p>对此，有 <strong>两种解决方式</strong>：</p>
+<ul>
+<li>  1）、<strong>增大拥塞窗口</strong>。</li>
+<li>2）、<strong>减少证书大小</strong>：<ul>
+<li>  <strong>尽量减少中间证书颁发机构的数量：理想情况下，发送的证书链应该只包含两个 证书:站点证书和中间证书颁发机构的证书。第三个证书，也就是根证书颁发机构的证书，已经包含在浏览器内置的信任名单中了，不用发送</strong>。</li>
+<li>  <strong>理想的证书链应该在 2 KB 或 3 KB 左右</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="5）、OCSP-封套"><a href="#5）、OCSP-封套" class="headerlink" title="5）、OCSP 封套"></a>5）、OCSP 封套</h3><p>服务器可以在证书链中包含(封套)证书颁发机构的 OCSP 响应，让浏览器跳过在线查询。把查询 OCSP 操作转移到服务器可以让服务器缓存签名的 OCSP 响应，从而节省很多客户端的请求。</p>
+<h3 id="6）、HTTP-严格传输安全-HSTS，Strict-Transport-Security"><a href="#6）、HTTP-严格传输安全-HSTS，Strict-Transport-Security" class="headerlink" title="6）、HTTP 严格传输安全(HSTS，Strict Transport Security)"></a>6）、HTTP 严格传输安全(HSTS，Strict Transport Security)</h3><p><strong>一种安全策略机制，让服务器通过简单的 HTTP 首部(如 Strict-Transport-Security: max-age=31536000) 对适用的浏览器声明访问规则</strong>。</p>
+<p>max-age 以秒为单位指定 HSTS 规则集的生存时间(例如，max-age=31536000 等于 缓存 365 天)。</p>
+<h4 id="优势-3"><a href="#优势-3" class="headerlink" title="优势"></a>优势</h4><p><strong>HSTS 通过把责任转移到客户端，让客户端自动把所有链接重写为 HTTPS，消除了从 HTTP 到 HTTPS 的重定向损失</strong>。</p>
+<p>我们需要熟练掌握 <code>openssl</code> 命令行工具，通过它来检查整个握手和本地服务器配 置情况。其使用如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">quchao@quchaodeMacBook-Pro paxgo % openssl s_client -state -CAfile startssl.ca.crt -connect igvita.com:443</span><br><span class="line"></span><br><span class="line">4482293356:error:02FFF002:system library:func(4095):No such file or directory:&#x2F;BuildRoot&#x2F;Library&#x2F;Caches&#x2F;com.apple.xbs&#x2F;Sources&#x2F;libressl&#x2F;libressl-47.11.1&#x2F;libressl-2.8&#x2F;crypto&#x2F;bio&#x2F;bss_file.c:122:fopen(&#39;startssl.ca.crt&#39;, &#39;r&#39;)</span><br><span class="line">4482293356:error:20FFF080:BIO routines:CRYPTO_internal:no such file:&#x2F;BuildRoot&#x2F;Library&#x2F;Caches&#x2F;com.apple.xbs&#x2F;Sources&#x2F;libressl&#x2F;libressl-47.11.1&#x2F;libressl-2.8&#x2F;crypto&#x2F;bio&#x2F;bss_file.c:125:</span><br><span class="line">4482293356:error:0BFFF002:x509 certificate routines:CRYPTO_internal:system lib:&#x2F;BuildRoot&#x2F;Library&#x2F;Caches&#x2F;com.apple.xbs&#x2F;Sources&#x2F;libressl&#x2F;libressl-47.11.1&#x2F;libressl-2.8&#x2F;crypto&#x2F;x509&#x2F;by_file.c:248:</span><br><span class="line">CONNECTED(00000005)</span><br><span class="line">SSL_connect:before&#x2F;connect initialization</span><br><span class="line">SSL_connect:SSLv3 write client hello A</span><br><span class="line">SSL_connect:SSLv3 read server hello A</span><br><span class="line">depth&#x3D;2 O &#x3D; Digital Signature Trust Co., CN &#x3D; DST Root CA X3</span><br><span class="line">verify return:1</span><br><span class="line">depth&#x3D;1 C &#x3D; US, O &#x3D; Let&#39;s Encrypt, CN &#x3D; Let&#39;s Encrypt Authority X3</span><br><span class="line">verify return:1</span><br><span class="line">depth&#x3D;0 CN &#x3D; igvita.com</span><br><span class="line">verify return:1</span><br><span class="line">SSL_connect:SSLv3 read server certificate A</span><br><span class="line">SSL_connect:SSLv3 read server key exchange A</span><br><span class="line">SSL_connect:SSLv3 read server done A</span><br><span class="line">SSL_connect:SSLv3 write client key exchange A</span><br><span class="line">SSL_connect:SSLv3 write change cipher spec A</span><br><span class="line">SSL_connect:SSLv3 write finished A</span><br><span class="line">SSL_connect:SSLv3 flush data</span><br><span class="line">SSL_connect:SSLv3 read finished A</span><br><span class="line">---</span><br><span class="line">Certificate chain</span><br><span class="line"> 0 s:&#x2F;CN&#x3D;igvita.com</span><br><span class="line">   i:&#x2F;C&#x3D;US&#x2F;O&#x3D;Let&#39;s Encrypt&#x2F;CN&#x3D;Let&#39;s Encrypt Authority X3</span><br><span class="line"> 1 s:&#x2F;C&#x3D;US&#x2F;O&#x3D;Let&#39;s Encrypt&#x2F;CN&#x3D;Let&#39;s Encrypt Authority X3</span><br><span class="line">   i:&#x2F;O&#x3D;Digital Signature Trust Co.&#x2F;CN&#x3D;DST Root CA X3</span><br><span class="line">---</span><br><span class="line">Server certificate</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIFXTCCBEWgAwIBAgISBJN+3MX9OKjS5cX4b6ww&#x2F;vtAMA0GCSqGSIb3DQEBCwUA</span><br><span class="line">MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD</span><br><span class="line">ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDA0MjAxMzI1NDNaFw0y</span><br><span class="line">MDA3MTkxMzI1NDNaMBUxEzARBgNVBAMTCmlndml0YS5jb20wggEiMA0GCSqGSIb3</span><br><span class="line">DQEBAQUAA4IBDwAwggEKAoIBAQCx5ZoBTHLEUmRbkMVyBESzjCR1Oz9aop5aQRAp</span><br><span class="line">bviLSasQbKaXp1DkzaB10am9Nr3ROKtP6tQgB8suaYC94I4SatnJsB3EBGew5GUr</span><br><span class="line">MKybvoQYp4HzJvC49uUZDWFOlWdw6P5ldVXjsX22ATobK5XY0Tr1Ci5j7goanXRF</span><br><span class="line">49sZ6yT5xVsKjprdg8&#x2F;aoqtIDYXvJsZfJiDyGVung3Qb8RbmjlPvvGS7AXESSA8b</span><br><span class="line">3g7lMdRBhsRPL7BXuVVnoU5CsPcTc7GPuJ5z0Qbfa34NILq4zPqvgH1pWRNJX7Fn</span><br><span class="line">S7Hf5RVhlsuiCEr7BheVGWOjujuxFPOnPkoQ4EcfP6iGBITRAgMBAAGjggJwMIIC</span><br><span class="line">bDAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMC</span><br><span class="line">MAwGA1UdEwEB&#x2F;wQCMAAwHQYDVR0OBBYEFJbxqiGGEZ5EEEWj1p1RWhYRU&#x2F;ESMB8G</span><br><span class="line">A1UdIwQYMBaAFKhKamMEfd265tE5t6ZFZe&#x2F;zqOyhMG8GCCsGAQUFBwEBBGMwYTAu</span><br><span class="line">BggrBgEFBQcwAYYiaHR0cDovL29jc3AuaW50LXgzLmxldHNlbmNyeXB0Lm9yZzAv</span><br><span class="line">BggrBgEFBQcwAoYjaHR0cDovL2NlcnQuaW50LXgzLmxldHNlbmNyeXB0Lm9yZy8w</span><br><span class="line">JQYDVR0RBB4wHIIKaWd2aXRhLmNvbYIOd3d3Lmlndml0YS5jb20wTAYDVR0gBEUw</span><br><span class="line">QzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDov</span><br><span class="line">L2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEFBgorBgEEAdZ5AgQCBIH2BIHzAPEAdwBv</span><br><span class="line">U3asMfAxGdiZAKRRFf93FRwR2QLBACkGjbIImjfZEwAAAXGX+wdyAAAEAwBIMEYC</span><br><span class="line">IQC55PavTz4OWvcbMpDNQIcR&#x2F;SYEDvdSkqrYjxDRGx4vawIhAOCcGF3LKximqSmf</span><br><span class="line">ch6R1EuZo&#x2F;WTDzPioxM7X3w3kvFAAHYAB7dcG+V9aP&#x2F;xsMYdIxXHuuZXfFeUt2ru</span><br><span class="line">vGE6GmnTohwAAAFxl&#x2F;sHcgAABAMARzBFAiBUlTes9VFQ56gbUgRq&#x2F;7fFUVi6r4Eo</span><br><span class="line">sWHADNNsQ7BSIgIhAPyfR9jDpnHQi3cqjRV2lBp0rrLAcEKf+b4cpDUvw41NMA0G</span><br><span class="line">CSqGSIb3DQEBCwUAA4IBAQBGvck8LK6h8zMxA6bNpxW5Md6K&#x2F;cUA&#x2F;HlS0GUiOlnh</span><br><span class="line">9IWZfg3t96Co9d8i90tqjm2gGRVDk7ywiGUClFky6EPICTka0VQRwgLI6aIvh9OF</span><br><span class="line">8syf0QijfXUIkFRZNxGRkAsFqPsbAbDc6+hUMOWQY&#x2F;uw2yITLB0eS+HyRAZWszoJ</span><br><span class="line">IS4b&#x2F;Y&#x2F;gHvnkF&#x2F;d+y792Y61pf9qtuuTgV&#x2F;Wdb&#x2F;KtxJtHKOPVn2eMF7omwyQfqF5o</span><br><span class="line">CijVj&#x2F;znJBaq9f&#x2F;8BerL76qRTgeJeM8z0H18ZRpplMyS0T&#x2F;k1QRTIq6c8lpOt887</span><br><span class="line">PP2IVI8v3WlgNtlZ8XypmZdBjQtncaB1S2MmKgqas5Dx</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">subject&#x3D;&#x2F;CN&#x3D;igvita.com</span><br><span class="line">issuer&#x3D;&#x2F;C&#x3D;US&#x2F;O&#x3D;Let&#39;s Encrypt&#x2F;CN&#x3D;Let&#39;s Encrypt Authority X3</span><br><span class="line">---</span><br><span class="line">No client certificate CA names sent</span><br><span class="line">Server Temp Key: ECDH, P-384, 384 bits</span><br><span class="line">---</span><br><span class="line">SSL handshake has read 3093 bytes and written 354 bytes</span><br><span class="line">---</span><br><span class="line">New, TLSv1&#x2F;SSLv3, Cipher is ECDHE-RSA-AES256-GCM-SHA384</span><br><span class="line">Server public key is 2048 bit</span><br><span class="line">Secure Renegotiation IS supported</span><br><span class="line">Compression: NONE</span><br><span class="line">Expansion: NONE</span><br><span class="line">No ALPN negotiated</span><br><span class="line">SSL-Session:</span><br><span class="line">    Protocol  : TLSv1.2</span><br><span class="line">    Cipher    : ECDHE-RSA-AES256-GCM-SHA384</span><br><span class="line">    Session-ID: CF508DEBB4768BBB308095B730EB0FBC7F21C53095AE8DF2E0905D085F98F158</span><br><span class="line">    Session-ID-ctx:</span><br><span class="line">    Master-Key: BEF07A818F91C840EF60A4DB5AEE89A1107EB594BC4718D7B4E2FC6904289AE7E7DB2CF6497812A82CCFD23F33B915B6</span><br><span class="line">    Start Time: 1590415033</span><br><span class="line">    Timeout   : 7200 (sec)</span><br><span class="line">    Verify return code: 0 (ok)</span><br><span class="line">---</span><br><span class="line">SSL3 alert read:warning:close notify</span><br><span class="line">closed</span><br><span class="line">SSL3 alert write:warning:close notify</span><br></pre></td></tr></table></figure>
+
+<p>其中需要了解 <strong>四处关键信息</strong>：</p>
+<ul>
+<li>  <code>SSL_connect</code>：<strong>SSLv3 read server done A：客户端完成对接收到的证书链的验证</strong>。</li>
+<li>  <code>Certificate chain</code>：**接收到的证书链(2 个证书)**。</li>
+<li>  <code>SSL handshake has read 3093 bytes and written 354 bytes</code>：<strong>接收到证书链的大小</strong>。</li>
+<li>  <code>Session-ID</code>：<strong>对有状态 TLS 恢复发送的会话标识符</strong>。</li>
+</ul>
+<h1 id="六、无线网络性能"><a href="#六、无线网络性能" class="headerlink" title="六、无线网络性能"></a>六、无线网络性能</h1><h2 id="1、无线网络的类型"><a href="#1、无线网络的类型" class="headerlink" title="1、无线网络的类型"></a>1、无线网络的类型</h2><ul>
+<li>  <strong>个人局域网(PAN)</strong></li>
+<li>  <strong>局域网(LAN)</strong></li>
+<li>  <strong>城域网(MAN)</strong></li>
+<li>  <strong>广域网(WAN)</strong></li>
+</ul>
+<h2 id="2、无线网络的性能基础"><a href="#2、无线网络的性能基础" class="headerlink" title="2、无线网络的性能基础"></a>2、无线网络的性能基础</h2><h3 id="1）、信道容量（最大信息速率）"><a href="#1）、信道容量（最大信息速率）" class="headerlink" title="1）、信道容量（最大信息速率）"></a>1）、信道容量（最大信息速率）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C&#x3D; BW × log2(1+S&#x2F;N)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  C 是信道容量，单位是 bit/s;</li>
+<li>  BW 是可用带宽，单位是 Hz;</li>
+<li>  S 是信号，N 是噪声，单位是 W。</li>
+</ul>
+<p><strong>它涵盖了影响大多数无线网络性能的所有基本因素</strong>。</p>
+<h3 id="2）、带宽-1"><a href="#2）、带宽-1" class="headerlink" title="2）、带宽"></a>2）、带宽</h3><p>为实现通信，<strong>发送端与接收端必须事先就通信使用的频率范围达成共识</strong>，在这个频率范围内双方才可以顺畅地交换信息。</p>
+<p>影响性能的最主要因素就是频率范围的大小(带宽)。由信道容量的公式可知，信道的总体比特率与分配的带宽呈正比。</p>
+<h3 id="3）、信号强度"><a href="#3）、信号强度" class="headerlink" title="3）、信号强度"></a>3）、信号强度</h3><p>信噪比(SNR，Signal Noise Ratio)，<strong>它衡量的是预期信号强度与背景噪声及干扰之间的比值</strong>。背景噪声越大，携带信息的信号就必须越强。</p>
+<p><strong>如果想在存在干扰的情况下达到预期的数据传输速度，要么增大 发射功率，也就是提高信号强度，要么缩短收发两端的距离——或者双管齐下</strong>。</p>
+<h4 id="路径损耗（通路衰减）"><a href="#路径损耗（通路衰减）" class="headerlink" title="路径损耗（通路衰减）"></a>路径损耗（通路衰减）</h4><p><strong>信号强度随距离降低</strong>。</p>
+<h4 id="远近效应"><a href="#远近效应" class="headerlink" title="远近效应"></a>远近效应</h4><p>接收端捕获较强的信号，因而不可能检测到较弱的信号，实际上是“挤出”了较弱的信号。例如你旁边一个或多个大声讲话的人会阻挡较弱的信号，从而产生远近效应。</p>
+<h4 id="小区呼吸效应"><a href="#小区呼吸效应" class="headerlink" title="小区呼吸效应"></a>小区呼吸效应</h4><p>小区覆盖范围或信号传输距离基于噪声大小和干扰级别扩展和收缩。例如你周围交谈的人越多，干扰就越严重，能让你识别有用信号的范围也越小，这就是呼吸效应。</p>
+<h3 id="4）、调制"><a href="#4）、调制" class="headerlink" title="4）、调制"></a>4）、调制</h3><p>**数字信号(1 和 0)需要转换成模拟信号(无线电波)**。调制指的就 是这个数模转换过程，而不同调制算法的转换效率是不一样的。</p>
+<p>但是，<strong>高阶调制的代价是针对噪声和干扰的可靠性降低</strong>。因此，需要在它们与转换效率直接做一个权衡。</p>
+<h2 id="3、影响无线网络性能的因素"><a href="#3、影响无线网络性能的因素" class="headerlink" title="3、影响无线网络性能的因素"></a>3、影响无线网络性能的因素</h2><ul>
+<li>  <strong>收发端的距离</strong>;</li>
+<li>  <strong>当前位置的背景噪声大小</strong>;</li>
+<li>  <strong>来自同一网络(小区)其他用户的干扰大小</strong>;</li>
+<li>  <strong>来自相邻网络(小区)其他用户的干扰大小</strong>;</li>
+<li>  <strong>两端发射功率大小</strong>;</li>
+<li>  <strong>处理能力及调制算法</strong>。</li>
+</ul>
+<h1 id="七、Wi-Fi"><a href="#七、Wi-Fi" class="headerlink" title="七、Wi-Fi"></a>七、Wi-Fi</h1><p>Wi-Fi 可以用来指称任何基于 <code>IEEE 802.11</code> 标准的产品。它工作于免许可的 <code>2.4 GHz ISM</code> 频段。</p>
+<h2 id="1、从以太网到无线局域网"><a href="#1、从以太网到无线局域网" class="headerlink" title="1、从以太网到无线局域网"></a>1、从以太网到无线局域网</h2><p>在 1971 年夏威夷大学对外公布了第一个关于无线网络的协议— ALOHAnet 协议。</p>
+<p>以太网协议很大程度上借鉴了 ALOHAnet 协议，以太网通常被称作局域网(LAN)标准，而 802.11 无线标准主要是作为既有以太网标准(802.3)的扩展来设计的。因此它也相应地被称作无线局域网(WLAN，Wireless LAN )标准。</p>
+<h3 id="1）、以太网—冲突检测-CSMA-CD，Collision-Detection-机制"><a href="#1）、以太网—冲突检测-CSMA-CD，Collision-Detection-机制" class="headerlink" title="1）、以太网—冲突检测(CSMA/CD，Collision Detection)机制"></a>1）、以太网—冲突检测(CSMA/CD，Collision Detection)机制</h3><p>如果检测到冲突，则双方都立即停止发送数据并小睡一段随机的时间(后续时间以指数级增长)，从而保证发生冲突 的发送端不会同步，且不会同时重新开始发送数据。</p>
+<h3 id="2）、Wi-Fi-冲突避免-CSMA-CA，-Collision-Avoidance-机制"><a href="#2）、Wi-Fi-冲突避免-CSMA-CA，-Collision-Avoidance-机制" class="headerlink" title="2）、Wi-Fi-冲突避免(CSMA/CA， Collision Avoidance)机制"></a>2）、Wi-Fi-冲突避免(CSMA/CA， Collision Avoidance)机制</h3><p>由于收发无线电的硬件所限，它不能在发送数据期间检测到冲突。因此，每个发送方都会在自己认为信道空闲时发送数据，以避免冲突。</p>
+<h2 id="2、Wi-Fi-优化-Tips"><a href="#2、Wi-Fi-优化-Tips" class="headerlink" title="2、Wi-Fi 优化 Tips"></a>2、Wi-Fi 优化 Tips</h2><h3 id="1）、利用不计流量的带宽"><a href="#1）、利用不计流量的带宽" class="headerlink" title="1）、利用不计流量的带宽"></a>1）、利用不计流量的带宽</h3><h3 id="2）、适应可变带宽"><a href="#2）、适应可变带宽" class="headerlink" title="2）、适应可变带宽"></a>2）、适应可变带宽</h3><p>比如自适应比特流，来主动适应带宽变化。自适应比特率并不适合所有资源，但对视频和音频这样的长时间流服务是非常合适的。</p>
+<p>在客户端下载视频流期间，客户端或服务器可以监控每个视频块的下载速度，必要时根据带宽的变化调整要下载的下一个视频块的比特率。事实上，现实中的视频服务，<strong>开始一般是低比特率的视频块，以便视频播放能更快开始。然后，再根据可用带宽的动态变化调整后续视频块的比特率</strong>。</p>
+<h1 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h1><h1 id="思维大图大纲-1"><a href="#思维大图大纲-1" class="headerlink" title="思维大图大纲"></a>思维大图大纲</h1><p><img src="https://upload-images.jianshu.io/upload_images/14601315-ac5b0a25379e8839.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h1 id="八、移动网络"><a href="#八、移动网络" class="headerlink" title="八、移动网络"></a>八、移动网络</h1><p>用 2G 看 txt，用 3G 看 jpg，用 4G 看 avi。</p>
+<h2 id="1、G字号移动网络简介"><a href="#1、G字号移动网络简介" class="headerlink" title="1、G字号移动网络简介"></a>1、G字号移动网络简介</h2><table>
+<thead>
+<tr>
+<th>代</th>
+<th>峰值数据速率</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1G</td>
+<td>无数据</td>
+<td>模拟系统</td>
+</tr>
+<tr>
+<td>2G</td>
+<td>Kbit/s</td>
+<td>第一代数字系统，作为对模拟系统的替代或与之并存</td>
+</tr>
+<tr>
+<td>3G</td>
+<td>Mbit/s</td>
+<td>专用数字网络，与模拟系统并行部署</td>
+</tr>
+<tr>
+<td>4G</td>
+<td>Gbit/s</td>
+<td>数字及分组网络</td>
+</tr>
+</tbody></table>
+<h3 id="1）、1G"><a href="#1）、1G" class="headerlink" title="1）、1G"></a>1）、1G</h3><p>最早的商业 1G 网络于 1979 年部署于日本。这种网络属于模拟系统，没有数据传输能力。</p>
+<h3 id="2）、2G"><a href="#2）、2G" class="headerlink" title="2）、2G"></a>2）、2G</h3><p>1991 年，芬兰基于新兴的 <code>GSM(Global System for Mobile communications， 全球移动通信系统)</code> 标准建设了第一个 2G 网络，最早在无线电网络中引入了数字 信令。</p>
+<p>直到 1990 年代中期，<code>GPRS(General Packet Radio Service，通用无线分组业务)</code> 被 引入 GSM 标准，无线互联网才真正走向实用。而 GPRS 与早期 2G 语音技术的 结合通常被称为 2.5G。</p>
+<h3 id="3）、3G"><a href="#3）、3G" class="headerlink" title="3）、3G"></a>3）、3G</h3><p>1998 年，GSM 和 IS-95 组织又成立了两个全球性的合作伙伴项目便于指定 3G 标准：</p>
+<ul>
+<li>  <strong>3GPP(3rd Generation Partnership Project，第三代合作伙伴项目)：负责制定 UMTS(Universal Mobile Telecommunication System，通用移动通信系统)，其后来也负责维护 GSM 标 准和制定新的 LTE 标准</strong>。</li>
+<li>  <strong>3GPP2(3rd Generation Partnership Project 2)：负责基于 CDMA2000，也就是高通制定的 IS-95 标准的后续技术制定 3G 规范</strong>。</li>
+</ul>
+<p>3GPP 和 3GPP2 共同管理每种技术的演进。在 Android 手机上，输入:<em>#</em>#4636#*#*，可以看到移动连接的类型、电池诊断等信息。</p>
+<h3 id="4）、满足-IMT-Advanced-的-4G"><a href="#4）、满足-IMT-Advanced-的-4G" class="headerlink" title="4）、满足 IMT-Advanced 的 4G"></a>4）、满足 IMT-Advanced 的 4G</h3><p>所谓 4G，背后是一组具体要求(IMT-Advanced)， 这组要求是 ITU 在 2008 年就制定和公布了的。任何达到这些要求的技术，都可以看作是 4G 技术。例如：</p>
+<ul>
+<li>  以 IP 分组交换网络为基础。</li>
+<li>  与之前的无线标准(3G 和 2G)兼容。</li>
+<li>  移动客户端的速率达到 100 Mbit/s，静止时的速率达到 Gbit/s 以上。</li>
+</ul>
+<h3 id="5）、长期演进-LTE"><a href="#5）、长期演进-LTE" class="headerlink" title="5）、长期演进(LTE)"></a>5）、长期演进(LTE)</h3><p>随着对高速率和低延迟的需求越来越强烈，3GPP 计划重新设计核心及无线网络，于是 LTE(Long Term Evolution，长期演进)标准应运而生。而它与前面介绍的 IMT-Advanced 要求很类似。</p>
+<h2 id="2、无线电资源控制器-RRC"><a href="#2、无线电资源控制器-RRC" class="headerlink" title="2、无线电资源控制器(RRC)"></a>2、无线电资源控制器(RRC)</h2><p><img src="https://upload-images.jianshu.io/upload_images/14601315-4db3d1aad4df9c04.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p><strong>2G、3G 和 4G 网络都有 RRC</strong>，它具有如下特点：</p>
+<ul>
+<li>  1）、<strong>负责调度协调移动设备与无线电基站之间所有的通信连接</strong>。</li>
+<li>  2）、<strong>直接直接影响延迟、吞吐量和设备电池的使用时间</strong>。</li>
+<li>  3）、**2G 和 3G 网络中的 RRC 处于核心运营网络， 而在 4G 中，为提升性能、减少协调时间，RRC 被转移到了无线信号塔 (eNodeB)**。</li>
+</ul>
+<p>简而言之，<strong>RRC 就是无线电网络的大脑。想要通过无线信道发送数据?你必须先向 RRC 申请无线电资源。想要接收互联网上的数据? RRC 会通知你什么时候监听接收到来的分组</strong>。</p>
+<h2 id="3、移动网络中的分组流"><a href="#3、移动网络中的分组流" class="headerlink" title="3、移动网络中的分组流"></a>3、移动网络中的分组流</h2><h3 id="1）、初始化请求"><a href="#1）、初始化请求" class="headerlink" title="1）、初始化请求"></a>1）、初始化请求</h3><p><img src="https://upload-images.jianshu.io/upload_images/14601315-20ab5e94f0bfb8b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h4><ul>
+<li>  1）、<strong>首先，由于手机处于空闲 RRC 状态，因此无线电模块必须与附近的信号塔同步，然后发送一个请求，以便建立无线通信环境，此次协商需要手机与信号塔之间的几次往返，可能需要花 100ms。如果是前几代网络，那 RRC 由服务网关负责管理，这个协商过程要长得多，可达几秒钟</strong>。</li>
+<li>  2）、<strong>建立了无线通信环境后，设备就会从信号塔得到相应资源，从而能够以特定的速度和功率传输数据</strong>。</li>
+<li>  3）、<strong>分组通过核心网络从 SGW 传输到 PGW</strong>。</li>
+<li>  4）、<strong>最后向外传到公共互联网</strong>。</li>
+</ul>
+<p>其中各个步骤的延迟特点如下所示：</p>
+<ul>
+<li>  1）、<strong>控制面延迟：由 RRC 协商和状态切换导致的固定的、一次性的延迟时间，从空闲到活动少于 100 ms，从休眠到活动少于 50 ms</strong>。</li>
+<li>  2）、<strong>用户面延迟：即用户数据从无线电模块传输到信号塔的时间，应用的每个数据分组从设备到无线电信号塔之间都要花的固定的时间，少于 5 ms</strong>。</li>
+<li>  3）、<strong>核心网络延迟：分组从无线电信号塔传输到分组网关的时间，因运营商而不同，一般为 30~ 100 ms</strong>。</li>
+<li>  4）、<strong>互联网路由延迟：从运营商分组网关到公共互联网上的目标地址所花的时间，可变</strong>。</li>
+</ul>
+<h3 id="2）、入站数据流"><a href="#2）、入站数据流" class="headerlink" title="2）、入站数据流"></a>2）、入站数据流</h3><p><img src="https://upload-images.jianshu.io/upload_images/14601315-54431a85427a1bba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="核心流程-1"><a href="#核心流程-1" class="headerlink" title="核心流程"></a>核心流程</h4><ul>
+<li>  1）、<strong>PGW 把入站分组路由到 SGW，SGW 进一步查询 MME</strong>。</li>
+<li>  2）、<strong>如果设备处于空闲状态，MME 会向当前跟踪区内的所有信号塔发送一条寻呼消息</strong>。</li>
+<li>  3）、<strong>收到消息的信号塔接着通过共享的无线信道广播一条通知，告知设备应该重建无线通信环境，以便接收数据</strong>。</li>
+<li>  4）、<strong>设备周期性地唤醒以监听寻呼消息，如果在寻呼列表中发现了自己，它就会向无线电信号塔发送一条协商请求，请求重建无线通信环境</strong>。</li>
+<li>  5）、<strong>无线通信环境重建之后，负责协商的信号塔向 MME 回发一条消息，表示它 正在为用户服务</strong>。</li>
+<li>  6）、<strong>然后，MME 向服务网关返回一个应答，服务网关于是就会把数据路由到该信号塔</strong>。</li>
+<li>  7）、<strong>最后，该信号塔再把数据转发给目标设备</strong>。</li>
+</ul>
+<p><strong>设备一旦处于连接状态，无线信号塔与服务网关之间就会建立一条直连信道，从而 让后续到达的数据能跳过第2 ~ 5步(不用再经过寻呼)，直接被转发到信号塔。因此，第一个分组的延迟是较长的</strong>。</p>
+<h2 id="4、LTE-A（千兆级-LTE-）"><a href="#4、LTE-A（千兆级-LTE-）" class="headerlink" title="4、LTE-A（千兆级 LTE ）"></a>4、LTE-A（千兆级 LTE ）</h2><p>理论上速度可以达到光纤级别的 1Gbps（125MB/s），日常实际使用时平均速度 100Mbps 以上。</p>
+<h3 id="核心技术"><a href="#核心技术" class="headerlink" title="核心技术"></a>核心技术</h3><h4 id="1）、载波聚合"><a href="#1）、载波聚合" class="headerlink" title="1）、载波聚合"></a>1）、载波聚合</h4><p>将多个载波聚合成更高的带宽，理论上LTE-A系统中可以实现2-5个LTE成员载波（ComponentCarrier，CC）的聚合。</p>
+<p>当三个射频信道变成一个更宽的信道，三个20MHz就相当于60MHz，那么数据吞吐量便提升了3倍。</p>
+<h4 id="2）、高阶调制"><a href="#2）、高阶调制" class="headerlink" title="2）、高阶调制"></a>2）、高阶调制</h4><p>利用有限带宽资源提供高数据速率一种的手段。</p>
+<p>提高收发器的复杂程度可以让一个信号搬运更多的比特。例如将 64-QAM （64个样点，样点数目越多传输效率越高）提升到 256-QAM（256个样点），一个信号可以从承载6个比特提升到8个比特，带宽效率提升了33%。</p>
+<h4 id="3）、更高阶的-MIMO（Multiple-Input-Multiple-Output）"><a href="#3）、更高阶的-MIMO（Multiple-Input-Multiple-Output）" class="headerlink" title="3）、更高阶的 MIMO（Multiple-Input Multiple-Output）"></a>3）、更高阶的 MIMO（Multiple-Input Multiple-Output）</h4><p>在发射端和接收端分别使用多个发射天线和接收天线。 这使信号通过发射端与接收端的多个天线传送和接收，大大增大信道容量。</p>
+<h2 id="5、5G"><a href="#5、5G" class="headerlink" title="5、5G"></a>5、5G</h2><p>通信技术的极限，并不是技术工艺方面的限制，而是建立在严谨数学基础上的推论，在可以遇见的未来是基本不可能突破的。而 1G ~ 5G 都逃脱不了下面这个公式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">光速 &#x3D; 波长 × 频率</span><br></pre></td></tr></table></figure>
+
+<h3 id="1）、现代通信技术的现状"><a href="#1）、现代通信技术的现状" class="headerlink" title="1）、现代通信技术的现状"></a>1）、现代通信技术的现状</h3><h4 id="有线通信"><a href="#有线通信" class="headerlink" title="有线通信"></a>有线通信</h4><p>实验室中的单条光纤最大速度 26 Tbps。</p>
+<h4 id="无线通信（瓶颈）"><a href="#无线通信（瓶颈）" class="headerlink" title="无线通信（瓶颈）"></a>无线通信（瓶颈）</h4><p>4 G LTE 理论速率仅有 150 Mpbs。</p>
+<blockquote>
+<p>5G 实际上如何工作？</p>
+</blockquote>
+<p>通信技术并不神秘，5G 作为通信技术皇冠上最耀眼的宝石，也不是什么遥不可及的创新革命技术，它更多是对现有通信技术的演进。而其实质就是 <strong>向新的毫米波和其他高频频段的转变</strong>。 第五代移动通信技术，5G速率是4G的100倍，实际使用至少是10倍。</p>
+<h3 id="2）、优势"><a href="#2）、优势" class="headerlink" title="2）、优势"></a>2）、优势</h3><ul>
+<li>  1）、高性能</li>
+<li>  2）、低延迟</li>
+<li>  3）、高容量</li>
+</ul>
+<h3 id="3）、核心技术"><a href="#3）、核心技术" class="headerlink" title="3）、核心技术"></a>3）、核心技术</h3><h4 id="1、毫米波"><a href="#1、毫米波" class="headerlink" title="1、毫米波"></a>1、毫米波</h4><p><img src="https://upload-images.jianshu.io/upload_images/14601315-0a0bf2a0808b2834.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p><strong>目前主流的 4G LTE 波长都是集中在分米波与厘米波这两个区间，而 5 G 的波长是位于 毫米波 的区间</strong>。</p>
+<h4 id="2、微基站"><a href="#2、微基站" class="headerlink" title="2、微基站"></a>2、微基站</h4><p><strong>由于电磁波频率越高，衰减越大的特点，如果使用高频，那么传输距离与覆盖能力都会减弱。因此覆盖同一个区域，需要的 5G 数量将大大超过 4G。为了降低基站成本，微基站应运而生</strong>。</p>
+<p><strong>基站分为宏基站和微基站，宏基站在郊外、山上经常可以看到，微基站通常在城区和室内，它可以小到只有巴掌大</strong>：）</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-1dd7105ff1657372.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="3、Massive-MIMO（大量的多输入、多输出-gt-多天线技术）"><a href="#3、Massive-MIMO（大量的多输入、多输出-gt-多天线技术）" class="headerlink" title="3、Massive MIMO（大量的多输入、多输出 =&gt; 多天线技术）"></a>3、Massive MIMO（大量的多输入、多输出 =&gt; 多天线技术）</h4><p><strong>以前的手机有天线，其实现在的手机也有，只不过天线已经非常小了。因为 天线的长度与波长成正比</strong>，公式如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">天线长度 &#x3D; 波长&#x2F;10 ~ 波长&#x2F;4</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p><strong>如果使用了 5 G 的毫米波通信，天线也就可以变成毫米级了，因此，高阶版的多天线技术应运而生</strong>。</p>
+<p>需要注意的是，<strong>无论是基站还是手机中的天线制作，天线之间的距离都应该保持在半个波长以上，以避免互相干扰</strong>。</p>
+<h4 id="4、全双工"><a href="#4、全双工" class="headerlink" title="4、全双工"></a>4、全双工</h4><p>手机与手机直接不仅可以直接进行通信，而且可以实现全双工。</p>
+<h4 id="5、波束成形"><a href="#5、波束成形" class="headerlink" title="5、波束成形"></a>5、波束成形</h4><p><strong>在基站布设天线阵列（一大群天线），通过对射频信号相位的控制，使得互相作用后的电磁波的波瓣变得非常狭窄，并指向它所提供服务的手机，并且还能够根据手机的移动而转变方向</strong>。</p>
+<h5 id="优势-4"><a href="#优势-4" class="headerlink" title="优势"></a>优势</h5><p><strong>将全向的信号覆盖转变为精准指向性服务，这样便可以在相同的空间中提供更多的通信链路</strong>。</p>
+<p>而目前常用 WIFI 协议标准 5 G：802.11ac，它的特点如下所示：</p>
+<ul>
+<li>  <strong>理想速率 866.7Mbps</strong></li>
+<li>  <strong>支持8个 MIMO 空间流</strong></li>
+</ul>
+<h2 id="6、华为-Link-Turbo-网络聚合加速技术"><a href="#6、华为-Link-Turbo-网络聚合加速技术" class="headerlink" title="6、华为 Link Turbo 网络聚合加速技术"></a>6、华为 Link Turbo 网络聚合加速技术</h2><p>在理想环境下，手机开启 Link Turbo 功能后，**速度相比只连接 WiFi 和只连接 4G 的速度分别提高了 135% 和 71%**，因为它在基础网络协议和算法两方面做了大量的优化。</p>
+<ul>
+<li>  1）、<strong>它从业务类型、接入网络的类型、用户喜好三方面进行感知建模，在经过处理之后找到最佳匹配的网络协议</strong>。</li>
+<li>  2）、<strong>通过算法让两条通道（WIFI、4G）同时满载，需要大量的计算与调试，才能平衡数据包在快慢通道之间的运送比例，最终达到运送效率最佳，速度最快</strong>。</li>
+</ul>
+<p>需要注意的是，硬件上 WIFI 与 蜂窝网络属于基带芯片的不同模块 =&gt; 类似双网卡。</p>
+<h3 id="MultiPath-TCP（iOS-7-引入）"><a href="#MultiPath-TCP（iOS-7-引入）" class="headerlink" title="MultiPath TCP（iOS 7 引入）"></a>MultiPath TCP（iOS 7 引入）</h3><ul>
+<li>  1）、<strong>可以让 TCP 连接使用多条路径来最大化资源利用率</strong>。</li>
+<li>  2）、<strong>需要解决 跨路径数据碎片化、SSL 解密效率低 的问题</strong>。</li>
+<li>  3）、<strong>MPTCP 会话同 TCP 一样的方式启动，不同的是在 TCP 的 SYN、SYN-ACK、最终的 ACK 数据包的选项中多添加了一个 MP_CAPABLE 选项</strong>。</li>
+</ul>
+<p><strong>而 Link Turbo 使用了自研 MultiPath UDP，Link Turbo 就是在使用 WIFI 的同时使用移动网络加速</strong>。</p>
+<p>因此，尝试跟手机厂商、芯片厂商或运营商合作也是一大优化方向。</p>
+<h2 id="7、移动网络优化-Tips"><a href="#7、移动网络优化-Tips" class="headerlink" title="7、移动网络优化 Tips"></a>7、移动网络优化 Tips</h2><h3 id="1）、爆发传输数据并转为空闲"><a href="#1）、爆发传输数据并转为空闲" class="headerlink" title="1）、爆发传输数据并转为空闲"></a>1）、爆发传输数据并转为空闲</h3><p>移动无线接口专门为爆发性传输做过优化，我们可以 <strong>尽可能多和快地下载数据，然后让无线模块转为空闲。这样，既可以获得最大的网络吞吐量，也能节约电量</strong>。</p>
+<p>如果需要大型音频或视频文件，考虑提前下载整个文件，而不要以比特为单位地流式下载。</p>
+<h3 id="2）、把负载转移到-Wi-Fi-网络"><a href="#2）、把负载转移到-Wi-Fi-网络" class="headerlink" title="2）、把负载转移到 Wi-Fi 网络"></a>2）、把负载转移到 Wi-Fi 网络</h3><p><strong>Wi-Fi 连接下的大数据量传输更省电，而且在通信过程中也不需要 RRC，相对于 4G 网络，这将会节省 50~100 ms 的延迟</strong>。</p>
+<h1 id="九、HTTP"><a href="#九、HTTP" class="headerlink" title="九、HTTP"></a>九、HTTP</h1><h2 id="1、非官方的-HTTP-0-9"><a href="#1、非官方的-HTTP-0-9" class="headerlink" title="1、非官方的 HTTP 0.9"></a>1、非官方的 HTTP 0.9</h2><p>1991 年出现，它是只有一行的协议。其主要功能如下：</p>
+<ul>
+<li>  客户端 / 服务器、请求 / 响应协议;</li>
+<li>  ASCII 协议，运行于 TCP/IP 链接之上;</li>
+<li>  设计用来传输超文本文档(HTML);</li>
+<li>  服务器与客户端之间的连接在每次请求之后都会关闭。</li>
+</ul>
+<h2 id="2、非互联网标准的-HTTP-1-0"><a href="#2、非互联网标准的-HTTP-1-0" class="headerlink" title="2、非互联网标准的 HTTP 1.0"></a>2、非互联网标准的 HTTP 1.0</h2><p>1994 年，<code>IETF(Internet Engineering Task Force，互联网工程任务组)</code> 成立了 <code>HTTP 工作组(HTTP-WG)</code>，致力于改进 HTTP 协议。</p>
+<p>1996 年，HTTP 工作组发布了 RFC 1945，解释说明了当时很多 HTTP 1.0 实现的“公共用法”。但 HTTP 1.0 并不是一个正式的规范或互联网标准。</p>
+<p>由于响应对象本身可以是任何类型:HTML 文件、纯文本文件、图片，或其他内容类型。因此，HTTP 中的“HTT”(Hypertext Transfer，超文本传输)在协议出现后不久就已经用词不当了。在实践中，HTTP 迅 速发展为 <strong>超媒体传输协议</strong>，但最初的名字则沿用至今。</p>
+<p>注意：HTTP 1.0 对每个请求都打开一个新 TCP 连接严重影响性能。</p>
+<h2 id="3、互联网标准-HTTP-1-1"><a href="#3、互联网标准-HTTP-1-1" class="headerlink" title="3、互联网标准 HTTP 1.1"></a>3、互联网标准 HTTP 1.1</h2><p>1997 年 1 月，定义正式 HTTP 1.1 标准的 RFC 2068 发布了。</p>
+<p>HTTP 1.1 中引入了大量增强性能的重要特性：</p>
+<ul>
+<li>  1）、<strong>持久化连接以支持连接重用</strong>;</li>
+<li>  2）、<strong>分块传输编码以支持流式响应</strong>;</li>
+<li>  3）、<strong>请求管道以支持并行请求处理</strong>;</li>
+<li>  4）、<strong>字节服务以支持基于范围的资源请求</strong>;</li>
+<li>  5）、<strong>改进的更好的缓存机制</strong>。</li>
+</ul>
+<p>HTTP 1.1 改变了 HTTP 协议的语义，默认使用持久连接。换句话说，除非明确告知(通过 <code>Connection: close 首部</code>)，否则服务器默认会保持连接打开。</p>
+<p>不过，这个功能也反向移植到了 <code>HTTP 1.0</code>，可以通过 <code>Connection: Keep- Alive 首部</code> 来启用。实际上，如果你使用的是 HTTP 1.1，从技术上说不需要 Connection: Keep-Alive 首部，但很多客户端还是选择加上它。</p>
+<h3 id="1）、持久连接的优点"><a href="#1）、持久连接的优点" class="headerlink" title="1）、持久连接的优点"></a>1）、持久连接的优点</h3><p><strong>在启用持久连接的情况下，N 次请求节省的总延迟时间就是 (N-1) × RTT</strong>。</p>
+<h3 id="2）、HTTP-管道"><a href="#2）、HTTP-管道" class="headerlink" title="2）、HTTP 管道"></a>2）、HTTP 管道</h3><p>持久 HTTP 可以让我们重用已有的连接来完成多次应用请求，但多次请求必须严格 满足先进先出(FIFO)的队列顺序:发送请求，等待响应完成，再发送客户端队列 中的下一个请求。HTTP 管道是一个很小但对上述工作流却非常重要的一次优化。 **管道可以让我们把 FIFO 队列从客户端(请求队列)迁移到服务器(响应队列)**。如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-7bcdb02b11c1dac5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h4 id="优势-5"><a href="#优势-5" class="headerlink" title="优势"></a>优势</h4><ul>
+<li>  <strong>消除了发送请求和响应的等待时间。这种并行处理请求的能力对提升应用性能的帮助非常之大</strong>。</li>
+<li>  <strong>网络延迟越高，请求越多，节省的时间就越多。而越是大型应用，网络优化的影响就越大</strong>。</li>
+</ul>
+<h4 id="HTTP-中的队首阻塞"><a href="#HTTP-中的队首阻塞" class="headerlink" title="HTTP 中的队首阻塞"></a>HTTP 中的队首阻塞</h4><p>例如第一个请求无限期挂起，或者要花很长时间才能处理完，怎么办呢?在 HTTP 1.1 中，所有后续的请求都将被阻塞，等待它完成。</p>
+<h3 id="3-、计算图片对内存的需求"><a href="#3-、计算图片对内存的需求" class="headerlink" title="3)、计算图片对内存的需求"></a>3)、计算图片对内存的需求</h3><p><strong>所有编码的图片经浏览器解析后都会以 RGBA 位图的形式保存于内存当中。每个 RGBA 图片的像素需要占用 4 字节:红、绿、蓝通道各占 1 字节，Alpha(透明) 通道占 1 字节</strong>。</p>
+<p>所以，<strong>一张图片占用的内存量 = 图片像素宽度 × 像素高度 × 4 字节</strong>。</p>
+<h3 id="4）、谨慎使用-base64-编码"><a href="#4）、谨慎使用-base64-编码" class="headerlink" title="4）、谨慎使用 base64 编码"></a>4）、谨慎使用 base64 编码</h3><p><strong>base64 编码使用 64 个 ASCII 符号和空白符将任意字节流编码为 ASCII 字符串。编码过程中，base64 会导致被编码的流变成原来的 4/3，即增大 33% 的字节开销</strong>。</p>
+<h2 id="4、改进传输性能的-HTTP-2-0"><a href="#4、改进传输性能的-HTTP-2-0" class="headerlink" title="4、改进传输性能的 HTTP 2.0"></a>4、改进传输性能的 HTTP 2.0</h2><p>HTTP 工作组已经在 2012 年宣布要开发 HTTP 2.0，HTTP 2.0 的主要目标是 <strong>改进传输性能，实现低延迟和高吞吐量</strong>。其具体是 <strong>通过支持请求与响应的多路复用来减少延迟，通过压缩 HTTP 首部字段将协议开销降至最低，同时增加对请求优先级和服务器端推送的支持</strong>。</p>
+<h3 id="1）、历史及其与-SPDY-的渊源"><a href="#1）、历史及其与-SPDY-的渊源" class="headerlink" title="1）、历史及其与 SPDY 的渊源"></a>1）、历史及其与 SPDY 的渊源</h3><p>SPDY 是谷歌开发的一个实验性协议，于 <code>2009 年年**中</code> 发布，其主要目标是 通过解决 HTTP 1.1 中广为人知的一些性能限制，来减少网页的加载延迟**。</p>
+<p>2012 年初，HTTP-WG(HTTP Working Group) 把 HTTP 2.0 提到了议事日程，并吸取 SPDY 的经验教训，在此基础上制定了官方 HTTP 2.0 标准。</p>
+<h3 id="2）、走向-HTTP-2-0"><a href="#2）、走向-HTTP-2-0" class="headerlink" title="2）、走向 HTTP 2.0"></a>2）、走向 HTTP 2.0</h3><p>SPDY 是 HTTP 2.0 的催化剂，但 SPDY 并非 HTTP 2.0。SPDY 规范仅仅是作为制定 HTTP 2.0 标准的基础。</p>
+<h3 id="3）、二进制分帧层"><a href="#3）、二进制分帧层" class="headerlink" title="3）、二进制分帧层"></a>3）、二进制分帧层</h3><p><strong>HTTP 2.0 性能增强的核心，全在于新增的二进制分帧层，它定义了如何封装 HTTP 消息并在客户端与服务器之间传输</strong>。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-99df880398e711c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>可以看到，相较于 HTTP 1.1，编码方式变了。HTTP 1.x 以换行符作为纯文本的分隔符，<strong>而 HTTP 2.0 将所有传输的信息分割为更小的消息和帧，并对它们采用二进制格式的编码</strong>。</p>
+<h4 id="流、消息和帧"><a href="#流、消息和帧" class="headerlink" title="流、消息和帧"></a>流、消息和帧</h4><p>在 HTTP 2.0 中，所有通信都在一个 TCP 连接上完成。而要理解 HTTP 2.0，就 必须理解流、消息和帧这几个基本概念，如下所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-70fe003f2890bc29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<ul>
+<li>  **流：已建立的连接上的双向字节流。流是连接中的一个虚拟信道，可以承载双向的消息;每个流都有一个唯一的整数标识符(1、2…N)**。</li>
+<li>  <strong>消息：与逻辑消息对应的完整的一系列数据帧。消息是指逻辑上的 HTTP 消息，比如请求、响应等，由一或多个帧组成</strong>。</li>
+<li>  <strong>帧：HTTP 2.0 通信的最小单位，每个帧包含帧首部、负荷等等，至少也会标识出当前帧所属的流</strong>。</li>
+</ul>
+<h4 id="多向请求与响应"><a href="#多向请求与响应" class="headerlink" title="多向请求与响应"></a>多向请求与响应</h4><p><strong>在二进制分帧层的基础上，客户端和服务器可以把 HTTP 消息分解为互不依赖的帧，然后乱序发送，最后再在另一端把它们重新组合起来</strong>。</p>
+<p>因此，<strong>HTTP 2.0 的二进制分帧机制解决了 HTTP 1.x 中存在的队首阻塞问题，也消 除了并行处理和发送请求及响应时对多个连接的依赖</strong>。</p>
+<h4 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h4><p>每个流都可以带有一个 31 比特的优先值:</p>
+<ul>
+<li>  <strong>0 表示最高优先级</strong>。</li>
+<li>  <strong>2 ^ 31 - 1表示最低优先级</strong>。</li>
+</ul>
+<p><strong>服务器可以根据流的优先级，控制资源分配(CPU、内存、带宽)，而在响应数据准备好之后，优先将最高优先级的帧发送给客户端</strong>。</p>
+<h4 id="每个来源一个连接"><a href="#每个来源一个连接" class="headerlink" title="每个来源一个连接"></a>每个来源一个连接</h4><ul>
+<li>  所有 HTTP 2.0 连接都是持久化的，而且客户端与服务器之间也只需要一个连接即可。</li>
+<li>  虽然 HTTP 2.0 消除了 HTTP 队首阻塞现象，但 TCP 层次上仍然存在队首阻塞。</li>
+</ul>
+<h3 id="4）、首部压缩"><a href="#4）、首部压缩" class="headerlink" title="4）、首部压缩"></a>4）、首部压缩</h3><p>每次都要传输 UserAgent、Cookie 这类不会频繁变动的内容，网络开销随着请求数的增多而变大。因此，HTTP 2.0 实现了首部压缩。</p>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p><img src="https://upload-images.jianshu.io/upload_images/14601315-2ea456f32515037e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>在支持 HTTP2 的客户端与服务端之间：</p>
+<h5 id="1）、维护一份相同的静态字典-Static-Table"><a href="#1）、维护一份相同的静态字典-Static-Table" class="headerlink" title="1）、维护一份相同的静态字典 Static Table"></a>1）、维护一份相同的静态字典 Static Table</h5><p><strong>常见头部名称、特别常见头部名称及值的组合</strong>。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://httpwg.org/specs/rfc7541.html#static.table.definition">HTTP2 静态字典</a> 的作用是什么？</p>
+</blockquote>
+<ul>
+<li>  1）、<strong>完全匹配的头部键值对，例如 :method:POST, 直接使用一个字符表示</strong>。</li>
+<li>  2）、<strong>匹配头部名称的键值对，例如 cookie: xxx，将名称使用一个字符表示</strong>。</li>
+</ul>
+<h5 id="2）、维护一份相同的动态字典-Dynamic-Table"><a href="#2）、维护一份相同的动态字典-Dynamic-Table" class="headerlink" title="2）、维护一份相同的动态字典 Dynamic Table"></a>2）、维护一份相同的动态字典 Dynamic Table</h5><ul>
+<li>  1）、<strong>用于动态添加内容</strong>。</li>
+<li>  2）、<strong>客户端与服务端可以相互通知对方，将发送的 key-value，例如 cookie：xxx 添加到自身的动态字典中</strong>。</li>
+<li>  3）、<strong>同一个连接上产生的请求和响应越多，动态字典积累得越全，头部压缩效果也就越好</strong>。</li>
+<li>  4）、注意，<strong>需要为每个 HTTP2 连接维护不同的动态字典</strong>。</li>
+</ul>
+<h5 id="3）、利用支持基于-静态哈夫曼码表-的哈夫曼编码-Huffman-Coding"><a href="#3）、利用支持基于-静态哈夫曼码表-的哈夫曼编码-Huffman-Coding" class="headerlink" title="3）、利用支持基于 静态哈夫曼码表 的哈夫曼编码 Huffman Coding"></a>3）、利用支持基于 <a target="_blank" rel="noopener" href="https://httpwg.org/specs/rfc7541.html#huffman.code">静态哈夫曼码表</a> 的哈夫曼编码 Huffman Coding</h5><p><strong>如果静态、动态字典中没有对应的 key:value，则使用哈夫曼编码减少体积</strong>。</p>
+<h3 id="5）、帧首部"><a href="#5）、帧首部" class="headerlink" title="5）、帧首部"></a>5）、帧首部</h3><p>帧是 HTTP 2.0 中通信的最小单位。<strong>所有帧都共享一个 8 字节的首部</strong>，如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14601315-f79befa1d93e01ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<ul>
+<li>  <strong>16 位的长度前缀：意味着一帧大约可以携带 64 KB 数据，不包括 8 字节首部</strong>。</li>
+<li>  <strong>8 位的类型字段：决定如何解释帧其余部分的内容</strong>。</li>
+<li>  <strong>8 位的标志字段：允许不同的帧类型定义特定于帧的消息标志</strong>。</li>
+<li>  <strong>1 位的保留字段：始终置为 0</strong>。</li>
+<li>  <strong>31 位的流标识符：唯一标识 HTTP 2.0 的流</strong>。</li>
+</ul>
+<p>HTTP 2.0 规定了如下帧类型：</p>
+<ul>
+<li>  1）、<code>DATA</code>：<strong>用于传输 HTTP 消息体</strong>。</li>
+<li>  2）、<code>HEADERS</code>：<strong>用于传输关于流的额外的首部字段</strong>。</li>
+<li>  3）、<code>PRIORITY</code>：<strong>用于指定或重新指定引用资源的优先级</strong>。</li>
+<li>  4）、<code>RST_STREAM</code>：<strong>用于通知流的非正常终止</strong>。</li>
+<li>  5）、<code>SETTINGS</code>：<strong>用于通知两端通信方式的配置数据</strong>。</li>
+<li>  6）、<code>PUSH_PROMISE</code>：<strong>用于发出创建流和服务器引用资源的要约</strong>。</li>
+<li>  7）、<code>PING</code>：<strong>用于计算往返时间，执行“活性”检查</strong>。</li>
+<li>  8）、<code>GOAWAY</code>：<strong>用于通知对端停止在当前连接中创建流</strong>。</li>
+<li>  9）、<code>WINDOW_UPDATE</code>：<strong>用于针对个别流或个别连接实现流量控制</strong>。</li>
+<li>  10）、<code>CONTINUATION</code>：<strong>用于继续一系列首部块片段</strong>。</li>
+</ul>
+<h2 id="5、QUIC"><a href="#5、QUIC" class="headerlink" title="5、QUIC"></a>5、QUIC</h2><ul>
+<li>  Google 2013 实现，2018 基于 QUIC 协议的 HTTP 被确认为 HTTP3。</li>
+<li>  QUIC 简单理解为 <code>HTTP/2.0 + TLS 1.3 + UDP</code>。弱网环境下表现于 TCP。</li>
+</ul>
+<h3 id="1）、优势"><a href="#1）、优势" class="headerlink" title="1）、优势"></a>1）、优势</h3><ul>
+<li>  1）、<strong>解决了在连接复用中 HTTP2 + TCP 存在的队首阻塞问题</strong>，</li>
+<li>  2）、**由于是基于 UDP，所以可以灵活控制拥塞协议。例如 Client 端可以直接使用 Google 的 <a target="_blank" rel="noopener" href="https://queue.acm.org/detail.cfm?id=3022184">BBR 算法</a>**。</li>
+<li>  3）、<strong>连接迁移：由于 UDP 通过类似connection id 的特性,使得客户端网络切换的时候不需要重连，用户使用 App 的体验会更加流畅</strong>。</li>
+</ul>
+<h3 id="2）、目前的缺点"><a href="#2）、目前的缺点" class="headerlink" title="2）、目前的缺点"></a>2）、目前的缺点</h3><ul>
+<li>  1）、**NAT 局域网路由、交换机、防火墙等会禁止 UDP 443 通行，因此 QUIC 创建连接成功率只有95%**。</li>
+<li>  2）、<strong>运营商针对 UDP 通道不支持/支持不足</strong>。</li>
+<li>  3）、<strong>使用 UDP 不一定会比 TCP 更快，客户端可同时使用 TCP 和 QUIC 竞速，从而选择更优链路</strong>。</li>
+</ul>
+<h3 id="3）、使用场景"><a href="#3）、使用场景" class="headerlink" title="3）、使用场景"></a>3）、使用场景</h3><ul>
+<li>  1）、实时性</li>
+<li>  2）、可丢弃</li>
+<li>  3）、请求互相依赖</li>
+<li>  4）、可同时使用 TCP &amp; QUIC</li>
+</ul>
+<h2 id="6、浏览器性能优化-Tips"><a href="#6、浏览器性能优化-Tips" class="headerlink" title="6、浏览器性能优化 Tips"></a>6、浏览器性能优化 Tips</h2><p>大多数浏览器都利用了如下四种优化技术：</p>
+<ul>
+<li>  1）、资源预取和排定优先次序：文档、CSS 和 JavaScript 解析器可以与网络协议层沟通，声明每种资源的优先 级:初始渲染必需的阻塞资源具有最高优先级，而低优先级的请求可能会被临时 保存在队列中。同样，客户端也可以对请求做优先级排序处理。</li>
+<li>  2）、DNS 预解析：对可能的域名进行提前解析，避免将来 HTTP 请求时的 DNS 延迟。预解析可以 通过学习导航历史、用户的鼠标悬停，或其他页面信号来触发。而在客户端中可以使用 HTTPDNS。</li>
+<li>  3）、TCP 预连接：DNS 解析之后，浏览器可以根据预测的 HTTP 请求，推测性地打开 TCP 连接。 如果猜对的话，则可以节省一次完整的往返(TCP 握手)时间。</li>
+<li>  4）、页面预渲染：某些浏览器可以让我们提示下一个可能的目标，从而在隐藏的标签页中预先渲染 整个页面。这样，当用户真的触发导航时，就能立即切换过来。</li>
+</ul>
+<h1 id="十、网络-IO"><a href="#十、网络-IO" class="headerlink" title="十、网络 IO"></a>十、网络 IO</h1><p>网络 IO 的本质是 Socket 的读取，Socket 在 Linux 系统被抽象为流，而 IO 可以理解为对流的操作。</p>
+<h2 id="1、Socket-recvfrom-读取数据过程"><a href="#1、Socket-recvfrom-读取数据过程" class="headerlink" title="1、Socket recvfrom 读取数据过程"></a>1、Socket recvfrom 读取数据过程</h2><ul>
+<li>  1）、<strong>等待 Socket 数据准备好，即网络数据已下载至内核的缓冲区中</strong>。</li>
+<li>  2）、<strong>将数据从内核的缓冲区中拷贝到应用进程的地址空间</strong>。</li>
+</ul>
+<h2 id="2、Unix-网络-IO-模型"><a href="#2、Unix-网络-IO-模型" class="headerlink" title="2、Unix 网络 IO 模型"></a>2、Unix 网络 IO 模型</h2><p>共有五种类型，分别如下所示：</p>
+<h3 id="1）、同步"><a href="#1）、同步" class="headerlink" title="1）、同步"></a>1）、同步</h3><h4 id="1、阻塞-I-O-blockig-I-O"><a href="#1、阻塞-I-O-blockig-I-O" class="headerlink" title="1、阻塞 I/O(blockig I/O)"></a>1、阻塞 I/O(blockig I/O)</h4><h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>  默认 I/O 行为，整个 Socket 的读取或发送都要阻塞应用进程。</li>
+<li>  1、2阶段均阻塞。</li>
+</ul>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><p>及时返回数据。</p>
+<h5 id="缺点-6"><a href="#缺点-6" class="headerlink" title="缺点"></a>缺点</h5><p>对用户来说等待太耗性能。</p>
+<h4 id="2、非阻塞-I-O-non-blocking-I-O"><a href="#2、非阻塞-I-O-non-blocking-I-O" class="headerlink" title="2、非阻塞 I/O(non-blocking I/O)"></a>2、非阻塞 I/O(non-blocking I/O)</h4><h5 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>  通过 O_NONBLOCK 将 Socket 设为非阻塞。</li>
+<li>第1阶段<ul>
+<li>  不阻塞，数据没有准备好会立即返回。</li>
+<li>  一直没有获取到数据的话会每隔一定时间轮询进行 recvform 系统调用。</li>
+</ul>
+</li>
+<li>  第2阶段：阻塞。</li>
+</ul>
+<h5 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h5><p>能够在等待数据准备的时间里干其它事。</p>
+<h5 id="缺点-7"><a href="#缺点-7" class="headerlink" title="缺点"></a>缺点</h5><p>任务可能在两次轮询间的任意时刻完成，这将会降低整体数据的吞吐量。</p>
+<h4 id="3、多路复用-I-O-multiplexing-I-O"><a href="#3、多路复用-I-O-multiplexing-I-O" class="headerlink" title="3、多路复用 I/O(multiplexing I/O)"></a>3、多路复用 I/O(multiplexing I/O)</h4><h5 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h5><p>一般使用 select/poll/<a target="_blank" rel="noopener" href="http://androidxref.com/9.0.0_r3/xref/external/libevent/epoll.c">epoll</a> 实现，它们的好处在于 <strong>单个进程可以同时处理多个网络连接的 IO。其在内部会不断地轮询所负责的所有 socket，当某个 socket 有数据到达了，就通知用户进程。通过把多个 I/O 的阻塞复用到同一个 select 的阻塞上，从而使得系统在单线程的情况下可以同时处理多个客户端请求</strong>。</p>
+<ul>
+<li>  第1阶段：阻塞在 select/poll/epoll 调用处。</li>
+<li>  第2阶段：阻塞。</li>
+</ul>
+<h5 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h5><p><strong>相比于多线程/多进程模型，系统开销更小</strong>。</p>
+<h4 id="4、信号驱动式-I-O-signal-driven-I-O"><a href="#4、信号驱动式-I-O-signal-driven-I-O" class="headerlink" title="4、信号驱动式 I/O(signal-driven I/O)"></a>4、信号驱动式 I/O(signal-driven I/O)</h4><p>通过 <code>SIGIO</code> 信息处理，很少用到。</p>
+<ul>
+<li>  1阶段不阻塞：<strong>首先需要开启 socket 信号驱动 IO 功能，并通过系统调用 sigaction 执行一个信号处理函数（非阻塞，立即返回）。当数据准备好时，进程会受到一个 SIGIO 信号，可以在信号处理函数中调用 I/O 操作函数处理数据</strong>。</li>
+<li>  2阶段：阻塞。</li>
+</ul>
+<h3 id="2）、异步"><a href="#2）、异步" class="headerlink" title="2）、异步"></a>2）、异步</h3><h4 id="1、异步-I-O-asynchronous-I-O"><a href="#1、异步-I-O-asynchronous-I-O" class="headerlink" title="1、异步 I/O(asynchronous I/O)"></a>1、异步 I/O(asynchronous I/O)</h4><p>Linux AIO库函数实现，但通常使用开源的异步 IO 库，例如 libevent、libev、libuv。1、2阶段非阻塞。</p>
+<h2 id="3、常见问题"><a href="#3、常见问题" class="headerlink" title="3、常见问题"></a>3、常见问题</h2><h3 id="1）、同步-IO-与异步-IO-的区别？"><a href="#1）、同步-IO-与异步-IO-的区别？" class="headerlink" title="1）、同步 IO 与异步 IO 的区别？"></a>1）、同步 IO 与异步 IO 的区别？</h3><p>异步 IO 做 IO 操作时不会将 process 阻塞。</p>
+<h3 id="2）、非阻塞-IO-与异步-IO-的区别？"><a href="#2）、非阻塞-IO-与异步-IO-的区别？" class="headerlink" title="2）、非阻塞 IO 与异步 IO 的区别？"></a>2）、非阻塞 IO 与异步 IO 的区别？</h3><p>在非阻塞 IO 中，进程大部分时间都不会阻塞，但是需要进程主动去 check，并且当数据准备后，也还需要进程主动再次调用 recvfrom 将数据拷贝到用户内存。</p>
+<p>而在异步 IO 中，用户进程将整个 IO 操作交给了内核完成，然后他人做完后发信号通知。在此期间，用户进程不需要去 check IO 操作的状态，也不需要主动地去拷贝数据。</p>
+<h3 id="3）、网络-IO-同时使用了软中断和硬中断？"><a href="#3）、网络-IO-同时使用了软中断和硬中断？" class="headerlink" title="3）、网络 IO 同时使用了软中断和硬中断？"></a>3）、网络 IO 同时使用了软中断和硬中断？</h3><p>首先，通过硬中断通知 CPU 有数据来了，处理过程非常轻量。然后，通过软中断处理函数去慢慢处理耗时操作。</p>
+<h3 id="4）、多路复用-I-O-一定比阻塞-I-O-好？"><a href="#4）、多路复用-I-O-一定比阻塞-I-O-好？" class="headerlink" title="4）、多路复用 I/O 一定比阻塞 I/O 好？"></a>4）、多路复用 I/O 一定比阻塞 I/O 好？</h3><p>同一般的 多线程 + 阻塞 I/O 模式相比，多路复用 I/O 在网络连接非常多的时刻肯定性能更好，但当在同一时刻的网络连接很少时，频繁使用 select/poll 系统调用消耗的性能会得不偿失。</p>
+<h3 id="5）、epoll-一定比-select-poll-好？"><a href="#5）、epoll-一定比-select-poll-好？" class="headerlink" title="5）、epoll 一定比 select/poll 好？"></a>5）、epoll 一定比 select/poll 好？</h3><p>同一时间连接数很少时 select 性能会比 epoll 更好。</p>
+<h3 id="6）、epoll-使用了-mmap-减少内核到用户空间的拷贝？"><a href="#6）、epoll-使用了-mmap-减少内核到用户空间的拷贝？" class="headerlink" title="6）、epoll 使用了 mmap 减少内核到用户空间的拷贝？"></a>6）、epoll 使用了 mmap 减少内核到用户空间的拷贝？</h3><p>无论是在单纯的 Linux 内核上还是 Android 的 Linux 内核上均没有使用 mmap 去实现 epoll。</p>
+<h1 id="十一、IPv6"><a href="#十一、IPv6" class="headerlink" title="十一、IPv6"></a>十一、IPv6</h1><p>中国 0.4% 用户使用。预计从 IPv4 全部切换到 IPv6，需要 5-10 年的时间。相比 IPv4 连接耗时降低 10%~20%。</p>
+<h2 id="IPv6-过渡技术分类"><a href="#IPv6-过渡技术分类" class="headerlink" title="IPv6 过渡技术分类"></a>IPv6 过渡技术分类</h2><h4 id="1）、翻译技术"><a href="#1）、翻译技术" class="headerlink" title="1）、翻译技术"></a>1）、翻译技术</h4><ul>
+<li>  实现纯 IPv4 与 IPv6 网络互通，类似于 IPv4 NAT。</li>
+<li>  根据 IP 报文头的地址和协议进行翻译。</li>
+<li>  最常用的 NAT64 翻译技术使用地址池的方式将大量的 IPV6 地址转换为少量的 IPv4 地址，常用于 IPv6 网络发起连接到 IPV4 网络。</li>
+</ul>
+<h4 id="2）、双栈技术"><a href="#2）、双栈技术" class="headerlink" title="2）、双栈技术"></a>2）、双栈技术</h4><p>目前大部分的网络设备和主机操作系统均已支持双栈协议—同时运行 IPv4 与 IPv6 两套协议。</p>
+<p>链路协议支持双协议栈，例如在 <strong>以太网协议的以太帧中</strong>：</p>
+<ul>
+<li>  <strong>协议 ID 0x0800 表示网络层协议采用 IPv4</strong>。</li>
+<li>  <strong>协议 ID 0x86DD 表示网络层协议采用的是 IPv6</strong>。</li>
+</ul>
+<p>应用支持双协议栈，DNS 优先选择 IPv6 协议栈作为网络层协议。</p>
+<h4 id="3）、隧道技术"><a href="#3）、隧道技术" class="headerlink" title="3）、隧道技术"></a>3）、隧道技术</h4><ul>
+<li>  通过 IPv4 骨干网络连接两端的 IPv6 孤岛：隧道技术通过网络边界设备将 IPv6 源封装到 IPv4 的报文中经过 IPv4 骨干网传递到另一边的网络边界设备还原 IPv6 报文。</li>
+<li>  通过 IPv6 骨干网络连接两端的 IPv4 孤岛：类比如上。</li>
+</ul>
+<p>例如 GRE 隧道技术提供了点对点连接服务，需要手工指定隧道的端点地址。</p>
+<h1 id="十二、总结"><a href="#十二、总结" class="headerlink" title="十二、总结"></a>十二、总结</h1><p>在本文中，我们深入学习地了网络优化相关的必备基础知识，可以看到，<strong>每一处优化基础知识点都是在原先的网络基础知识点上再深入了一层，这不仅有助于我们更好地理解网络核心基础知识，而且也为我们后续深入探讨网络优化相关的课题提供了良好的基础储备</strong>。最后，再多提一句，在学习的过程中，<strong>一定要注意多使用隔期复习法</strong>，特别是针对于计算机基础学科类的知识。</p>
+<h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><hr>
+<ul>
+<li>  1、<strong>《Web 性能权威指南》1 - 13章（本文核心）</strong></li>
+<li>  2、极客时间之《Android开发高手课》 网络优化基础</li>
+<li>  3、极客时间之《透视 HTTP 协议》优化基础部分</li>
+<li>  4、<a target="_blank" rel="noopener" href="https://imququ.com/post/header-compression-in-http2.html">HTTP/2 头部压缩技术介绍</a></li>
+<li>  5、<a target="_blank" rel="noopener" href="https://httpwg.org/specs/rfc7541.html#static.table.definition">HTTP 2.0 Header table</a></li>
+<li>  6、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/RXICO_3W2cxTYk0UV40GLQ">从 IPv4 到 IPv6，阿里踩过哪些坑？</a></li>
+<li>  7、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ufV7mZWHPfLNE1-QxWmEfQ">腾讯云如何快速从IPv4向IPv6演进？</a></li>
+<li>  8、<a target="_blank" rel="noopener" href="https://rf.eefocus.com/article/id-332405">千兆级LTE与5G的那些事儿</a></li>
+<li>  9、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/bPNuEbwZZS9uS5bKmHskTw">讲清楚5G，这可能是最接地气的一篇了</a></li>
+<li>  10、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/IEEE_802.11ac">IEEE_802.11ac</a></li>
+<li>  11、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MIMO">MIMO</a></li>
+<li>  12、<a target="_blank" rel="noopener" href="https://www.pingwest.com/a/181911">Link Turbo 就是 5G前夜的“网络加速器”</a></li>
+<li>  13、<a target="_blank" rel="noopener" href="http://www.multipath-tcp.org/">MultiPath TCP - Linux Kernel implementation</a></li>
+<li>  14、<a target="_blank" rel="noopener" href="https://lwn.net/Articles/544399/">Multipath TCP: an overview</a></li>
+<li>  15、<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/486b0965c296">聊聊Linux 五种IO模型</a></li>
+<li>  16、<a target="_blank" rel="noopener" href="http://matt33.com/2017/08/06/unix-io/">Unix 网络 IO 模型及 Linux 的 IO 多路复用模型</a></li>
+<li>  17、<a target="_blank" rel="noopener" href="http://androidxref.com/9.0.0_r3/xref/external/libevent/epoll.c">Android epoll.c</a></li>
+</ul>
+<p>原文作者：jsonchao<br>原文链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844904170579820552">https://juejin.im/post/6844904170579820552</a><br>原文来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hzp201314.github.io/2021/03/26/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96-%E5%9F%BA%E7%A1%80%E7%AF%87/" data-id="ckmq5wstu00001oufazvkefg1" data-title="网络优化-基础篇" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/26/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96-%E9%AB%98%E7%BA%A7%E7%AF%87/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网络优化-高级篇
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/%E7%BB%98%E5%88%B6%E4%BC%98%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">绘制优化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android%E6%9E%B6%E6%9E%84%E5%B8%88/" rel="tag">Android架构师</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android%E6%9E%B6%E6%9E%84%E5%B8%88/" style="font-size: 10px;">Android架构师</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 15px;">前端</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/26/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96-%E9%AB%98%E7%BA%A7%E7%AF%87/">网络优化-高级篇</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/26/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96-%E5%9F%BA%E7%A1%80%E7%AF%87/">网络优化-基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E7%BB%98%E5%88%B6%E4%BC%98%E5%8C%96/">绘制优化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/23/%E5%8D%A1%E9%A1%BF%E4%BC%98%E5%8C%96/">卡顿优化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/22/%E5%B8%83%E5%B1%80%E4%BC%98%E5%8C%96/">布局优化</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Hzp<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
